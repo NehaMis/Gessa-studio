@@ -68,6 +68,9 @@ const roboto: IThemeFont = {
     fontSize: '0.875rem',
     lineHeight: '1.75rem',
     letterSpacing: '0.02857em',
+    minWidth: '58px',
+    height: '36px',
+    textTransform: 'Capitalize',
   },
 };
 

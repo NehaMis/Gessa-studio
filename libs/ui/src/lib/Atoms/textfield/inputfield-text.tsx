@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import { styled } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
 import InputLabel from '@mui/material/InputLabel';
@@ -6,7 +6,7 @@ import FormControl from '@mui/material/FormControl';
 import themes from '../../../theme';
 import { useTheme } from '@mui/material';
 export interface TextfieldProps {
-  variant: 'filled' | 'outlined' | 'standard';
+  variant?: 'filled' | 'outlined' | 'standard';
   color: 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning';
   placeholder?: string;
   onChangeFunc?: (
@@ -17,9 +17,12 @@ export interface TextfieldProps {
   multiline?: boolean;
   minRows?: number;
   maxRows?: number;
-  label: string;
+  label?: string;
   helperText?: string;
-  name: string;
+  name?: string;
+  InputProps?: any;
+  sx?: any;
+  isDisabled?:boolean;
 }
 
 export function TextInputField(props: TextfieldProps) {
@@ -39,10 +42,10 @@ export function TextInputField(props: TextfieldProps) {
           : dslTheme.palette.background?.default,
       border:
         props.variant !== 'standard' &&
-        `1px solid ${dslTheme.palette?.[props.color]}`,
+        `1px solid ${dslTheme.palette?.[props.color].main}`,
       borderBottom:
         props.variant === 'standard' &&
-        `1px solid ${dslTheme.palette?.[props.color]}`,
+        `1px solid ${dslTheme.palette?.[props.color].main}`,
       padding: props.size === 'medium' ? '10px 12px' : '6px 12px',
       '&:focus': {
         borderColor: '#0458AE',
@@ -51,17 +54,20 @@ export function TextInputField(props: TextfieldProps) {
   }));
 
   return (
-    <FormControl>
+    <FormControl sx={{width:"40%"}} >
       <InputLabel shrink>{props.label}</InputLabel>
       <BootstrapInput
+
+        disabled={props.isDisabled}
         placeholder={props.placeholder}
-        value={props.value}
+        defaultValue={props.value}
         name={props.name}
         multiline={props.multiline}
         minRows={props.minRows}
         maxRows={props.maxRows}
-        // onChange={(e) => props.onChangeFunc(e)}
-        sx={{
+        inputProps={props.InputProps}
+        onChange={(e)=>props.onChangeFunc && props.onChangeFunc(e)}
+        sx={{...props.sx,
           fontSize:
             props.size === 'medium'
               ? dslTheme.typography?.['body1'].fontSize
@@ -72,7 +78,7 @@ export function TextInputField(props: TextfieldProps) {
         style={{
           fontSize: dslTheme.typography?.['caption'].fontSize,
           marginLeft: '14px',
-          color: `${dslTheme.palette?.[props.color]}`,
+          color: dslTheme.palette?.[props.color].main,
         }}
       >
         {props.helperText}

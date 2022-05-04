@@ -12,9 +12,9 @@ export interface IDataGridV1Props {
   columnData: any;
   columnResizable: boolean;
   pagination: boolean;
-  onSearchInput: (data: any) => any;
-  menuClicked: (data: any) => any;
-  rowSelected: (data: any) => any;
+  onSearchInput?: (data: any) => any;
+  menuClicked?: (data: any) => any;
+  rowSelected?: (data: any) => any;
 }
 
 // const StyledDataGridV1 = styled('div')({
@@ -119,10 +119,10 @@ export const DataGridV1 = (props: IDataGridV1Props) => {
                 ]} */
                 onSearchInput={function (data: any) {
                   setSearchText(data);
-                  /* props.onSearchInput(data); */
+                  props.onSearchInput && props.onSearchInput(data);
                 }}
                 menuClicked={function (data: any) {
-                  /* props.menuClicked({ menu: data }); */
+                  props.menuClicked && props.menuClicked({ menu: data });
                 }}
               ></TableHeaderCell>
             );
@@ -196,7 +196,7 @@ export const DataGridV1 = (props: IDataGridV1Props) => {
     <StyledDataGridV1>
       <div style={{ height: '90vh', width: '100%' }}>
         <DataGrid
-        onCellClick={(params, event, details)=>{props.rowSelected(params)}}
+        onCellClick={(params, event, details)=>{props.rowSelected && props.rowSelected(params)}}
           style={{
             backgroundColor: tableTheme.palette.background.default,
           }}

@@ -1,7 +1,8 @@
-import { Button, TextField } from '@mui/material';
-// import { Button } from '@gessa/ui';
-// import { TextInputField } from '@gessa/ui';
-// import { Dropdown } from '@gessa/ui';
+import { FormControlLabel, TextField } from '@mui/material';
+import { Button } from '@gessa/ui';
+import { TextInputField } from '@gessa/ui';
+import { Dropdown } from '@gessa/ui';
+import { IconComponent } from '@gessa/ui';
 import { Transfer } from '@gessa/ui';
 import { Box } from '@mui/system';
 import Divider from '@mui/material/Divider';
@@ -12,14 +13,17 @@ import React, { useState } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import Typography from '@mui/material/Typography';
 import CloseIcon from '@mui/icons-material/Close';
-import Drawer from '@mui/material/Drawer';
+// import Drawer from '@mui/material/Drawer';
+import { Drawer } from '@gessa/ui';
 import Select from '@mui/material/Select';
+// import { Dropdown } from '@gessa/ui';
 import { MenuItem } from '@mui/material';
 // import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
 // import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 // import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import FormControl from '@mui/material/FormControl';
-import Dialog from '@mui/material/Dialog';
+// import Dialog from '@mui/material/Dialog';
+import { Dialog } from '@gessa/ui';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 // import DialogContentText from '@mui/material/DialogContentText';
@@ -30,6 +34,14 @@ import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Switch from '@mui/material/Switch';
+import { styled } from '@mui/material/styles';
+// const axios = require('axios');
+// const MockAdapter = require('axios-mock-adapter');
+import axios from 'axios';
+import axiosMock from 'axios';
+// import MockAdapter from 'axios-mock-adapter';
+// // This sets the mock adapter on the default instance
+// const mock = new MockAdapter(axios);
 // import
 interface FieldsObject {
   open: boolean;
@@ -87,6 +99,12 @@ export default function SchemaSettings() {
   };
 
   const saveFilterSchemaObject = () => {
+    // mock.onGet('/users').reply(200, {
+    //   users: [{ id: 1, name: 'John Smith' }],
+    // });
+    axios.get('/users').then(function (response) {
+      console.log(response.data);
+    });
     console.log(filterSchemaObject);
   };
 
@@ -201,6 +219,62 @@ export default function SchemaSettings() {
 
   const [addSchemaDb, setAddSchemaDb] = useState<AddSchemaObjects[]>([]);
 
+  const IOSSwitch = styled((props: any) => (
+    <Switch
+      focusVisibleClassName=".Mui-focusVisible"
+      disableRipple
+      {...props}
+    />
+  ))(({ theme }) => ({
+    width: 42,
+    height: 26,
+    padding: 0,
+    '& .MuiSwitch-switchBase': {
+      padding: 0,
+      margin: 2,
+      transitionDuration: '300ms',
+      '&.Mui-checked': {
+        transform: 'translateX(16px)',
+        color: '#fff',
+        '& + .MuiSwitch-track': {
+          backgroundColor:
+            theme.palette.mode === 'dark' ? '#39393D' : '#39393D',
+          opacity: 1,
+          border: 0,
+        },
+        '&.Mui-disabled + .MuiSwitch-track': {
+          opacity: 0.5,
+        },
+      },
+      '&.Mui-focusVisible .MuiSwitch-thumb': {
+        color: '#33cf4d',
+        border: '6px solid #fff',
+      },
+      '&.Mui-disabled .MuiSwitch-thumb': {
+        color:
+          theme.palette.mode === 'light'
+            ? theme.palette.grey[100]
+            : theme.palette.grey[600],
+      },
+      '&.Mui-disabled + .MuiSwitch-track': {
+        opacity: theme.palette.mode === 'light' ? 0.7 : 0.3,
+      },
+    },
+    '& .MuiSwitch-thumb': {
+      boxSizing: 'border-box',
+      width: 22,
+      height: 22,
+    },
+    '& .MuiSwitch-track': {
+      borderRadius: 26 / 2,
+      backgroundColor: theme.palette.mode === 'light' ? '#E9E9EA' : '#39393D',
+      opacity: 1,
+      transition: theme.transitions.create(['background-color'], {
+        duration: 500,
+      }),
+    },
+  }));
+
   return (
     <Box
       sx={{
@@ -212,34 +286,48 @@ export default function SchemaSettings() {
       }}
     >
       <Button
-        onClick={() => {
+        handleClick={() => {
           setAddSchemaDrawer(!addSchemaDrawer);
         }}
-      >
-        <AddIcon />
-      </Button>
-      <Button onClick={() => setFilterDrawer(!filterDrawer)}>
-        <FilterAltOutlinedIcon />
-      </Button>
-      <Button onClick={() => setColumnOptionDrawer(!columnOptionDrawer)}>
-        <NotesOutlinedIcon />
-      </Button>
+        icon={{
+          name: 'add',
+          size: 25,
+          color: 'info',
+          label: 'Add Schema',
+        }}
+      />
+
+      <Button
+        handleClick={() => setFilterDrawer(!filterDrawer)}
+        icon={{ name: 'add', color: 'info', size: 10, label: 'Add' }}
+      />
+
+      <Button
+        icon={{
+          name: 'add',
+          color: 'info',
+          size: 25,
+          label: 'Add',
+        }}
+        handleClick={() => setColumnOptionDrawer(!columnOptionDrawer)}
+      />
 
       {/* FilterDrawer Content .............................................  */}
       <Drawer
-        open={filterDrawer}
         anchor="right"
-        onClose={() => setFilterDrawer(false)}
+        displayDrawer={filterDrawer}
+        onCloseFunc={() => setFilterDrawer(false)}
       >
         <>
           <Box
             sx={{
-              padding: '10px',
+              padding: '16px',
               display: 'flex',
               justifyContent: 'space-between',
-              width: '100%',
+              alignItems: 'center',
+              width: '360px',
+              // width: '100%',
               boxSizing: 'border-box',
-              minWidth: '360px',
             }}
           >
             <Typography
@@ -248,37 +336,47 @@ export default function SchemaSettings() {
             >
               Filter
             </Typography>
-            <CloseIcon
+            {/* <CloseIcon
               onClick={() => {
                 setFilterDrawer(false);
               }}
               sx={{ fontSize: '21px', cursor: 'pointer' }}
+            /> */}
+            <IconComponent
+              name="Close"
+              size={13}
+              label="Close"
+              handleClick={() => {
+                setFilterDrawer(false);
+              }}
             />
           </Box>
           <Divider />
 
-          <Box sx={{ padding: '20px 10px', boxSizing: 'border-box' }}>
-            <FormControl sx={{ width: '100%' }} size="small">
-              <TextField
-                name="search"
-                value={filterSchemaObject.search}
-                onChange={(e) => {
-                  filterSchemaOnchangeHandler(e);
-                }}
-                size="small"
-                variant="outlined"
-                placeholder="Search"
-                InputProps={{
-                  endAdornment: <SearchIcon />,
-                  className: 'assign-height',
-                }}
-              />
-            </FormControl>
+          <Box sx={{ padding: '20px 16px', boxSizing: 'border-box' }}>
+            {/* <FormControl sx={{ width: '100%' }}> */}
+            <TextInputField
+              name="search"
+              sx={{ width: '328px' }}
+              color="primary"
+              value={filterSchemaObject.search}
+              onChangeFunc={(e) => {
+                filterSchemaOnchangeHandler(e);
+              }}
+              size="medium"
+              variant="filled"
+              placeholder="Search"
+              // InputProps={{
+              //   endAdornment: <SearchIcon sx={{ color: 'pink' }} />,
+              //   className: 'assign-height',
+              // }}
+            />
+            {/* </FormControl> */}
           </Box>
           <Divider />
 
-          <Box sx={{ padding: '15px 10px' }}>
-            <FormControl sx={{ width: '100%' }} size="small">
+          <Box sx={{ padding: '15px 16px' }}>
+            <FormControl sx={{ width: '100%' }}>
               <Typography
                 sx={{
                   fontSize: '12px',
@@ -288,19 +386,20 @@ export default function SchemaSettings() {
               >
                 Schema Name
               </Typography>
-              <TextField
+              <TextInputField
+                color="primary"
                 name="schemaName"
                 value={filterSchemaObject.schemaName}
-                onChange={(e) => {
+                onChangeFunc={(e) => {
                   filterSchemaOnchangeHandler(e);
                 }}
                 placeholder="Schema name"
-                size="small"
+                size="medium"
               />
             </FormControl>
           </Box>
 
-          <Box sx={{ padding: '10px 10px' }}>
+          <Box sx={{ padding: '10px 16px' }}>
             <FormControl sx={{ width: '100%' }} size="small">
               <Typography
                 sx={{
@@ -311,19 +410,21 @@ export default function SchemaSettings() {
               >
                 Type
               </Typography>
-              <Select
+              <Dropdown
                 name="type"
-                onChange={(e) => {
+                sx={{ width: '328px' }}
+                dropdownList={[{ label: 'Type', value: 'type' }]}
+                onChangeFunc={(e) => {
                   filterSchemaOnchangeHandler(e);
                 }}
-                value={filterSchemaObject.type}
-              >
-                <MenuItem value="selectType">Select Type</MenuItem>
-              </Select>
+                // value={filterSchemaObject.type}
+              />
+              {/* <MenuItem value="selectType">Select Type</MenuItem>
+              </Select> */}
             </FormControl>
           </Box>
 
-          <Box sx={{ padding: '10px 10px' }}>
+          <Box sx={{ padding: '10px 16px' }}>
             <FormControl sx={{ width: '100%' }} size="small">
               <Typography
                 sx={{
@@ -334,47 +435,53 @@ export default function SchemaSettings() {
               >
                 Created By
               </Typography>
-              <Select
+              <Dropdown
                 name="createBy"
-                onChange={(e) => {
+                sx={{ width: '328px' }}
+                dropdownList={[{ label: 'Created By', value: 'created_y' }]}
+                onChangeFunc={(e) => {
                   filterSchemaOnchangeHandler(e);
                 }}
-                value={filterSchemaObject.createdBy}
-              >
-                <MenuItem value="createdBy">Created By</MenuItem>
-              </Select>
+                // value={filterSchemaObject.createdBy}
+              />
+              {/* <MenuItem value="createdBy">Created By</MenuItem>
+              </Select> */}
             </FormControl>
           </Box>
-          <Box sx={{ padding: '0px 10px' }}>
+          <Box sx={{ padding: '0px 16px' }}>
             <Typography
               sx={{ marginBottom: '10px', fontSize: '14px', fontWeight: '600' }}
             >
               Created On
             </Typography>
             {/* <LocalizationProvider dateAdapter={AdapterDateFns}>
-          <DateRangePicker
-            startText="From"
-            endText="To"
-            value={[null, null]}
-            onChange={() => null}
-            renderInput={(startProps: any, endProps: any) => (
-              <React.Fragment>
-                <TextField
-                  size="small"
-                  sx={{ width: '160px' }}
-                  {...startProps}
-                />
-                <Box sx={{ mx: 2 }}> to </Box>
-                <TextField size="small" sx={{ width: '160px' }} {...endProps} />
-              </React.Fragment>
-            )}
-          />
-        </LocalizationProvider> */}
+              <DateRangePicker
+                startText="From"
+                endText="To"
+                value={[null, null]}
+                onChange={() => null}
+                renderInput={(startProps: any, endProps: any) => (
+                  <React.Fragment>
+                    <TextField
+                      size="small"
+                      sx={{ width: '160px' }}
+                      {...startProps}
+                    />
+                    <Box sx={{ mx: 2 }}> to </Box>
+                    <TextField
+                      size="small"
+                      sx={{ width: '160px' }}
+                      {...endProps}
+                    />
+                  </React.Fragment>
+                )}
+              />
+            </LocalizationProvider> */}
           </Box>
 
           <Box
             sx={{
-              padding: '10px',
+              padding: '10px 16px',
               position: 'absolute',
               display: 'flex',
               justifyContent: 'end',
@@ -390,17 +497,16 @@ export default function SchemaSettings() {
               sx={{ marginRight: '10px' }}
               variant="outlined"
               color="primary"
-            >
-              Cancle
-            </Button>
+              text="Cancle"
+            />
+
             <Button
-              disabled={!isFilterSchemaValid}
-              onClick={saveFilterSchemaObject}
+              isDisabled={!isFilterSchemaValid}
+              handleClick={saveFilterSchemaObject}
               variant="contained"
               color="primary"
-            >
-              Apply
-            </Button>
+              text="Apply"
+            />
           </Box>
         </>
       </Drawer>
@@ -474,20 +580,17 @@ export default function SchemaSettings() {
               width: '100%',
             }}
           >
-            <Button variant="outlined" color="primary">
-              cancle
-            </Button>
+            <Button variant="outlined" color="primary" text="Cancle" />
+
             <Box>
               <Button
                 sx={{ marginRight: '10px' }}
                 variant="outlined"
                 color="primary"
-              >
-                Restore Defaults
-              </Button>
-              <Button variant="contained" color="primary">
-                Save
-              </Button>
+                text="Restore Defaults"
+              />
+
+              <Button variant="contained" color="primary" text="Save" />
             </Box>
           </Box>
         </DialogActions>
@@ -496,14 +599,12 @@ export default function SchemaSettings() {
       {/* AddSchema Drawer ...................................................................................  */}
       <Drawer
         anchor="right"
-        open={addSchemaDrawer}
-        onClose={() => {
+        displayDrawer={addSchemaDrawer}
+        onCloseFunc={() => {
           setAddSchemaDrawer(false);
         }}
       >
-        <Box
-          sx={{ minWidth: '574px', minHeight: '100%', position: 'relative' }}
-        >
+        <Box sx={{ width: '574px', minHeight: '100%', position: 'relative' }}>
           <Box
             sx={{
               padding: '10px 16px',
@@ -518,17 +619,25 @@ export default function SchemaSettings() {
             >
               Add Schema
             </Typography>
-            <CloseIcon
+            {/* <CloseIcon
               onClick={() => {
                 setAddSchemaDrawer(false);
               }}
               sx={{ fontSize: '15px', cursor: 'pointer' }}
+            /> */}
+            <IconComponent
+              name="Close"
+              handleClick={() => {
+                setAddSchemaDrawer(false);
+              }}
+              size={13}
+              label="Close"
             />
           </Box>
           <Divider />
 
-          <Box sx={{ padding: '10px', boxSizing: 'border-box' }}>
-            <FormControl sx={{ width: '100%', mb: 4 }}>
+          <Box sx={{ padding: '10px 16px', boxSizing: 'border-box' }}>
+            <FormControl sx={{ mb: 4 }}>
               <Typography
                 sx={{
                   fontSize: '12px',
@@ -538,15 +647,16 @@ export default function SchemaSettings() {
               >
                 Schema Name
               </Typography>
-              <TextField
+              <TextInputField
+                color="primary"
                 placeholder="Schema name"
                 name="schemaName"
-                onChange={(e) => {
+                onChangeFunc={(e) => {
                   AddSchemaObjectOnChangeHandler(e);
                 }}
                 value={addSchemaObject.schemaName}
-                sx={{ fontSize: '14px', fontWeight: '400' }}
-                size="small"
+                sx={{ width: '542px', fontSize: '14px', fontWeight: '400' }}
+                size="medium"
               />
             </FormControl>
             <Box sx={{ minHeight: '420px', height: 'auto' }}>
@@ -555,9 +665,11 @@ export default function SchemaSettings() {
                   key={index}
                   expanded={field.open}
                   onChange={() => closeFeild(index)}
-                  sx={{ mb: 2 }}
+                  sx={{ mb: 2, padding: '0px 16px' }}
                 >
-                  <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                  <AccordionSummary
+                    expandIcon={<IconComponent name="Arrow-Up" size={12} />}
+                  >
                     <Typography sx={{ fontSize: '14px', fontWeight: '700' }}>
                       {field.open ? `Field ${index + 1}` : 'User ID .Integer'}
                     </Typography>
@@ -566,11 +678,12 @@ export default function SchemaSettings() {
                   <AccordionDetails
                     sx={{
                       borderTop: '1px solid rgba(0, 0, 0, .125)',
-                      margin: '0px 10px',
-                      padding: '8px 0px 16px',
+                      // margin: '0px 10px',
+                      padding: '8px 16px',
+                      boxSizing: 'border-box',
                     }}
                   >
-                    <FormControl sx={{ width: '100%' }} size="small">
+                    <FormControl sx={{ width: '100%' }}>
                       <Typography
                         sx={{
                           fontSize: '12px',
@@ -580,14 +693,16 @@ export default function SchemaSettings() {
                       >
                         Field Name
                       </Typography>
-                      <TextField
+                      <TextInputField
                         name="fieldName"
+                        sx={{ width: '100%' }}
+                        color="primary"
                         value={field.fieldName}
-                        onChange={(e) => {
+                        onChangeFunc={(e) => {
                           addSChemaObjectFieldsOnchangeHandler(e, index);
                         }}
                         placeholder="Enter Field Name"
-                        size="small"
+                        size="medium"
                       />
                     </FormControl>
 
@@ -601,20 +716,28 @@ export default function SchemaSettings() {
                       >
                         Type
                       </Typography>
-                      <Select
-                        value={field.type}
-                        onChange={(e) => {
+                      <Dropdown
+                        // value={field.type}
+                        fullWidth
+                        dropdownList={[
+                          { label: 'String', value: 'string' },
+                          { label: 'Integer', value: 'integer' },
+                          { label: 'Boolean', value: 'boolean' },
+                          { label: 'date', value: 'Date' },
+                          { label: 'Email', value: 'email' },
+                        ]}
+                        onChangeFunc={(e) => {
                           addSChemaObjectFieldsOnchangeHandler(e, index);
                         }}
                         name="type"
-                      >
-                        <MenuItem value="string">String</MenuItem>
+                      />
+                      {/* <MenuItem value="string">String</MenuItem>
                         <MenuItem value="integer">Integer</MenuItem>
                         <MenuItem value="boolean">Boolean</MenuItem>
                         <MenuItem value="decimal">Decimal</MenuItem>
                         <MenuItem value="date">Date</MenuItem>
                         <MenuItem value="email">Email</MenuItem>
-                      </Select>
+                      </Select> */}
                     </FormControl>
 
                     <Box sx={{ mt: 3, mb: 2 }}>
@@ -630,9 +753,18 @@ export default function SchemaSettings() {
                         >
                           Mandatory
                         </Typography>
-                        <Switch
+                        {/* <Switch
                           name="mandatory"
                           onChange={(e) => {
+                            addSChemaObjectFieldsOnchangeHandler(e, index);
+                          }}
+                          checked={field.mandatory}
+                          size="small"
+                        /> */}
+
+                        <IOSSwitch
+                          name="mandatory"
+                          onChange={(e: any) => {
                             addSChemaObjectFieldsOnchangeHandler(e, index);
                           }}
                           checked={field.mandatory}
@@ -645,6 +777,7 @@ export default function SchemaSettings() {
                           display: 'flex',
                           justifyContent: 'space-between',
                           width: '100%',
+                          margin: '10px 0px',
                         }}
                       >
                         <Typography
@@ -652,10 +785,10 @@ export default function SchemaSettings() {
                         >
                           Unique
                         </Typography>
-                        <Switch
+                        <IOSSwitch
                           name="unique"
                           size="small"
-                          onChange={(e) => {
+                          onChange={(e: any) => {
                             addSChemaObjectFieldsOnchangeHandler(e, index);
                           }}
                           checked={field.unique}
@@ -674,10 +807,10 @@ export default function SchemaSettings() {
                         >
                           NullAllowed
                         </Typography>
-                        <Switch
+                        <IOSSwitch
                           name="nullAllowed"
                           size="small"
-                          onChange={(e) => {
+                          onChange={(e: any) => {
                             addSChemaObjectFieldsOnchangeHandler(e, index);
                           }}
                           checked={field.nullAllowed}
@@ -695,17 +828,19 @@ export default function SchemaSettings() {
                       >
                         Default Value
                       </Typography>
-                      <Select
+                      <Dropdown
+                        fullWidth
                         name="defaultValue"
-                        placeholder="String"
-                        value={field.defaultValue}
-                        onChange={(e) => {
+                        dropdownList={[{ label: 'String', value: 'String' }]}
+                        // placeholder="String"
+                        // value={field.defaultValue}
+                        onChangeFunc={(e) => {
                           addSChemaObjectFieldsOnchangeHandler(e, index);
                         }}
-                        sx={{ fontSize: '14px', fontWeight: '400' }}
-                      >
-                        <MenuItem value="string">String</MenuItem>
-                      </Select>
+                        // sx={{ fontSize: '14px', fontWeight: '400' }}
+                      />
+                      {/* <MenuItem value="string">String</MenuItem>
+                      </Select> */}
                     </FormControl>
 
                     <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
@@ -738,17 +873,20 @@ export default function SchemaSettings() {
               </Typography>
             </Box>
             <Box sx={{ mt: 2, display: 'flex', justifyContent: 'flex-end' }}>
-              <Button variant="outlined" color="primary" sx={{ mr: 2 }}>
-                Cancle
-              </Button>
               <Button
-                disabled={!isValidAddSchema}
-                onClick={saveSchemaHandler}
+                text="Cancle"
+                variant="outlined"
+                color="primary"
+                sx={{ mr: 2 }}
+              />
+
+              <Button
+                isDisabled={!isValidAddSchema}
+                handleClick={saveSchemaHandler}
                 variant="contained"
                 color="primary"
-              >
-                Save
-              </Button>
+                text="Save"
+              />
             </Box>
           </Box>
         </Box>

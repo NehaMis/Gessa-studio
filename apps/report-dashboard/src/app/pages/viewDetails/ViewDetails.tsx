@@ -9,8 +9,8 @@ import {
   Chip,
 } from '@mui/material';
 import { styled } from '@mui/system';
-import CodeMirror from '@uiw/react-codemirror';
-import { sql } from '@codemirror/lang-sql';
+// import CodeMirror from '@uiw/react-codemirror';
+// import { sql } from '@codemirror/lang-sql';
 // import { format } from 'sql-formatter';
 import { useForm } from 'react-hook-form';
 // import CodeMirror from '@uiw/react-codemirror';
@@ -109,12 +109,12 @@ function ViewDetails() {
         </Stack>
 
         <Box className="sqlBox">
-          <CodeMirror
+          {/* <CodeMirror
             value={"SUBSTRING(`Column`, ' ', 2)"}
             height="200px"
             extensions={[sql()]}
             onChange={(value, viewUpdate) => {}}
-          />
+          /> */}
         </Box>
       </Box>
     </Box>

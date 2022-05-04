@@ -3,8 +3,11 @@ import TableHeaderCell from './lib/Molecules/table-header-cell/table-header-cell
 export * from './lib/selectoption/selectoption';
 // Atoms
 export * from './lib/Atoms/chip/chip';
-export * from './lib/Atoms/button/custombutton';
-export * from './lib/Atoms/textfield/inputfield-text';
+export * from './lib/Atoms/button/custombutton'
+export * from './lib/Atoms/textfield/inputfield-text'
+export * from './lib/Atoms/messageWindow/messageWindow'
+export * from './lib/Atoms/dialog/dialog';
+export * from './lib/Atoms/drawer/custom-drawer';
 /* export * from './lib/Atoms/icon-component/icon-component'; */
 
 // Molecules

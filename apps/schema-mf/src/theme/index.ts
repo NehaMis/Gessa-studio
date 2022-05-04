@@ -23,7 +23,7 @@ const themes = {
   light: lightTheme,
   dark: darkTheme,
   solarized: solarizedTheme,
-  default: darkTheme,
+  default: lightTheme,
 };
 
 export default themes;

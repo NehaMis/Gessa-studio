@@ -16,6 +16,8 @@ export interface DropdownProps {
   enableCheckbox?: boolean;
   fullWidth?: boolean;
   onChangeFunc?: (e: SelectChangeEvent<string[]>) => void;
+  name?: string;
+  sx?: any;
 }
 
 const ITEM_HEIGHT = 48;
@@ -39,12 +41,14 @@ export function Dropdown(props: DropdownProps) {
       target: { value },
     } = event;
     setSelectedValue(typeof value === 'string' ? value.split(',') : value);
-    // props.onChangeFunc(event);
+    props.onChangeFunc && props.onChangeFunc(event);
   };
 
   return (
     <FormControl sx={{ width: !props.fullWidth ? 300 : '100%' }}>
       <Select
+        sx={props.sx}
+        name={props.name}
         multiple={props.multipleSelection}
         value={selectedValue}
         onChange={handleChange}

@@ -8,10 +8,10 @@ const SchemaMFConfig: IPageConfig = {
   routes: [
     {
       path: '',
-      element: <Navigate to="Schema" />,
+      element: <Navigate to="schema" />,
     },
     {
-      path: 'Schema',
+      path: 'schema',
       element: (
          <Suspense fallback={<>...</>}>
           <Schema />
@@ -19,7 +19,7 @@ const SchemaMFConfig: IPageConfig = {
       ),
     },
     {
-      path: 'SchemaDefinition',
+      path: 'schemadefinition',
       element: (
          <Suspense fallback={<>...</>}>
           <SelectedSchemaDetails />

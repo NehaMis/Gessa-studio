@@ -13,14 +13,17 @@ export interface IButtonProps {
   handleClick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   variant?: 'text' | 'contained' | 'outlined';
   color?: 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning';
-  icon: IconComponentProps;
+  icon?: IconComponentProps;
   isDisabled?: boolean;
+  name?: string;
+  sx?: any;
 }
 
 export function Button(props: IButtonProps) {
   return (
     <MuiButton
       sx={{
+        ...props.sx,
         p:
           props.text && props.leftIcon && props.rightIcon
             ? '10px 24px'
@@ -56,6 +59,7 @@ export function Button(props: IButtonProps) {
         )
       }
       color={props.color}
+      name={props.name}
       disabled={props.isDisabled}
       variant={props.variant}
       onClick={(e) => {
@@ -63,17 +67,17 @@ export function Button(props: IButtonProps) {
       }}
     >
       <Box component="span" sx={{ marginLeft: 1, marginRight: 1 }}>
-        {props.text ? (
-          props.text
-        ) : (
-          <IconComponent
-            name={props.icon?.name}
-            size={props.icon?.size}
-            color={props.icon?.color}
-            label={props.leftIcon?.label}
-            style={props.icon?.style}
-          />
-        )}
+        {props.text
+          ? props.text
+          : props.icon && (
+              <IconComponent
+                name={props.icon?.name}
+                size={props.icon?.size}
+                color={props.icon?.color}
+                label={props.leftIcon?.label}
+                style={props.icon?.style}
+              />
+            )}
       </Box>
     </MuiButton>
   );

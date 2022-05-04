@@ -50,7 +50,7 @@ export function IconComponent(props: IconComponentProps) {
             fontSize: props.size - 8 + 'px',
           }}
         ></span>
-      </div>{' '}
+      </div>
     </StyledIconComponent>
   );
 }

@@ -3,6 +3,9 @@ interface IThemeFontType {
   fontSize: string;
   lineHeight: string;
   letterSpacing: string;
+  minWidth?:string;
+  height?:string;
+  textTransform?:string;
 }
 
 export interface IThemeFont {
