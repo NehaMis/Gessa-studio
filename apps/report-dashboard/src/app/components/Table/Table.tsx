@@ -50,8 +50,8 @@ export default function BasicTable() {
 
   const [page, setPage] = React.useState(1);
 
-  const handlePageChange = (event?:any) => {
-    console.log(event)
+  const handlePageChange = (event?:any, value?:any) => {
+    setPage(value)
   };
 
   const StyledTableRow = styled(TableRow)(({ theme }) => ({
@@ -71,6 +71,11 @@ export default function BasicTable() {
     justifyContent:'flex-end',
     width:'100%',
     height:'48px',
+    alignItems:'center',
+
+    '& .css-j5ntxn-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected':{
+      backgroundColor:'#1890FF'
+    }
   }));
 
   return (
@@ -107,7 +112,7 @@ export default function BasicTable() {
       </TableContainer>
       <StyledPagination>
         <Box>
-          <Pagination count={10} size="small" shape="rounded" onClick={(e)=>handlePageChange(e)}/>
+          <Pagination count={4} page={page} size="small" shape="rounded" onChange={handlePageChange}/>
         </Box>
       </StyledPagination>
     </>
