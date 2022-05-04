@@ -1,11 +1,13 @@
 import styled from '@emotion/styled';
 import { Box, Button, Divider, Typography } from '@mui/material';
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
-import Transfer, { TransferProps } from '../components/transfer/transfer';
+import Transfer, { TransferProps } from '../components/Transfer/Transfer';
+import { useTheme } from '@mui/system';
 
 function ColumnOption(props: any) {
-  
+
+  const themes = useTheme();
   const StyledColumnMenu = useCallback(
     styled('div')(({ theme }) => {
       return {
@@ -16,7 +18,7 @@ function ColumnOption(props: any) {
         // right: '0px',
         // bottom: '0px',
         zIndex: '99',
-        background: '#191919',
+        background: themes.palette.custom.sideBarBg,
         // paddingLeft:'100px',
         // paddingRight:'100px',
         display: 'flex',
@@ -25,7 +27,7 @@ function ColumnOption(props: any) {
         // justifyContent: 'center',
         width: '706px',
         height: '631px',
-
+        
         '.popup-inner': {
           display: 'flex',
           flexDirection: 'row',
@@ -52,19 +54,6 @@ function ColumnOption(props: any) {
           position: 'relative',
           left: '7px',
           margin: '16px',
-        },
-
-        '.columnOption__mainButtonPannel': {
-          display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-
-          '.columnOption__saveButtonGp': {
-            display:'flex',
-            justifyContent: 'space-between',
-            gap:'20px',
-          },
         },
       };
     }),
@@ -99,41 +88,7 @@ function ColumnOption(props: any) {
         </Typography>
 
         <Box>
-          <Transfer {...transferArgs} />
-        </Box>
-
-        <Box className="columnOption__mainButtonPannel">
-          <Box>
-            <Button
-              className="btn_cancel"
-              variant="outlined"
-              color="info"
-              onClick={props.onClose}
-            >
-              Cancel
-            </Button>
-          </Box>
-
-          <Box className="columnOption__saveButtonGp">
-            <Button
-              className="btn_cancel"
-              variant="outlined"
-              color="info"
-              // onClick={props.onClose}
-            >
-              Restore Default
-            </Button>
-
-            <Button
-              className="btn_save"
-              variant="contained"
-              color="info"
-              // onClick={() => handleSave()}
-              // disabled={isDataFilled ? false : true}
-            >
-              Save
-            </Button>
-          </Box>
+          <Transfer onClose={props.onClose} {...transferArgs} />
         </Box>
       </Box>
     </StyledColumnMenu>

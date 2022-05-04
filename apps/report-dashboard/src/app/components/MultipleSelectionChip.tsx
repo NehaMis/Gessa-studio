@@ -66,15 +66,15 @@ export default function MultipleSelectChip(props:any) {
 
   return (
     <Box>
-      <InputLabel sx={{ fontSize: 12, fontWeight: 400, pb:0.8 }}>{props.labelName}</InputLabel>
-      <FormControl sx={{ width: props.width, border:0 }}>
+      <InputLabel sx={{fontFamily:'Roboto', fontSize: 12, fontWeight: 400, pb:0.8 }} className="report_input_labels">{props.labelName}</InputLabel>
+      <FormControl sx={{ width: props.width, border:0, minWidth:`calc(100% - 0px)` }}>
         <Select
           labelId="demo-multiple-chip-label"
           id="demo-multiple-chip"
           multiple
           value={personName}
           onChange={handleChange}
-          input={<OutlinedInput sx={{ background:'#292929'}} id="select-multiple-chip" />}
+          input={<OutlinedInput sx={{ background:props.background}} id="select-multiple-chip" />}
           renderValue={(selected) => (
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
               {selected.map((value) => (

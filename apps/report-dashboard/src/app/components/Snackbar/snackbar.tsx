@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import {
   IconComponent,
   IconComponentProps,
-} from './POC/icon-component/icon-component';
+} from './icon-component';
 import './action.css';
 
 export interface SnackbarProps {

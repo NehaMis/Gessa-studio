@@ -9,7 +9,7 @@ import Paper from '@mui/material/Paper';
 import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
 import { Typography } from '@mui/material';
-import { styled } from '@mui/system';
+import { styled, useTheme } from '@mui/system';
 import { useNavigate } from 'react-router-dom';
 
 function createData(name: string, createdBy: any, createdOn: any) {
@@ -46,6 +46,8 @@ const columnHeader = ['Name', 'Created By', 'Created On'];
 
 export default function BasicTable() {
   const history = useNavigate();
+  const themes=useTheme();
+  console.log(themes);
   const StyledDashboard = styled('div')(({ theme }) => {
     return {
       '.dashboard_model_header': {
@@ -85,7 +87,7 @@ export default function BasicTable() {
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
-        <TableHead style={{ backgroundColor: '#121212' }}>
+        <TableHead style={{ backgroundColor: themes.palette.mode==='dark'?'#121212':'' }}>
           <TableRow>
             {columnHeader.map((cell) => {
               return <TableCell>{cell}</TableCell>;

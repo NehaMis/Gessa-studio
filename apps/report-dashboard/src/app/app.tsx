@@ -15,7 +15,7 @@ import {
   MicroFrontendProvider,
 } from '../context';
 import { HashRouter } from 'react-router-dom';
-import Dashboard from './components/Dashboard';
+import Dashboard from './pages/Dashboard';
 import SideMenu from './components/SideMenu';
 import ViewDetail from './pages/viewDetails/ViewDetails';
 
