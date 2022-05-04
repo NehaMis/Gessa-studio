@@ -40,6 +40,8 @@ const dark: IThemePalette = {
     sideBarText2:'#FFFFFF',
 
     inputComponentBg:'#2B2B2B',
+
+    dashboardTableRowBg:'#121212'
   },
 };
 

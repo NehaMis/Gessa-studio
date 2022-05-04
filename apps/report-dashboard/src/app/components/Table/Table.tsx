@@ -47,42 +47,16 @@ const columnHeader = ['Name', 'Created By', 'Created On'];
 export default function BasicTable() {
   const history = useNavigate();
   const themes=useTheme();
-  console.log(themes);
-  const StyledDashboard = styled('div')(({ theme }) => {
-    return {
-      '.dashboard_model_header': {
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        padding: '0px 16px',
-        height: '49px',
-      },
-      '.dashboard_report_heading': {
-        position: 'relative',
-        fontWeight: '700',
-        fontSize: '14px',
-        fontHeight: '20px',
-      },
-      '.dashboard_button_pannel': {
-        display: 'flex',
-        flexDirection: 'row',
-        alignItem: 'flex-start',
-        padding: '0px',
-      },
-      '.dashboard_buttons': {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: '36px',
-        height: '36px',
-        margin: '0px 10px',
-        padding: '16px',
-        background: '#272727',
-        borderRadius: '4px',
-      },
-    };
-  });
+
+  const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    '&:nth-of-type(even)': {
+      backgroundColor: theme.palette.custom.dashboardTableRowBg,
+    },
+    // hide last border
+    '&:last-child td, &:last-child th': {
+      // border: 0,
+    },
+  }));
 
   return (
     <TableContainer component={Paper}>
@@ -90,23 +64,23 @@ export default function BasicTable() {
         <TableHead style={{ backgroundColor: themes.palette.mode==='dark'?'#121212':'' }}>
           <TableRow>
             {columnHeader.map((cell) => {
-              return <TableCell>{cell}</TableCell>;
+              return <TableCell key={cell}>{cell}</TableCell>;
             })}
           </TableRow>
         </TableHead>
         <TableBody>
           {rows.map((row) => (
-            <TableRow
+            <StyledTableRow
               onClick={() => history('/details')}
               key={row.name}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+              // sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row">
                 {row.name}
               </TableCell>
               <TableCell>{row.createdBy}</TableCell>
               <TableCell>{row.createdOn}</TableCell>
-            </TableRow>
+            </StyledTableRow>
           ))}
         </TableBody>
       </Table>

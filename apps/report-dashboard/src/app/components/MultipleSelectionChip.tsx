@@ -67,7 +67,7 @@ export default function MultipleSelectChip(props:any) {
   return (
     <Box>
       <InputLabel sx={{fontFamily:'Roboto', fontSize: 12, fontWeight: 400, pb:0.8 }} className="report_input_labels">{props.labelName}</InputLabel>
-      <FormControl sx={{ width: props.width, border:0, minWidth:`calc(100% - 0px)` }}>
+      <FormControl sx={{ width: props.width, border:0, maxWidth:`calc(100% - 0px)` }}>
         <Select
           labelId="demo-multiple-chip-label"
           id="demo-multiple-chip"

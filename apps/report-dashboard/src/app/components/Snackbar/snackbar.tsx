@@ -59,6 +59,7 @@ export default function Snackbar({
             actions.map((action: IconComponentProps, index: number) => {
               return (
                 <IconComponent
+                  key={action.name}
                   name={action.name}
                   color={action.color}
                   label={action.label}

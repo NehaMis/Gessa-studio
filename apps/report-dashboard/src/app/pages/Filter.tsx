@@ -42,6 +42,7 @@ function Filter(props: FilterType) {
         fontWeight: '400',
         fontSize: '14px',
         lineHeight: '20px',
+        height:'28px',
         //   padding: '10px 12px',
       },
     })),
