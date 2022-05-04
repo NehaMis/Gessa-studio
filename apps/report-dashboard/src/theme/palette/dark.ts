@@ -32,6 +32,14 @@ const dark: IThemePalette = {
     storeNode: '#33b64d',
     outputNode: '#33b64d',
     btnColor: '#3399FF',
+    dashboardButtonBg:'#272727',
+    dashboardButtonHover:'#525252',
+
+    sideBarBg:'#191919',
+    sideBarText1:'#BDBDBD',
+    sideBarText2:'#FFFFFF',
+
+    inputComponentBg:'#2B2B2B',
   },
 };
 

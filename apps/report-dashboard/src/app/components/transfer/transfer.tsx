@@ -5,8 +5,8 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import SearchIcon from '@mui/icons-material/Search';
 import Button from '@mui/material/Button';
-import { Paper, TextField, InputLabel, useTheme } from '@mui/material';
-import './transfer.css';
+import { Paper, TextField, InputLabel, useTheme, Box } from '@mui/material';
+import './Transfer.css';
 import themes from '../../../theme';
 import { styled } from '@mui/system';
 
@@ -27,6 +27,7 @@ export interface TransferProps {
       value: string;
     }>[]
   ) => void;
+  onClose?: () => void;
 }
 
 function not(a: any[], b: any[]) {
@@ -58,6 +59,15 @@ function Transfer(props: TransferProps) {
       newChecked.splice(currentIndex, 1);
     }
     setChecked(newChecked);
+  };
+
+  const handleRestoreDefault = () => {
+    clearFilteredArrays();
+    setRight(props.rightList);
+    setLeft(props.leftList);
+    setChecked(not(checked, leftChecked));
+    setChecked(not(checked, rightChecked));
+    clearSearchedData();
   };
 
   const handleAllRight = () => {
@@ -102,13 +112,29 @@ function Transfer(props: TransferProps) {
     setLeftSearchValue('');
     setRightSearchValue('');
   };
-  const StyledBreadcrumb = styled('div')(({ theme }) => {
-    return {
-      '& .MuiInputBase-inputAdornedEnd': {
-        padding: '0px 14px ',
-      },
-    };
-  });
+  const StyledBreadcrumb = React.useCallback(
+    styled('div')(({ theme }) => {
+      return {
+        '& .MuiInputBase-inputAdornedEnd': {
+          padding: '0px 14px ',
+        },
+        '.columnOption__mainButtonPannel': {
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          marginTop:'10px',
+
+          '.columnOption__saveButtonGp': {
+            display: 'flex',
+            justifyContent: 'space-between',
+            gap: '20px',
+          },
+        },
+      };
+    }),
+    []
+  );
   /*  */
   const customList = (items: any[], sideArray: Array<any>) => (
     <Paper sx={{ width: 280, height: 350, overflow: 'auto' }}>
@@ -153,110 +179,145 @@ function Transfer(props: TransferProps) {
   };
 
   return (
-    <StyledBreadcrumb>
-      <Grid container spacing={2} justifyContent="center" alignItems="center">
-        <div className="list-grid">
-          <InputLabel sx={{ pl: 2.1 }} shrink>
-            {props.leftListLabel}
-          </InputLabel>
-          <TextField
-            variant="outlined"
-            value={leftSearchValue}
-            placeholder="Search"
-            onChange={leftGridDataHandler}
-            sx={{ mb: 2.5, mt: '-5px' }}
-            InputProps={{
-              endAdornment: (
-                <SearchIcon sx={{ color: dslTheme.palette.grey?.[500] }} />
-              ),
-              className: 'assign-height',
-            }}
-          />
-          <Grid
-            item
-            sx={{ backgroundColor: dslTheme.palette.background.default }}
-          >
-            {leftFiltered.length > 0
-              ? customList(leftFiltered, leftChecked)
-              : customList(left, leftChecked)}
+    <>
+      <StyledBreadcrumb>
+        <Grid container spacing={2} justifyContent="center" alignItems="center">
+          <div className="list-grid">
+            <InputLabel sx={{ pl: 2.1 }} shrink>
+              {props.leftListLabel}
+            </InputLabel>
+            <TextField
+              variant="outlined"
+              value={leftSearchValue}
+              placeholder="Search"
+              onChange={leftGridDataHandler}
+              sx={{ mb: 2.5, mt: '-5px' }}
+              InputProps={{
+                endAdornment: (
+                  <SearchIcon sx={{ color: dslTheme.palette.grey?.[500] }} />
+                ),
+                className: 'assign-height',
+              }}
+            />
+            <Grid
+              item
+              sx={{ backgroundColor: dslTheme.palette.background.default }}
+            >
+              {leftFiltered.length > 0
+                ? customList(leftFiltered, leftChecked)
+                : customList(left, leftChecked)}
+            </Grid>
+          </div>
+          <Grid item className="btns-grid">
+            <Grid container direction="column" alignItems="center">
+              <Button
+                className="btn-size"
+                sx={{ my: 0.5 }}
+                variant="outlined"
+                size="small"
+                onClick={handleCheckedRight}
+                disabled={leftChecked.length === 0}
+                aria-label="move selected right"
+              >
+                &gt;
+              </Button>
+              <Button
+                className="btn-size"
+                sx={{ my: 0.5 }}
+                variant="outlined"
+                size="small"
+                onClick={handleCheckedLeft}
+                disabled={rightChecked.length === 0}
+                aria-label="move selected left"
+              >
+                &lt;
+              </Button>
+              <Button
+                className="btn-size"
+                sx={{ my: 0.5 }}
+                variant="outlined"
+                size="small"
+                onClick={handleAllLeft}
+                disabled={right.length === 0}
+                aria-label="move all left"
+              >
+                &lt;&lt;
+              </Button>
+              <Button
+                className="btn-size"
+                sx={{ my: 0.5 }}
+                variant="outlined"
+                size="small"
+                onClick={handleAllRight}
+                disabled={left.length === 0}
+                aria-label="move all right"
+              >
+                &gt;&gt;
+              </Button>
+            </Grid>
           </Grid>
-        </div>
-        <Grid item className="btns-grid">
-          <Grid container direction="column" alignItems="center">
-            <Button
-              className="btn-size"
-              sx={{ my: 0.5 }}
+          <div className="list-grid">
+            <InputLabel sx={{ pl: 2.1 }} shrink>
+              {props.rightListLabel}
+            </InputLabel>
+            <TextField
               variant="outlined"
-              size="small"
-              onClick={handleCheckedRight}
-              disabled={leftChecked.length === 0}
-              aria-label="move selected right"
+              placeholder="Search"
+              value={rightSearchValue}
+              onChange={rightGridDataHandler}
+              sx={{ mb: 2.5, mt: '-5px' }}
+              InputProps={{
+                endAdornment: (
+                  <SearchIcon sx={{ color: dslTheme.palette.grey?.[500] }} />
+                ),
+                className: 'assign-height',
+              }}
+            />
+            <Grid
+              item
+              sx={{ backgroundColor: dslTheme.palette.background.default }}
             >
-              &gt;
-            </Button>
-            <Button
-              className="btn-size"
-              sx={{ my: 0.5 }}
-              variant="outlined"
-              size="small"
-              onClick={handleCheckedLeft}
-              disabled={rightChecked.length === 0}
-              aria-label="move selected left"
-            >
-              &lt;
-            </Button>
-            <Button
-              className="btn-size"
-              sx={{ my: 0.5 }}
-              variant="outlined"
-              size="small"
-              onClick={handleAllLeft}
-              disabled={right.length === 0}
-              aria-label="move all left"
-            >
-              &lt;&lt;
-            </Button>
-            <Button
-              className="btn-size"
-              sx={{ my: 0.5 }}
-              variant="outlined"
-              size="small"
-              onClick={handleAllRight}
-              disabled={left.length === 0}
-              aria-label="move all right"
-            >
-              &gt;&gt;
-            </Button>
-          </Grid>
+              {rightFiltered.length > 0
+                ? customList(rightFiltered, rightChecked)
+                : customList(right, rightChecked)}
+            </Grid>
+          </div>
         </Grid>
-        <div className="list-grid">
-          <InputLabel sx={{ pl: 2.1 }} shrink>
-            {props.rightListLabel}
-          </InputLabel>
-          <TextField
-            variant="outlined"
-            placeholder="Search"
-            value={rightSearchValue}
-            onChange={rightGridDataHandler}
-            sx={{ mb: 2.5, mt: '-5px' }}
-            InputProps={{
-              endAdornment: (
-                <SearchIcon sx={{ color: dslTheme.palette.grey?.[500] }} />
-              ),
-              className: 'assign-height',
-            }}
-          />
-          <Grid
-            item
-            sx={{ backgroundColor: dslTheme.palette.background.default }}
-          >
-            {rightFiltered.length > 0
-              ? customList(rightFiltered, rightChecked)
-              : customList(right, rightChecked)}
-          </Grid>
-        </div>
-      </Grid>
-    </StyledBreadcrumb>
+        <Box className="columnOption__mainButtonPannel">
+          <Box>
+            <Button
+              className="btn_cancel"
+              variant="outlined"
+              color="info"
+              onClick={props.onClose}
+            >
+              Cancel
+            </Button>
+          </Box>
+
+          <Box className="columnOption__saveButtonGp">
+            <Button
+              className="btn_cancel"
+              variant="outlined"
+              color="info"
+              onClick={handleRestoreDefault}
+            >
+              Restore Default
+            </Button>
+
+            <Button
+              className="btn_save"
+              variant="contained"
+              color="info"
+              // onClick={() => handleSave()}
+              // disabled={isDataFilled ? false : true}
+            >
+              Save
+            </Button>
+          </Box>
+        </Box>
+      </StyledBreadcrumb>
+    </>
   );
 }
 

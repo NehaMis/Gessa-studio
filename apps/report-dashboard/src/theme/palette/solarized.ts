@@ -25,6 +25,15 @@ const solarized: IThemePalette = {
     transformNode: '#BA55D3',
     storeNode: '#BA55D3',
     outputNode: '#33b64d',
+
+    dashboardButtonBg:'#2e3f57',
+    dashboardButtonHover:'#3b5272',
+
+    sideBarBg:'#476185',
+    sideBarText1:'#BDBDBD',
+    sideBarText2:'#FFFFFF',
+
+    inputComponentBg:'#2E3F57',
   },
 };
 

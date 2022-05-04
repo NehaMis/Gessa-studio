@@ -2,12 +2,13 @@ import { Box, Typography } from '@mui/material';
 import { styled } from '@mui/system';
 import React from 'react';
 import AddReport from '../pages/AddReport';
+import Filter from '../pages/Filter';
 // import Filter from '../pages/Filter';
 
 export interface SideMenuType {
   width: string;
-  snackbarShow: () => void;
-  shackbarClose: () => void;
+  snackBarArgs: any;
+  setSnackBarArgs: (data:any) => void;
   onClose: () => void;
   menuComponent: string;
 }
@@ -24,7 +25,8 @@ function SideMenu(props: SideMenuType) {
 
       position: 'fixed',
       width: `${props?.width}`,
-      background: '#191919',
+      maxWidth: `calc(100% - 20px)`,
+      background: theme.palette.custom.sideBarBg,
       zIndex: '1',
       top: '0',
       right: '0',
@@ -48,13 +50,13 @@ function SideMenu(props: SideMenuType) {
           <AddReport
             width={props?.width}
             onClose={props.onClose}
-            snackbarShow={props.snackbarShow}
-            shackbarClose={props.shackbarClose}
+            snackBarArgs={props.snackBarArgs}
+            setSnackBarArgs={props.setSnackBarArgs}
           />
         )}
-        {/* {props.menuComponent === 'filter' && (
+        {props.menuComponent === 'filter' && (
           <Filter width={props?.width} onClose={props.onClose} />
-        )} */}
+        )}
       </Box>
     </StyledSideMenu>
   );

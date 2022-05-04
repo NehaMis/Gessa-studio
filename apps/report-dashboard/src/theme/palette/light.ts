@@ -29,6 +29,14 @@ const dark: IThemePalette = {
     transformNode: '#BA55D3',
     storeNode: '#BA55D3',
     outputNode: '#33b64d',
+    dashboardButtonBg:'#e7e7e7',
+    dashboardButtonHover:'#cfcdcd',
+
+    sideBarBg:'#dbdbdb',
+    sideBarText1:'#111827',
+    sideBarText2:'#000',
+
+    inputComponentBg:'#FCFCFB',
   },
 };
 

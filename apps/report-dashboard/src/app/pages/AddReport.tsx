@@ -6,20 +6,21 @@ import {
   InputLabel,
   Button,
 } from '@mui/material';
-import { styled } from '@mui/system';
+import { styled, useTheme } from '@mui/system';
 import CloseIcon from '@mui/icons-material/Close';
 import MultipleSelectChip from '../components/MultipleSelectionChip';
 import React, { useCallback, useState } from 'react';
 
 export interface AddReportType {
   width: string;
-  snackbarShow:()=>void;
-  shackbarClose:()=>void;
+  snackBarArgs: any;
+  setSnackBarArgs: (data: any) => void;
   onClose: () => void;
 }
 
 function AddReport(props: AddReportType) {
 
+  const themes=useTheme()
   const AddReportBootstrapInput = useCallback(
     styled(InputBase)(({ theme }) => ({
       'label + &': {
@@ -29,7 +30,7 @@ function AddReport(props: AddReportType) {
         padding: '12px',
         borderRadius: 4,
         position: 'relative',
-        backgroundColor: theme.palette.mode === 'light' ? '#fcfcfb' : '#2b2b2b',
+        backgroundColor: theme.palette.custom.inputComponentBg,
         fontWeight: '400',
         fontSize: '14px',
         lineHeight: '20px',
@@ -53,10 +54,12 @@ function AddReport(props: AddReportType) {
 
         display: 'flex',
         flexDirection: 'column',
-        alignItem: 'flex-start',
-        padding: '4px 0px 0px',
+        // alignItem: 'flex-start',
+        // padding: '4px 0px 0px',
         width: `${props?.width}`,
-        overflowY: 'hidden',
+        maxWidth: `calc(100% - 0px)`,
+        // overflowY: 'hidden',
+        // overflowX: 'hidden',
 
         '.report_model_header': {
           display: 'flex',
@@ -68,21 +71,23 @@ function AddReport(props: AddReportType) {
           height: '48px',
           top: '4px',
           '.report_heading': {
+            fontFamily: 'Roboto',
             fontStyle: 'normal',
             fontWeight: '700',
             fontSize: '22px',
             lineHeight: '32px',
+            color:theme.palette.custom.sideBarText2,
           },
         },
-
+ 
         '.report_input_panel': {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'flex-start',
           padding: '0px 16px',
           margin: '16px 0px',
-          overflowY: 'scroll',
-          top: '68px',
+          // overflowY: 'scroll',
+          // top: '68px',
         },
         '.report_button_pannel': {
           display: 'flex',
@@ -95,11 +100,21 @@ function AddReport(props: AddReportType) {
           height: '24px',
         },
         '.report_input_labels': {
+          fontFamily: 'Roboto',
           fontStyle: 'normal',
           fontWeight: '400',
-          fontSize: '16px',
+          fontSize: '12px',
           lineHeight: '16px',
-          marginTop: '15px',
+          color:theme.palette.custom.sideBarText1,
+          // marginTop: '15px',
+        },
+        '.report_validate_and_testQuery': {
+          fontFamily: 'Roboto',
+          fontStyle: 'normal',
+          fontWeight: '400',
+          lineHeight: '16px',
+          fontSize: '14px',
+          color:theme.palette.custom.sideBarText2,
         },
         '.report_divider': {
           margin: '16px',
@@ -141,20 +156,28 @@ function AddReport(props: AddReportType) {
             padding: '10px 24px',
             margin: '0px 16px',
             background: '#ffffff1f',
-            color: '#FFFFFF',
+            color: theme.palette.custom.sideBarText2,
             right: '20px',
           },
+        },
+
+        '.report_input_frame': {
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'flex-start',
+          height: '90px',
+          left: '16px',
         },
       };
     }),
     []
   );
 
-  interface addReportDataTypes{
-    report_name:string,
-    def:string,
-    select_schema:Array<string>,
-    sql:string
+  interface addReportDataTypes {
+    report_name: string;
+    def: string;
+    select_schema: Array<string>;
+    sql: string;
   }
 
   const [data, setData] = useState<addReportDataTypes>({
@@ -164,12 +187,12 @@ function AddReport(props: AddReportType) {
     sql: '',
   });
 
-  const handleSelectSchemaData=(schemaData:string)=>{
+  const handleSelectSchemaData = (schemaData: string) => {
     setData({
       ...data,
-      select_schema:[...schemaData]
-    })
-  }
+      select_schema: [...schemaData],
+    });
+  };
 
   const isDataFilled = Object.entries(data)
     .map(([key, value]) => {
@@ -181,8 +204,6 @@ function AddReport(props: AddReportType) {
     })
     .some((x) => x === true);
 
-  
-
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     setData({
@@ -193,97 +214,111 @@ function AddReport(props: AddReportType) {
 
   const handleSave = () => {
     console.table(data);
-    props.snackbarShow();
+    props.setSnackBarArgs({
+      open: true,
+    });
     props.onClose();
   };
 
   return (
-      <AddReportSideMenu>
-        <Box className="report_model_header">
-          <Typography className="report_heading" variant="h5">
-            Add Report
-          </Typography>
-          <Box className="report_close_Button" onClick={props.onClose}>
-            <CloseIcon />
+    <AddReportSideMenu>
+      <Box className="report_model_header">
+        <Typography variant="h5" className="report_heading">
+          Add Report
+        </Typography>
+        <Box className="report_close_Button" onClick={props.onClose}>
+          <CloseIcon />
+        </Box>
+      </Box>
+      <Divider />
+
+      <Box className="report_input_panel">
+        <InputLabel htmlFor="report-name" className="report_input_labels">
+          Report Name
+        </InputLabel>
+        <AddReportBootstrapInput
+          placeholder='Enter Report Name'
+          name="report_name"
+          fullWidth={true}
+          id="report-name"
+          value={data.report_name}
+          onChange={handleFormChange}
+        />
+        <Box className="report_divider"></Box>
+
+        <InputLabel htmlFor="defination" className="report_input_labels">
+          Definition
+        </InputLabel>
+
+        <AddReportBootstrapInput
+          name="def"
+          placeholder='Enter Definition'
+          minRows={5}
+          multiline={true}
+          fullWidth={true}
+          id="defination"
+          value={data.def}
+          onChange={handleFormChange}
+        />
+        <Box className="report_divider"></Box>
+
+        <Box className="report_input_frame">
+          <MultipleSelectChip
+            onChange={handleSelectSchemaData}
+            width={527}
+            labelName={'Select Schema'}
+            background={themes.palette.custom.inputComponentBg}
+          />
+        </Box>
+
+        <Box className="report_divider"></Box>
+
+        <Box className="report_query_labels">
+          <InputLabel htmlFor="sql" className="report_input_labels">
+            SQL Query
+          </InputLabel>
+          <Box className="validate">
+            <Typography className="report_validate_and_testQuery">Validate</Typography>
+            <Typography className="report_validate_and_testQuery">
+              Test Query
+            </Typography>
           </Box>
         </Box>
-        <Divider />
 
-        <Box className="report_input_panel">
-          <InputLabel htmlFor="report-name" className="report_input_labels">
-            Report Name
-          </InputLabel>
-          <AddReportBootstrapInput
-            name="report_name"
-            fullWidth={true}
-            id="report-name"
-            value={data.report_name}
-            onChange={handleFormChange}
-          />
-          <Box className="report_divider"></Box>
-
-          <InputLabel htmlFor="defination" className="report_input_labels">
-            Definition
-          </InputLabel>
-
-          <AddReportBootstrapInput
-            name="def"
-            minRows={5}
-            multiline={true}
-            fullWidth={true}
-            id="defination"
-            value={data.def}
-            onChange={handleFormChange}
-          />
-          <Box className="report_divider"></Box>
-
-          <MultipleSelectChip onChange={handleSelectSchemaData} width={525} labelName={'Select Schema'}/>
-
-          <Box className="report_divider"></Box>
-
-          <Box className="report_query_labels">
-            <InputLabel htmlFor="sql" className="report_input_labels">
-              SQL Query
-            </InputLabel>
-            <Box className="validate">
-              <Typography className="report_input_labels">Validate</Typography>
-              <Typography className="report_input_labels">
-                Test Query
-              </Typography>
-            </Box>
-          </Box>
-
-          <AddReportBootstrapInput
-            name="sql"
-            minRows={8}
-            multiline={true}
-            fullWidth={true}
-            id="sql"
-            value={data.sql}
-            onChange={handleFormChange}
-          />
-          <Box className="report_divider"></Box>
-        </Box>
-        <Divider />
-        <Box className="report_footer">
-          <Button
-            className="btn_cancel"
-            variant="outlined"
-            color="info"
-            onClick={props.onClose}
-          >
-            Cancel
-          </Button>
-          <Button
-            className="btn_save"
-            variant="contained"
-            onClick={() => handleSave()}
-            disabled={isDataFilled || data.select_schema.length>0 ? false : true}
-          >
-            Save
-          </Button>
-        </Box>
-      </AddReportSideMenu>
+        <AddReportBootstrapInput
+          name="sql"
+          placeholder='Add SQL Query'
+          minRows={6}
+          multiline={true}
+          fullWidth={true}
+          id="sql"
+          value={data.sql}
+          onChange={handleFormChange}
+        />
+        <Box className="report_divider"></Box>
+      </Box>
+      <Divider />
+      <Box className="report_footer">
+        <Button
+          className="btn_cancel"
+          variant="outlined"
+          color="info"
+          onClick={props.onClose}
+        >
+          Cancel
+        </Button>
+        <Button
+          className="btn_save"
+          variant="contained"
+          onClick={() => handleSave()}
+          disabled={
+            isDataFilled || data.select_schema.length > 0 ? false : true
+          }
+        >
+          Save
+        </Button>
+      </Box>
+    </AddReportSideMenu>
   );
 }
 
