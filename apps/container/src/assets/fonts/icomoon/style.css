@@ -1,0 +1,180 @@
+@font-face {
+  font-family: 'icomoon';
+  src:  url('fonts/icomoon.eot?omzr6c');
+  src:  url('fonts/icomoon.eot?omzr6c#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?omzr6c') format('truetype'),
+    url('fonts/icomoon.woff?omzr6c') format('woff'),
+    url('fonts/icomoon.svg?omzr6c#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-Add:before {
+  content: "\e900";
+}
+.icon-Arrow-Down:before {
+  content: "\e901";
+}
+.icon-Arrow-Right:before {
+  content: "\e902";
+}
+.icon-Arrow-Up:before {
+  content: "\e903";
+}
+.icon-Bell-Outlined:before {
+  content: "\e904";
+}
+.icon-Bell-Solid:before {
+  content: "\e905";
+}
+.icon-Calendar:before {
+  content: "\e906";
+}
+.icon-Close:before {
+  content: "\e907";
+}
+.icon-Connectors:before {
+  content: "\e908";
+}
+.icon-Correct:before {
+  content: "\e909";
+}
+.icon-Dashboard-Outlined:before {
+  content: "\e90a";
+}
+.icon-Dashboard-Solid:before {
+  content: "\e90b";
+}
+.icon-DiamondSolid:before {
+  content: "\e90c";
+}
+.icon-dot:before {
+  content: "\e90d";
+}
+.icon-Edit:before {
+  content: "\e90e";
+}
+.icon-FileType1:before {
+  content: "\e90f";
+}
+.icon-Filter:before {
+  content: "\e910";
+}
+.icon-Incremental-Flag:before {
+  content: "\e911";
+}
+.icon-List-View:before {
+  content: "\e912";
+}
+.icon-Menu-Backend-Outlined:before {
+  content: "\e913";
+}
+.icon-Menu-Backend-Solid:before {
+  content: "\e914";
+}
+.icon-Menu-Dashboard-Outlined:before {
+  content: "\e915";
+}
+.icon-Menu-Dashboard-Solid:before {
+  content: "\e916";
+}
+.icon-Menu-Dataops-Outlined:before {
+  content: "\e917";
+}
+.icon-Menu-Dataops-Solid:before {
+  content: "\e918";
+}
+.icon-Menu-Devops2-Outlined:before {
+  content: "\e919";
+}
+.icon-Menu-Devops2-Solid:before {
+  content: "\e91a";
+}
+.icon-Menu-Devops-Outlined:before {
+  content: "\e91b";
+}
+.icon-Menu-Devops-Solid:before {
+  content: "\e91c";
+}
+.icon-Menu-Info:before {
+  content: "\e91d";
+}
+.icon-Menu-Microapps-Outlined:before {
+  content: "\e91e";
+}
+.icon-Menu-Microapps-Solid:before {
+  content: "\e91f";
+}
+.icon-Menu-MiscSetting-Outlined:before {
+  content: "\e920";
+}
+.icon-Menu-MiscSetting-Solid:before {
+  content: "\e921";
+}
+.icon-Menu-Mysql:before {
+  content: "\e922";
+}
+.icon-Menu-Postgres:before {
+  content: "\e923";
+}
+.icon-Menu-RabbitMQ:before {
+  content: "\e924";
+}
+.icon-Menu-Transform:before {
+  content: "\e925";
+}
+.icon-Pipeline:before {
+  content: "\e926";
+}
+.icon-Preview:before {
+  content: "\e927";
+}
+.icon-Search:before {
+  content: "\e928";
+}
+.icon-Settings-Outlined:before {
+  content: "\e929";
+}
+.icon-Settings-Solid:before {
+  content: "\e92a";
+}
+.icon-Sql-Query:before {
+  content: "\e92b";
+}
+.icon-Trash:before {
+  content: "\e92c";
+}
+.icon-Union:before {
+  content: "\e92d";
+}
+.icon-Untitled:before {
+  content: "\e92e";
+}
+.icon-Upload:before {
+  content: "\e92f";
+}
+.icon-User-Outlined:before {
+  content: "\e930";
+}
+.icon-User-Solid:before {
+  content: "\e931";
+}
+.icon-Vector:before {
+  content: "\e932";
+}

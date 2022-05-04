@@ -1,0 +1,73 @@
+{
+  "root": "apps/schema-mf",
+  "sourceRoot": "apps/schema-mf/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/web:build",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "outputPath": "dist/apps/schema-mf",
+        "index": "apps/schema-mf/src/index.html",
+        "baseHref": "/",
+        "main": "apps/schema-mf/src/main.tsx",
+        "polyfills": "apps/schema-mf/src/polyfills.ts",
+        "tsConfig": "apps/schema-mf/tsconfig.app.json",
+        "assets": [
+          "apps/schema-mf/src/favicon.ico",
+          "apps/schema-mf/src/assets"
+        ],
+        "styles": ["apps/schema-mf/src/assets/fonts/icomoon/style.css"],
+        "scripts": [],
+        "webpackConfig": "apps/schema-mf/webpack.config.js"
+      },
+      "configurations": {
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "apps/schema-mf/src/environments/environment.ts",
+              "with": "apps/schema-mf/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/web:dev-server",
+      "options": {
+        "buildTarget": "schema-mf:build",
+        "hmr": true,
+        "port": 4204
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "schema-mf:build:production",
+          "hmr": false
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/schema-mf/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/schema-mf"],
+      "options": {
+        "jestConfig": "apps/schema-mf/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

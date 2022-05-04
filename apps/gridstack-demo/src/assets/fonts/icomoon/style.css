@@ -1,0 +1,171 @@
+@font-face {
+  font-family: 'icomoon';
+  src:  url('fonts/icomoon.eot?pxyo35');
+  src:  url('fonts/icomoon.eot?pxyo35#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?pxyo35') format('truetype'),
+    url('fonts/icomoon.woff?pxyo35') format('woff'),
+    url('fonts/icomoon.svg?pxyo35#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-Menu-RabbitMQ:before {
+  content: "\e900";
+}
+.icon-Vector:before {
+  content: "\e901";
+}
+.icon-User-Solid:before {
+  content: "\e902";
+}
+.icon-User-Outlined:before {
+  content: "\e903";
+}
+.icon-Upload:before {
+  content: "\e904";
+}
+.icon-Trash:before {
+  content: "\e905";
+}
+.icon-Sql-Query:before {
+  content: "\e906";
+}
+.icon-Settings-Solid:before {
+  content: "\e907";
+}
+.icon-Settings-Outlined:before {
+  content: "\e908";
+}
+.icon-Search:before {
+  content: "\e909";
+}
+.icon-Preview:before {
+  content: "\e90a";
+}
+.icon-Pipeline:before {
+  content: "\e90b";
+}
+.icon-Menu-Microapps-Solid:before {
+  content: "\e90c";
+}
+.icon-Menu-Microapps-Outlined:before {
+  content: "\e90d";
+}
+.icon-Connectors:before {
+  content: "\e90e";
+}
+.icon-Menu-Dataops-Solid:before {
+  content: "\e90f";
+}
+.icon-Menu-Dataops-Outlined:before {
+  content: "\e910";
+}
+.icon-Menu-Devops2-Solid:before {
+  content: "\e911";
+}
+.icon-Menu-Devops2-Outlined:before {
+  content: "\e912";
+}
+.icon-Menu-Backend-Solid:before {
+  content: "\e913";
+}
+.icon-Menu-Backend-Outlined:before {
+  content: "\e914";
+}
+.icon-Menu-Dashboard-Solid:before {
+  content: "\e915";
+}
+.icon-Menu-Dashboard-Outlined:before {
+  content: "\e916";
+}
+.icon-Menu-Devops-Solid:before {
+  content: "\e917";
+}
+.icon-Menu-Devops-Outlined:before {
+  content: "\e918";
+}
+.icon-Menu-MiscSetting-Solid:before {
+  content: "\e919";
+}
+.icon-Menu-MiscSetting-Outlined:before {
+  content: "\e91a";
+}
+.icon-Menu-Transform:before {
+  content: "\e91b";
+}
+.icon-Menu-Info:before {
+  content: "\e91c";
+}
+.icon-Menu-Mysql:before {
+  content: "\e91d";
+}
+.icon-Menu-Postgres:before {
+  content: "\e91e";
+}
+.icon-List-View:before {
+  content: "\e91f";
+}
+.icon-Incremental-Flag:before {
+  content: "\e920";
+}
+.icon-Filter:before {
+  content: "\e921";
+}
+.icon-FileType1:before {
+  content: "\e922";
+}
+.icon-Edit:before {
+  content: "\e923";
+}
+.icon-Diamond-Solid:before {
+  content: "\e924";
+}
+.icon-Dashboard-Solid:before {
+  content: "\e925";
+}
+.icon-Dashboard-Outlined:before {
+  content: "\e926";
+}
+.icon-Correct:before {
+  content: "\e927";
+}
+.icon-Close:before {
+  content: "\e928";
+}
+.icon-Calendar:before {
+  content: "\e929";
+}
+.icon-Bell-Solid:before {
+  content: "\e92a";
+}
+.icon-Bell-Outlined:before {
+  content: "\e92b";
+}
+.icon-Arrow-Up:before {
+  content: "\e92c";
+}
+.icon-Arrow-Right:before {
+  content: "\e92d";
+}
+.icon-Arrow-Down:before {
+  content: "\e92e";
+}
+.icon-Add:before {
+  content: "\e92f";
+}

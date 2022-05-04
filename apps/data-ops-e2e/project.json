@@ -1,0 +1,28 @@
+{
+  "root": "apps/data-ops-e2e",
+  "sourceRoot": "apps/data-ops-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/data-ops-e2e/cypress.json",
+        "devServerTarget": "data-ops:serve"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "data-ops:serve:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/data-ops-e2e/**/*.{js,ts}"]
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["data-ops"]
+}

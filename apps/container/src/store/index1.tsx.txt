@@ -1,0 +1,53 @@
+import { configureStore, combineReducers } from '@reduxjs/toolkit';
+import projects, {
+  IRProjects,
+} from '../app/pages/projects/store/projectsSlice';
+import axios from 'axios';
+import { IRProjectContentTree } from '../app/pages/projects/store/projectContentTreeSlice';
+import project from '../app/pages/projects/store';
+import { IRProjectTabs } from '../app/pages/projects/store/projectTabSlice';
+import { getMicrofrontend } from '../micro-frontend';
+import MFFlowChartApp from '../micro-frontend/remotes/flow-chart-app';
+// @ts-ignore
+// import chartDataObj from 'flowChartApp/FlowChartSlice';
+// const chartDataObj: any = getMicrofrontend(
+//   MFFlowChartApp.url,
+//   MFFlowChartApp.scope,
+//   MFFlowChartApp.slices.default
+// );
+
+export interface IRootState {
+  project: {
+    projects: IRProjects;
+    projectTabs: IRProjectTabs;
+    projectContentTree: IRProjectContentTree;
+  };
+}
+
+const reducers = {
+  project,
+};
+
+const store = configureStore({
+  reducer: reducers,
+});
+
+// setTimeout((_) => {
+
+
+//   store.replaceReducer(combineReducers(reducers));
+
+//   // store = configureStore({
+//   //   reducer: combineReducers(reducers),
+//   //   // middleware: (getDefaultMiddleware) =>
+//   //   //   getDefaultMiddleware({
+//   //   //     thunk: {
+//   //   //       extraArgument: {
+//   //   //         axios,
+//   //   //       },
+//   //   //     },
+//   //   //   }),
+//   // });
+// }, 2000);
+
+export default store;

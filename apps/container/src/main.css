@@ -1,0 +1,54 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+sub,
+sup {
+  font-size: 50%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+sup {
+  top: 0em;
+  vertical-align: super;
+}
+sub {
+  bottom: 0.5em;
+  vertical-align: sub;
+}
+
+body * {
+  box-sizing: border-box;
+}
+
+.boundary {
+  border: 2px dashed green;
+  padding: 24px;
+  margin: 8px;
+}
+
+/* Mui Select*/
+
+.css-1uq02rd-MuiPaper-root-MuiMenu-paper-MuiPaper-root-MuiPopover-paper {
+  max-height: calc(100% - 140px);
+}
+
+.MuiOutlinedInput-root {
+  background-color: #303030 !important;
+}
+
+.MuiOutlinedInput-notchedOutline {
+  border-width: 0px;
+}
+
+/* Mui TreeItem */
+.css-eyfti8-MuiTreeItem-content.Mui-selected {
+  border-radius: 5px;
+}
+
+/* Remove it */
+
+.css-eyfti8-MuiTreeItem-content .MuiTreeItem-iconContainer svg {
+  font-size: 13px;
+}

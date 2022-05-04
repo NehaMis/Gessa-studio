@@ -1,0 +1,28 @@
+{
+  "root": "apps/report-dashboard-e2e",
+  "sourceRoot": "apps/report-dashboard-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/report-dashboard-e2e/cypress.json",
+        "devServerTarget": "report-dashboard:serve"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "report-dashboard:serve:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/report-dashboard-e2e/**/*.{js,ts}"]
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["report-dashboard"]
+}

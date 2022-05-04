@@ -1,0 +1,28 @@
+{
+  "root": "apps/micro-frontend-demo-e2e",
+  "sourceRoot": "apps/micro-frontend-demo-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/micro-frontend-demo-e2e/cypress.json",
+        "devServerTarget": "micro-frontend-demo:serve"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "micro-frontend-demo:serve:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/micro-frontend-demo-e2e/**/*.{js,ts}"]
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["micro-frontend-demo"]
+}

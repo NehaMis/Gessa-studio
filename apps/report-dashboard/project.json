@@ -1,0 +1,72 @@
+{
+  "root": "apps/report-dashboard",
+  "sourceRoot": "apps/report-dashboard/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/web:build",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "outputPath": "dist/apps/report-dashboard",
+        "index": "apps/report-dashboard/src/index.html",
+        "baseHref": "/",
+        "main": "apps/report-dashboard/src/main.tsx",
+        "polyfills": "apps/report-dashboard/src/polyfills.ts",
+        "tsConfig": "apps/report-dashboard/tsconfig.app.json",
+        "assets": [
+          "apps/report-dashboard/src/favicon.ico",
+          "apps/report-dashboard/src/assets"
+        ],
+        "styles": [],
+        "scripts": [],
+        "webpackConfig": "apps/report-dashboard/webpack.config.js"
+      },
+      "configurations": {
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "apps/report-dashboard/src/environments/environment.ts",
+              "with": "apps/report-dashboard/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/web:dev-server",
+      "options": {
+        "buildTarget": "report-dashboard:build",
+        "hmr": true
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "report-dashboard:build:production",
+          "hmr": false
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/report-dashboard/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/report-dashboard"],
+      "options": {
+        "jestConfig": "apps/report-dashboard/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

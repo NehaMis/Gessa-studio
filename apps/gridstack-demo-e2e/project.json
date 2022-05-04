@@ -1,0 +1,28 @@
+{
+  "root": "apps/gridstack-demo-e2e",
+  "sourceRoot": "apps/gridstack-demo-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/gridstack-demo-e2e/cypress.json",
+        "devServerTarget": "gridstack-demo:serve"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "gridstack-demo:serve:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/gridstack-demo-e2e/**/*.{js,ts}"]
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["gridstack-demo"]
+}

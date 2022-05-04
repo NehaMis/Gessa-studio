@@ -1,0 +1,20 @@
+{
+  "Status": "success",
+  "Error": "",
+  "data_frames": [
+      {
+          "df_name": "country",
+          "Schema": [
+              {
+                  "column_name": "id",
+                  "data_type": "int(11)"
+              },
+              {
+                  "column_name": "country",
+                  "data_type": "varchar(200)"
+              }
+          ],
+          "Records": []
+      }
+  ]
+}

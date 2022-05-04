@@ -1,0 +1,29 @@
+import { Theme, ThemeOptions } from '@mui/material/styles';
+
+declare module '@mui/material/styles' {
+  interface ITheme extends Theme {
+    status: {
+      danger: string;
+    };
+  }
+  // allow configuration using `createTheme`
+  interface IThemeOptions extends ThemeOptions {
+    status?: {
+      danger?: string;
+    };
+  }
+  export function createTheme(options?: CustomThemeOptions): CustomTheme;
+}
+
+// interface ITheme {
+//   id: number;
+//   title: string;
+//   description: string;
+//   status: boolean;
+// }
+
+type ContextType = {
+  themes: ITheme[];
+  saveTheme: (todo: ITheme) => void;
+  updateTheme: (id: number) => void;
+};

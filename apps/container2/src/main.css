@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body * {
+  box-sizing: border-box;
+}
+
+.react-flow__node-default,
+.react-flow__node-input,
+.react-flow__node-output {
+  padding: 0px !important;
+  /* min-width: 220px; */
+  border: none !important;
+  border-radius: 4px !important;
+}

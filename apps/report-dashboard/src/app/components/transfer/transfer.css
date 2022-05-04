@@ -1,0 +1,15 @@
+.btn-size{
+    min-width: 48px !important;
+    height: 40px !important;
+}
+.btns-grid{
+    padding: 16px;
+}
+.list-grid{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
+ .assign-height{
+    height:40px !important
+ }

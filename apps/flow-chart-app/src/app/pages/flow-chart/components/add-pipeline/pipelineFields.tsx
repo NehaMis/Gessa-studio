@@ -1,0 +1,115 @@
+export const type2Data = [
+  {
+    type: 'text',
+    value: [''],
+    label: 'Database',
+    name: 'database',
+    placeholder: 'Enter Database111',
+    options: [],
+    required: true,
+    validation: {
+      name: 'database',
+      required: true,
+      errorMessage: 'Database is required',
+      min: 0,
+      max: 0,
+    },
+  },
+  {
+    type: 'table',
+    value: [''],
+    label: 'Table Name',
+    name: 'table',
+    placeholder: 'Enter Table111',
+    options: [],
+    required: true,
+    validation: {
+      name: 'table',
+      required: true,
+      errorMessage: 'Table is required',
+      min: 0,
+      max: 0,
+    },
+  },
+];
+
+const PipelineFields = [
+  {
+    type: 'text',
+    value: [''],
+    label: 'Name',
+    name: 'name',
+    placeholder: 'Enter Name',
+    options: [],
+    required: true,
+    validation: {
+      name: 'name',
+      required: true,
+      errorMessage: 'Name is required',
+      min: 0,
+      max: 0,
+    },
+  },
+  {
+    type: 'select',
+    value: [''],
+    label: 'Connector Name',
+    name: 'connectorName',
+    placeholder: 'Select Connector Name',
+    options: [],
+    required: true,
+    validation: {
+      name: 'connectorName',
+      required: true,
+      errorMessage: 'Connector Name is required',
+      min: 0,
+      max: 0,
+    },
+  },
+  {
+    type: 'select',
+    value: [''],
+    label: 'Connector Type',
+    name: 'connectorType',
+    placeholder: 'Select Connector Type',
+    options: [
+      { label: 'Input', value: 'Input' },
+      { label: 'Store', value: 'Store' },
+    ],
+    required: true,
+    validation: {
+      name: 'connectorType',
+      required: true,
+      errorMessage: 'Connector Type is required',
+      min: 0,
+      max: 0,
+    },
+  },
+  {
+    type: 'text',
+    value: [''],
+    label: 'Data Frame Name',
+    name: 'dataFrameName',
+    placeholder: 'Select Connector Type',
+    options: [
+      { label: 'Input', value: 'Input' },
+      { label: 'Store', value: 'Store' },
+    ],
+    required: true,
+  },
+  {
+    type: 'select',
+    value: [''],
+    label: 'Select Tags',
+    name: 'tags',
+    placeholder: 'Select Tags',
+    options: [
+      { label: 'Input', value: 'Input' },
+      { label: 'Store', value: 'Store' },
+    ],
+    required: true,
+  },
+  [...type2Data],
+];
+
+export default PipelineFields;

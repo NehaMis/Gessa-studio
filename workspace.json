@@ -1,0 +1,25 @@
+{
+  "version": 2,
+  "projects": {
+    "container": "apps/container",
+    "container-e2e": "apps/container-e2e",
+    "container2": "apps/container2",
+    "container2-e2e": "apps/container2-e2e",
+    "data-ops": "apps/data-ops",
+    "data-ops-e2e": "apps/data-ops-e2e",
+    "flow-chart-app": "apps/flow-chart-app",
+    "flow-chart-app-e2e": "apps/flow-chart-app-e2e",
+    "gridstack-demo": "apps/gridstack-demo",
+    "gridstack-demo-e2e": "apps/gridstack-demo-e2e",
+    "micro-frontend-demo": "apps/micro-frontend-demo",
+    "micro-frontend-demo-e2e": "apps/micro-frontend-demo-e2e",
+    "schema-mf": "apps/schema-mf",
+    "schema-mf-e2e": "apps/schema-mf-e2e",
+    "test-app": "apps/test-app",
+    "test-app-e2e": "apps/test-app-e2e",
+    "ui": "libs/ui",
+    "ui-e2e": "apps/ui-e2e",
+    "report-dashboard": "apps/report-dashboard",
+    "report-dashboard-e2e": "apps/report-dashboard-e2e"
+  }
+}

@@ -1,0 +1,26 @@
+.scrollable-element {
+  scrollbar-width: thin;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 4px gray;
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: gray;
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: gray;
+}
+
+.clickable:hover {
+  cursor: pointer;
+}

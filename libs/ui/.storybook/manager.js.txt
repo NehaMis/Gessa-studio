@@ -1,0 +1,18 @@
+import { addons } from '@storybook/addons';
+import { theme as appTheme } from '../src/theme/theme';
+import themes from '../src/theme';
+import { createTheme } from '@mui/material';
+import { createThemeFromMuiTheme } from './utils/create-theme-from-mui-theme';
+
+const currentTheme = createTheme(themes.defaultLight);
+
+addons.setConfig({
+  theme: createThemeFromMuiTheme({
+    theme: currentTheme,
+    options: {
+      base: 'light',
+      brandTitle: 'Storybook with MUI',
+      brandUrl: 'https://www.github.com/IgorSzyporyn/storybook-with-mui',
+    },
+  }),
+});

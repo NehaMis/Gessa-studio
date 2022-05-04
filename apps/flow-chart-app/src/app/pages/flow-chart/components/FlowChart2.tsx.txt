@@ -1,0 +1,411 @@
+import { ChartBox, IconBar } from '@gessa/ui';
+import { useTheme } from '@mui/system';
+import {
+  IDataFlowNode,
+  IDataFlowPayload,
+  IFlowchart,
+  Property,
+} from 'apps/flow-chart-app/src/fake-db/db/data-flow-db';
+import { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import AddPipeline from './add-pipeline/AddPipeline';
+import generateRandomString from '../../../../utils/randomString';
+import AddTransform2 from './add-transform2/AddTransform2';
+import { IConnector } from 'apps/flow-chart-app/src/fake-db/db/connector-db';
+import { parseProperties } from './../../../../utils/commonFunctions';
+export interface IFlowChartBoxProps {
+  flowChart: IFlowchart[];
+  connector: IConnector[];
+  nodesData: IDataFlowNode[];
+  updateDataFlow: (data: IDataFlowPayload) => void;
+  saveForm: (data: IDataFlowPayload) => void;
+}
+
+export interface IOption {
+  label: string;
+  value: string;
+}
+
+const FlowChart2 = (props: IFlowChartBoxProps) => {
+  const theme = useTheme();
+
+  const [flowChart, setFlowChart] = useState<IFlowchart[]>([]);
+  const [connectorData, setConnectorData] = useState<IConnector[]>([]);
+  const [nodesData, setNodesElement] = useState<IDataFlowNode[]>([]);
+  const [formStatus, setFormStatus] = useState(false);
+  const [defaultValues, setDefaultValues] = useState<any>();
+  const [defaultOptions, setDefaultOptions] = useState<any>();
+  const [selectedElement, setSelectedElement] = useState<IFlowchart[]>([]);
+
+  const elementClicked = (element: IFlowchart[]) => {
+    setFormStatus(false);
+    setSelectedElement(element);
+
+    // props.updateDataFlow(element);
+    if (nodesData && nodesData.length && element) {
+      const index = nodesData.findIndex(
+        (value: IDataFlowNode) =>
+          value.node_id === element[0].id && element[0].id !== undefined
+      );
+      if (index !== -1) {
+        setDefaultValues(nodesData[index].properties);
+      }
+    }
+
+    setDefaultOptions({});
+
+    // const options: IOption[] = serilizeOptions(element[0]);
+
+    const payload = {
+      options: nodesData,
+      type: element[0].type,
+      elementId: element[0].id,
+    };
+    setDefaultOptions(payload);
+    setFormStatus(true);
+  };
+
+  const setColors = (name: string): string => {
+    switch (name.toLowerCase()) {
+      case 'input':
+        return '#ffbf00';
+        break;
+      case 'store':
+      case 'output':
+        return '#33b64d';
+        break;
+      case 'transform':
+        return '#BA55D3';
+        break;
+    }
+    return '#BA55D3';
+  };
+
+  const saveFormData = (data: any) => {
+    if (!data) {
+      setFormStatus(false);
+      return;
+    }
+    setFormStatus(false);
+    const chart: IFlowchart[] = JSON.parse(JSON.stringify(flowChart));
+    const _selectedElement: IFlowchart[] = JSON.parse(
+      JSON.stringify(selectedElement)
+    );
+    const _nodesData: IDataFlowNode[] = JSON.parse(JSON.stringify(nodesData));
+
+    if (
+      _selectedElement &&
+      _selectedElement.length > 0 &&
+      _selectedElement[0].id
+    ) {
+      const index = flowChart.findIndex(
+        (value: IFlowchart) => value.id === _selectedElement[0].id
+      );
+      if (index > -1) {
+        _selectedElement[0].type = data.connectorType
+          ? data.connectorType
+          : _selectedElement[0].type;
+
+        if (_selectedElement[0].data) {
+          _selectedElement[0].data.props.text = data.name;
+          _selectedElement[0].data.props.leftAccent = setColors(
+            _selectedElement[0].type
+          );
+        }
+        chart[index] = _selectedElement[0];
+      }
+      const index2 = _nodesData.findIndex(
+        (value: IDataFlowNode) => value.node_id === _selectedElement[0].id
+      );
+      if (index2 !== -1) {
+        data.tags = data.tags.filter(
+          (v: any, i: any, a: any): any => a.indexOf(v) === i
+        );
+
+        _nodesData[index2].properties = parseProperties(data);
+        _nodesData[index2].name = data.name;
+        _nodesData[index2].type = data.connectorType
+          ? data.connectorType
+          : _selectedElement[0].type;
+      }
+    }
+    if (
+      _selectedElement[0].type.toLowerCase() === 'input' ||
+      _selectedElement[0].type.toLowerCase() === 'transform' ||
+      _selectedElement[0].type.toLowerCase() === 'store'
+    ) {
+      // if (data.tags && data.tags.length) {
+      for (let i = 0; i < data.tags.length; i += 1) {
+        const index3 = _nodesData.findIndex(
+          (value: IDataFlowNode) => value.node_id === data.tags[i].value
+        );
+        const customEdges: IFlowchart[] = chart.filter(
+          (value: IFlowchart) => value.type.toLowerCase() === 'custom'
+        );
+
+        const edgeIndex = customEdges.findIndex(
+          (value: IFlowchart) =>
+            value.source === _selectedElement[0].id &&
+            value.target === data.tags[i].value
+        );
+        if (edgeIndex === -1 && data.tags[i].value.toLowerCase() !== 'select') {
+          const connectedEdge: IFlowchart = {
+            id: generateRandomString(),
+            target: _selectedElement[0].id,
+            source: data.tags[i].value,
+            type: 'custom', // smooth edge
+            arrowHeadType: 'arrowclosed',
+          };
+          chart.push(connectedEdge);
+        }
+      }
+      const edgeArray: IFlowchart[] = chart.filter(
+        (value: IFlowchart) => value.type.toLowerCase() === 'custom'
+      );
+      const transEdgeArray: IFlowchart[] = edgeArray.filter(
+        (value: IFlowchart) => value.target === _selectedElement[0].id
+      );
+      const removeIndexArray: string[] = [];
+      for (let i = 0; i < transEdgeArray.length; i += 1) {
+        const index = data.tags.findIndex(
+          (value: IOption) => value.value === transEdgeArray[i].source
+        );
+        if (index === -1) {
+          removeIndexArray.push(transEdgeArray[i].id);
+        }
+      }
+      for (let i = 0; i < removeIndexArray.length; i += 1) {
+        const chartIndex = chart.findIndex(
+          (value: IFlowchart) => value.id === removeIndexArray[i]
+        );
+        if (chartIndex !== -1) {
+          chart.splice(chartIndex, 1);
+        }
+      }
+      for (let i = 0; i < chart.length; i += 1) {
+        const edgeArray: IFlowchart[] = chart.filter(
+          (value: IFlowchart) => value.type.toLowerCase() === 'custom'
+        );
+
+        if (chart[i].type.toLowerCase() === 'input') {
+          const removeElementsArray = edgeArray.filter(
+            (value: IFlowchart) => value.target === chart[i].id
+          );
+          if (removeElementsArray && removeElementsArray.length > 0) {
+            for (let j = 0; j < removeElementsArray.length; j += 1) {
+              const removeindex = chart.findIndex(
+                (value: IFlowchart) => value.id === removeElementsArray[j].id
+              );
+              if (removeindex !== -1) {
+                chart.splice(removeindex, 1);
+              }
+            }
+          }
+          for (let i = 0; i < data.tags.length; i += 1) {
+            const index3 = _nodesData.findIndex(
+              (value: IDataFlowNode) => value.node_id === data.tags[i].value
+            );
+            const customEdges: IFlowchart[] = chart.filter(
+              (value: IFlowchart) => value.type.toLowerCase() === 'custom'
+            );
+            const edgeIndex = customEdges.findIndex(
+              (value: IFlowchart) =>
+                value.source === _selectedElement[0].id &&
+                value.target === data.tags[i].value
+            );
+            if (
+              edgeIndex === -1 &&
+              data.tags[i].value.toLowerCase() !== 'select'
+            ) {
+              const connectedEdge: IFlowchart = {
+                id: generateRandomString(),
+                target: _selectedElement[0].id,
+                source: data.tags[i].value,
+                type: 'custom', // smooth edge
+                arrowHeadType: 'arrowclosed',
+              };
+              chart.push(connectedEdge);
+            }
+          }
+        }
+        if (chart[i].type.toLowerCase() === 'store') {
+          const removeElementsArray: IFlowchart[] = edgeArray.filter(
+            (value: IFlowchart) => value.source === chart[i].id
+          );
+          if (removeElementsArray && removeElementsArray.length > 0) {
+            for (let j = 0; j < removeElementsArray.length; j += 1) {
+              const removeindex = chart.findIndex(
+                (value: IFlowchart) => value.id === removeElementsArray[j].id
+              );
+              const nodeIndex = _nodesData.findIndex(
+                (value: IDataFlowNode) =>
+                  value.node_id === removeElementsArray[j].target
+              );
+
+              if (nodeIndex !== -1) {
+                const tagsIndex = _nodesData[nodeIndex].properties.findIndex(
+                  (value: Property) => value.key === 'tags'
+                );
+                if (tagsIndex !== -1) {
+                  const tagArray =
+                    _nodesData[nodeIndex].properties[tagsIndex].value.split(
+                      ','
+                    );
+                  const tagArrayIndex = tagArray.findIndex(
+                    (value: string) => value === removeElementsArray[j].source
+                  );
+                  if (tagArrayIndex !== -1) {
+                    tagArray.splice(tagArrayIndex, 1);
+                  }
+                  _nodesData[nodeIndex].properties[tagsIndex].value =
+                    tagArray.toString();
+                }
+              }
+
+              chart.splice(removeindex, 1);
+            }
+          }
+          for (let i = 0; i < data.tags.length; i += 1) {
+            const index3 = _nodesData.findIndex(
+              (value: IDataFlowNode) => value.node_id === data.tags[i].value
+            );
+            const customEdges: IFlowchart[] = chart.filter(
+              (value: IFlowchart) => value.type.toLowerCase() === 'custom'
+            );
+
+            const edgeIndex = customEdges.findIndex(
+              (value: IFlowchart) =>
+                value.source === _selectedElement[0].id &&
+                value.target === data.tags[i].value
+            );
+            if (
+              edgeIndex === -1 &&
+              data.tags[i].value.toLowerCase() !== 'select'
+            ) {
+              const connectedEdge: IFlowchart = {
+                id: generateRandomString(),
+                target: _selectedElement[0].id,
+                source: data.tags[i].value,
+                type: 'custom', // smooth edge
+                arrowHeadType: 'arrowclosed',
+              };
+              chart.push(connectedEdge);
+            }
+          }
+        }
+      }
+    }
+
+    const chartNew = chart.filter((value) => value.type !== 'custom');
+
+    const uniqueEdge = chart.filter(
+      (tag, index, array) =>
+        array.findIndex(
+          (t) =>
+            t.source === tag.source &&
+            t.target === tag.target &&
+            t.type.toLowerCase() === 'custom' &&
+            tag.type.toLowerCase() === 'custom'
+        ) === index
+    );
+    const _chartNew = [...chartNew, ...uniqueEdge];
+
+    setFlowChart(_chartNew);
+    setNodesElement(_nodesData);
+    const payload: IDataFlowPayload = {
+      name: '',
+      nodes: _nodesData,
+      flowchart: _chartNew,
+    };
+    setSelectedElement([]);
+    props.saveForm(payload);
+  };
+
+  const sendChartData = (data: IFlowchart[]) => {
+    const payload: IDataFlowPayload = {
+      flowchart: data,
+      nodes: [],
+      name: '',
+    };
+    props.updateDataFlow(payload);
+  };
+
+  const addNewNode = (data: IFlowchart[]) => {
+    const payload: IDataFlowPayload = {
+      flowchart: data,
+      nodes: [],
+      name: '',
+    };
+    props.updateDataFlow(payload);
+    setFlowChart(data);
+  };
+
+  useEffect(() => {
+    setFlowChart(props.flowChart);
+  }, [props.flowChart]);
+  useEffect(() => {
+    setConnectorData(props.connector);
+  }, [props.connector]);
+  useEffect(() => {
+    setNodesElement(props.nodesData);
+  }, [props.nodesData]);
+
+  useEffect(() => {
+    setFormStatus(false);
+  }, [props]);
+
+  return (
+    <div className="flex flex-col  flex-grow gap-10 w-screen h-screen">
+      <div className="flex flex-col absolute top-4 z-20 ">
+        {connectorData && connectorData.length && (
+          <div className="left-0">
+            <IconBar data={connectorData} />
+          </div>
+        )}
+      </div>
+      <div className=" w-screen h-screen flex flex-col flex-grow">
+        {flowChart && (
+          <div className="h-screen">
+            <ChartBox
+              data={flowChart}
+              sendChartData={sendChartData}
+              elementClicked={elementClicked}
+              addNewNode={addNewNode}
+            />
+          </div>
+        )}
+      </div>
+      <div className="absolute w-96 right-0 top-0  z-20 h-screen">
+        {formStatus && (
+          <div
+            className="w-full flex flex-col flex-grow"
+            style={{ backgroundColor: theme.palette.background.default }}
+          >
+            {selectedElement &&
+              selectedElement?.length &&
+              (selectedElement[0]?.type.toLowerCase() === 'input' ||
+                selectedElement[0].type.toLowerCase() === 'store' ||
+                selectedElement[0]?.type.toLowerCase() === 'output') && (
+                <AddPipeline
+                  sendFormData={saveFormData}
+                  defaultValues={defaultValues}
+                  defaultOptions={defaultOptions}
+                />
+              )}
+            {selectedElement &&
+              selectedElement?.length &&
+              selectedElement[0]?.type.toLowerCase() === 'transform' && (
+                <AddTransform2
+                  sendFormData={saveFormData}
+                  defaultValues={defaultValues}
+                  defaultOptions={defaultOptions}
+                />
+              )}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default FlowChart2;

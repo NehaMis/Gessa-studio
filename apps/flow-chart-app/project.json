@@ -1,0 +1,73 @@
+{
+  "root": "apps/flow-chart-app",
+  "sourceRoot": "apps/flow-chart-app/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/web:build",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "outputPath": "dist/apps/flow-chart-app",
+        "index": "apps/flow-chart-app/src/index.html",
+        "baseHref": "/",
+        "main": "apps/flow-chart-app/src/main.tsx",
+        "polyfills": "apps/flow-chart-app/src/polyfills.ts",
+        "tsConfig": "apps/flow-chart-app/tsconfig.app.json",
+        "assets": [
+          "apps/flow-chart-app/src/favicon.ico",
+          "apps/flow-chart-app/src/assets"
+        ],
+        "styles": ["apps/flow-chart-app/src/assets/fonts/icomoon/style.css"],
+        "scripts": [],
+        "webpackConfig": "apps/flow-chart-app/webpack.config.js"
+      },
+      "configurations": {
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "apps/flow-chart-app/src/environments/environment.ts",
+              "with": "apps/flow-chart-app/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/web:dev-server",
+      "options": {
+        "buildTarget": "flow-chart-app:build",
+        "hmr": true,
+        "port": 4201
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "flow-chart-app:build:production",
+          "hmr": false
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/flow-chart-app/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/flow-chart-app"],
+      "options": {
+        "jestConfig": "apps/flow-chart-app/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

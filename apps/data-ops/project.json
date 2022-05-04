@@ -1,0 +1,71 @@
+{
+  "root": "apps/data-ops",
+  "sourceRoot": "apps/data-ops/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/web:build",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "runtimeChunk": false,
+        "outputPath": "dist/apps/data-ops",
+        "index": "apps/data-ops/src/index.html",
+        "baseHref": "/",
+        "main": "apps/data-ops/src/main.tsx",
+        "polyfills": "apps/data-ops/src/polyfills.ts",
+        "tsConfig": "apps/data-ops/tsconfig.app.json",
+        "assets": ["apps/data-ops/src/favicon.ico", "apps/data-ops/src/assets"],
+        "styles": [],
+        "scripts": [],
+        "webpackConfig": "@nrwl/react/plugins/webpack"
+      },
+      "configurations": {
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "apps/data-ops/src/environments/environment.ts",
+              "with": "apps/data-ops/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/web:dev-server",
+      "options": {
+        "buildTarget": "data-ops:build",
+        "hmr": true,
+        "port": 4201
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "data-ops:build:production",
+          "hmr": false
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/data-ops/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/data-ops"],
+      "options": {
+        "jestConfig": "apps/data-ops/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}
