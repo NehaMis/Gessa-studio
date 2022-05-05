@@ -27,6 +27,7 @@ function AddReport(props: AddReportType) {
         marginTop: theme.spacing(1),
       },
       "& .MuiInputBase-input": {
+        fontFamily:'Roboto',
         paddingLeft: '12px',
         paddingTop:'10px',
         paddingBottom:'10px',
