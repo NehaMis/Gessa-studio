@@ -37,14 +37,16 @@ function Filter(props: FilterType) {
       },
       '& .MuiInputBase-input': {
         fontFamily:'Roboto',
-        padding: '12px',
+        paddingLeft: '12px',
+        paddingTop:'10px',
+        paddingBottom:'10px',
         borderRadius: 4,
         position: 'relative',
         backgroundColor: theme.palette.custom.inputComponentBg,
         fontWeight: '400',
         fontSize: '14px',
         lineHeight: '20px',
-        height:'28px',
+        // height:'28px',
         //   padding: '10px 12px',
       },
     })),
@@ -103,6 +105,18 @@ function Filter(props: FilterType) {
           height: '106px',
         },
 
+        '.filter_SelectAndDate_frame': {
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'flex-start',
+          padding: '0px 16px',
+          height: '91px',
+
+          '& .MuiInputBase-root':{
+            height:'41px'
+          }
+        },
+
         '.filter_input_labels': {
           fontFamily: 'Roboto',
           fontStyle: 'normal',
@@ -131,6 +145,8 @@ function Filter(props: FilterType) {
           height: '64px',
           bottom: '0px',
           gap: '10px',
+          position:'absolute',
+          width:'100%',
 
           '.btn_cancel': {
             width: '91px',
@@ -233,7 +249,7 @@ function Filter(props: FilterType) {
 
   useEffect(() => {
     if(dateValue[0]!==null && dateValue[1]!==null){
-      console.log("In Use Effect", dateValue[0])
+      // console.log("In Use Effect", dateValue[0])
       setFilterData({
         ...filterData,
         created_on: {
@@ -265,6 +281,7 @@ function Filter(props: FilterType) {
               p: '2px 4px',
               display: 'flex',
               alignItems: 'center',
+              height:41,
               width: 328,
             }}
           >
@@ -302,7 +319,7 @@ function Filter(props: FilterType) {
         {errors && filterData.report_name==""?<Typography sx={{color:'red', lineHeight:'1rem'}}>Please Add Report Name</Typography>:null}
       </Box>
 
-      <Box className="filter_input_frame">
+      <Box className="filter_SelectAndDate_frame">
         <MultipleSelectChip
           onChange={handleFilterSchemaData}
           width={328}
@@ -312,7 +329,7 @@ function Filter(props: FilterType) {
         {errors && filterData.select_schema.length==0?<Typography sx={{color:'red'}}>Please Select Schema</Typography>:null}
       </Box>
 
-      <Box className="filter_input_frame">
+      <Box className="filter_SelectAndDate_frame">
         <MultipleSelectChip
           onChange={handleFilterCreatedByData}
           width={328}
@@ -322,7 +339,7 @@ function Filter(props: FilterType) {
         {errors && filterData.created_by.length==0?<Typography sx={{color:'red'}}>Please Select Created By</Typography>:null}
       </Box>
 
-      <Box className="filter_input_frame">
+      <Box className="filter_SelectAndDate_frame" sx={{justifyContent:'space-evenly'}}>
         <InputLabel
           htmlFor="date-picker"
           sx={{ color:themes.palette.custom.sideBarText2, fontFamily:'Roboto', fontSize: 14, fontWeight: 600, bottom: 10 }}

@@ -27,7 +27,9 @@ function AddReport(props: AddReportType) {
         marginTop: theme.spacing(1),
       },
       "& .MuiInputBase-input": {
-        padding: "12px",
+        paddingLeft: '12px',
+        paddingTop:'10px',
+        paddingBottom:'10px',
         borderRadius: 4,
         position: "relative",
         backgroundColor: theme.palette.custom.inputComponentBg,
@@ -171,6 +173,9 @@ function AddReport(props: AddReportType) {
           alignItems: "flex-start",
           height: "90px",
           left: "16px",
+          '& .MuiInputBase-root':{
+            height:'41px'
+          }
         },
       };
     }),
@@ -272,7 +277,7 @@ function AddReport(props: AddReportType) {
           name="def"
           // error={errors && data.def==""?true:false}
           placeholder="Enter Definition"
-          minRows={5}
+          minRows={4}
           multiline={true}
           fullWidth={true}
           id="defination"
@@ -310,7 +315,7 @@ function AddReport(props: AddReportType) {
         <AddReportBootstrapInput
           name="sql"
           placeholder="Add SQL Query"
-          minRows={6}
+          minRows={5}
           multiline={true}
           fullWidth={true}
           id="sql"
