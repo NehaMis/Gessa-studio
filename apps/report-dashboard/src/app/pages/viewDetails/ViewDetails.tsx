@@ -14,9 +14,12 @@ import { sql } from '@codemirror/lang-sql';
 // import { format } from 'sql-formatter';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
+import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
+import { useNavigate } from 'react-router-dom';
 
 function ViewDetails() {
   const [validate, setValidate] = useState(true);
+  const [tableData, setTableData] = useState({});
   const [screenSize, getDimension] = useState({
     dynamicWidth: window.innerWidth,
     dynamicHeight: window.innerHeight,
@@ -27,6 +30,7 @@ function ViewDetails() {
       dynamicHeight: window.innerHeight,
     });
   };
+  const history = useNavigate();
 
   const {
     register,
@@ -41,7 +45,7 @@ function ViewDetails() {
     axios
       .get(process.env.NX_DATA_FLOW_BASE_URL + '/reportData')
       .then(function (response) {
-        console.log(response);
+        setTableData(response.data.result.data[0].rowData);
       });
   }, []);
 
@@ -58,6 +62,12 @@ function ViewDetails() {
       '.box': {
         width: screenSize.dynamicWidth / 2,
         padding: '6px',
+      },
+      '.viewDetails': {
+        width: screenSize.dynamicWidth,
+        paddingTop: '10px',
+        paddingLeft: '6px',
+        paddingBottom: '10px',
       },
       '.definitionBox': {
         width: screenSize.dynamicWidth,
@@ -83,7 +93,15 @@ function ViewDetails() {
 
   return (
     <Box>
-      <Typography> View Details</Typography>
+      <Box className="viewDetails">
+        <Stack direction="row" spacing={2}>
+          <KeyboardBackspaceIcon
+            cursor="pointer"
+            onClick={() => history('/')}
+          />
+          <Typography> View Details</Typography>
+        </Stack>
+      </Box>
       <Divider />
       <Stack direction="row" spacing={1}>
         <Box className="box">

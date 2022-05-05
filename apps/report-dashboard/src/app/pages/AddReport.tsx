@@ -181,6 +181,12 @@ function AddReport(props: AddReportType) {
             height: "41px",
           },
         },
+
+        '.error_notification':{
+          fontFamily: "Roboto",
+          fontSize:'12px',
+          color:'red',
+        }
       };
     }),
     []
@@ -285,7 +291,7 @@ function AddReport(props: AddReportType) {
           onChange={handleFormChange}
         />
         {errors && data.report_name == "" ? (
-          <Typography sx={{ color: "red" }}>Please Add Report Name</Typography>
+          <Typography className="error_notification">Please Add Report Name</Typography>
         ) : null}
         <Box className="report_divider"></Box>
 
@@ -305,7 +311,7 @@ function AddReport(props: AddReportType) {
           onChange={handleFormChange}
         />
         {errors && data.def == "" ? (
-          <Typography sx={{ color: "red" }}>Please Add Definition</Typography>
+          <Typography className="error_notification">Please Add Definition</Typography>
         ) : null}
         <Box className="report_divider"></Box>
 
@@ -316,10 +322,11 @@ function AddReport(props: AddReportType) {
             labelName={"Select Schema"}
             background={themes.palette.custom.inputComponentBg}
           />
-        </Box>
-        {errors && data.select_schema.length == 0 ? (
-          <Typography sx={{ color: "red" }}>Please Select Schema</Typography>
+          {errors && data.select_schema.length == 0 ? (
+          <Typography className="error_notification">Please Select Schema</Typography>
         ) : null}
+        </Box>
+        
         <Box className="report_divider"></Box>
 
         <Box className="report_query_labels">
@@ -345,10 +352,8 @@ function AddReport(props: AddReportType) {
           id="sql"
           value={data.sql}
           onChange={handleFormChange}
-        />
-        {errors && data.sql == "" ? (
-          <Typography sx={{ color: "red" }}>Please Add Sql Query</Typography>
-        ) : null} */}
+        /> */}
+        
         <CodeMirror
             value={data.sql}
             height="134px"
@@ -362,6 +367,10 @@ function AddReport(props: AddReportType) {
               _viewUpdate: any
             ) => { handleSqlChange(__value)}}
           />
+          {errors && data.sql=="" ? (
+          <Typography className="error_notification">Please Enter Query</Typography>
+        ) : null}
+          
         <Box className="report_divider"></Box>
       </Box>
       <Divider />

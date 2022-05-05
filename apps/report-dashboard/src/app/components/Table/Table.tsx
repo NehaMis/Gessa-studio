@@ -1,70 +1,70 @@
-import * as React from "react";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import Avatar from "@mui/material/Avatar";
-import Stack from "@mui/material/Stack";
-import { Box, Pagination, Typography } from "@mui/material";
-import { styled, useTheme } from "@mui/system";
-import { useNavigate } from "react-router-dom";
+import React, { useCallback, useState, useEffect } from 'react';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell, { tableCellClasses } from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import Avatar from '@mui/material/Avatar';
+import Stack from '@mui/material/Stack';
+import { Box, Pagination, Typography } from '@mui/material';
+import { styled } from '@mui/system';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 function createData(name: string, createdBy: any, createdOn: any) {
   return { name, createdBy, createdOn };
 }
 
-const rows = [
-  createData(
-    "Report 1",
-    <Stack direction="row" spacing={2}>
-      <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-      <Typography> Remy Sharp</Typography>
-    </Stack>,
-    6.0
-  ),
-  createData(
-    "Report 2",
-    <Stack direction="row" spacing={2}>
-      <Avatar alt="Travis Howard" src="/static/images/avatar/1.jpg" />
-      <Typography>Travis Howard</Typography>
-    </Stack>,
-    9.0
-  ),
-  createData(
-    "Report 3",
-    <Stack direction="row" spacing={2}>
-      <Avatar alt="Cindy Baker" src="/static/images/avatar/1.jpg" />
-      <Typography> Cindy Baker</Typography>
-    </Stack>,
-    16.0
-  ),
-];
-const columnHeader = ["Name", "Created By", "Created On"];
+const columnHeader = ['Name', 'Created By', 'Created On'];
 
 export default function BasicTable() {
-  const history = useNavigate();
-  const themes = useTheme();
+  const [tableData, setTableData] = useState([]);
 
+  useEffect(() => {
+    axios
+      .get(process.env.NX_DATA_FLOW_BASE_URL + '/reportData')
+      .then(function (response) {
+        setTableData(response.data.result.data[0].rowData);
+      });
+  }, []);
   const [page, setPage] = React.useState(1);
 
   const handlePageChange = (event?:any, value?:any) => {
     setPage(value)
   };
+  const rows =
+    tableData &&
+    tableData.map((row: any) => {
+      return createData(row?.details?.name, row.createdBy, row.cretaedOn);
+    });
 
-  const StyledTableRow = styled(TableRow)(({ theme }) => ({
-    "&:nth-of-type(even)": {
-      backgroundColor: theme.palette.custom.dashboardTableRowBg,
+  const history = useNavigate();
+  const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+      backgroundColor: theme.palette.common.black,
+      color: theme.palette.common.white,
     },
-    // hide last border
-    "&:last-child td, &:last-child th": {
-      // border: 0,
+    [`&.${tableCellClasses.body}`]: {
+      fontSize: 14,
+      cursor: 'pointer',
     },
   }));
 
-  const StyledPagination = styled(Box)(({ theme }) => ({
+  const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    '&:nth-of-type(odd)': {
+      backgroundColor: theme.palette.action.hover,
+    },
+    // "&:nth-of-type(even)": {
+    //   backgroundColor: theme.palette.custom.dashboardTableRowBg,
+    // },
+    // hide last border
+    '&:last-child td, &:last-child th': {
+      border: 0,
+    },
+  }));
+    const StyledPagination = styled(Box)(({ theme }) => ({
     display:'flex',
     position:'fixed',
     bottom:'0px',
@@ -79,38 +79,40 @@ export default function BasicTable() {
   }));
 
   return (
-    <>
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead
-            style={{
-              backgroundColor: themes.palette.mode === "dark" ? "#121212" : "",
-            }}
-          >
-            <TableRow>
-              {columnHeader.map((cell) => {
-                return <TableCell key={cell}>{cell}</TableCell>;
-              })}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.map((row) => (
+<>
+<TableContainer component={Paper}>
+      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <TableHead style={{ backgroundColor: '#121212' }}>
+          <StyledTableRow>
+            {columnHeader.map((cell) => {
+              return <StyledTableCell>{cell}</StyledTableCell>;
+            })}
+          </StyledTableRow>
+        </TableHead>
+        <TableBody>
+          {rows &&
+            rows.map((row) => (
               <StyledTableRow
-                onClick={() => history("/details")}
+                onClick={() => history('/details')}
                 key={row.name}
-                // sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
-                <TableCell component="th" scope="row">
+                <StyledTableCell component="th" scope="row">
                   {row.name}
-                </TableCell>
-                <TableCell>{row.createdBy}</TableCell>
-                <TableCell>{row.createdOn}</TableCell>
+                </StyledTableCell>
+                <StyledTableCell>
+                  <Stack direction="row" spacing={2}>
+                    <Avatar alt={row.createdBy} />
+                    <Typography>{row.createdBy}</Typography>
+                  </Stack>
+                </StyledTableCell>
+                <StyledTableCell>{row.createdOn}</StyledTableCell>
               </StyledTableRow>
             ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <StyledPagination>
+        </TableBody>
+      </Table>
+    </TableContainer>
+    <StyledPagination>
         <Box>
           <Pagination count={4} page={page} size="small" shape="rounded" onChange={handlePageChange}/>
         </Box>

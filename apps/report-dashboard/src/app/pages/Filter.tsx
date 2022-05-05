@@ -137,6 +137,13 @@ function Filter(props: FilterType) {
           // marginTop: '15px',
         },
 
+        '.error_notification':{
+          fontFamily: "Roboto",
+          fontSize:'12px',
+          color:'red',
+          lineHeight:'1rem'
+        },
+
         '.filter_footer': {
           display: 'flex',
           flexDirection: 'row',
@@ -316,7 +323,7 @@ function Filter(props: FilterType) {
           value={filterData.report_name}
           onChange={handleFilterInputData}
         />
-        {errors && filterData.report_name==""?<Typography sx={{color:'red', lineHeight:'1rem'}}>Please Add Report Name</Typography>:null}
+        {errors && filterData.report_name==""?<Typography className="error_notification">Please Add Report Name</Typography>:null}
       </Box>
 
       <Box className="filter_SelectAndDate_frame">
@@ -326,7 +333,7 @@ function Filter(props: FilterType) {
           labelName={'Select Schema'}
           background={themes.palette.custom.inputComponentBg}
         />
-        {errors && filterData.select_schema.length==0?<Typography sx={{color:'red'}}>Please Select Schema</Typography>:null}
+        {errors && filterData.select_schema.length==0?<Typography className="error_notification">Please Select Schema</Typography>:null}
       </Box>
 
       <Box className="filter_SelectAndDate_frame">
@@ -336,7 +343,7 @@ function Filter(props: FilterType) {
           labelName={'Created By'}
           background={themes.palette.custom.inputComponentBg}
         />
-        {errors && filterData.created_by.length==0?<Typography sx={{color:'red'}}>Please Select Created By</Typography>:null}
+        {errors && filterData.created_by.length==0?<Typography className="error_notification">Please Select Created By</Typography>:null}
       </Box>
 
       <Box className="filter_SelectAndDate_frame" sx={{justifyContent:'space-evenly'}}>
@@ -347,7 +354,7 @@ function Filter(props: FilterType) {
           Created On
         </InputLabel>
 
-        <LocalizationProvider dateAdapter={AdapterDateFns}>
+        {/* <LocalizationProvider dateAdapter={AdapterDateFns}>
           <Stack spacing={0}>
             <DesktopDateRangePicker
               startText="From"
@@ -366,7 +373,7 @@ function Filter(props: FilterType) {
             />
           </Stack>
         </LocalizationProvider>
-        {errors && filterData.created_on.from==''?<Typography sx={{color:'red'}}>Please Select Date Range</Typography>:null}
+        {errors && filterData.created_on.from==''?<Typography className="error_notification">Please Select Date Range</Typography>:null} */}
       </Box>
 
       <Box className="filter_footer">
