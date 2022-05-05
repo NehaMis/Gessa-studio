@@ -9,13 +9,11 @@ import {
   Chip,
 } from '@mui/material';
 import { styled } from '@mui/system';
-// import CodeMirror from '@uiw/react-codemirror';
-// import { sql } from '@codemirror/lang-sql';
+import CodeMirror from '@uiw/react-codemirror';
+import { sql } from '@codemirror/lang-sql';
 // import { format } from 'sql-formatter';
 import { useForm } from 'react-hook-form';
-// import CodeMirror from '@uiw/react-codemirror';
-// import { sql } from '@codemirror/lang-sql';
-// import { javascript } from '@codemirror/lang-javascript';
+import axios from 'axios';
 
 function ViewDetails() {
   const [validate, setValidate] = useState(true);
@@ -38,6 +36,14 @@ function ViewDetails() {
     setValue,
     formState: { errors },
   } = useForm();
+
+  useEffect(() => {
+    axios
+      .get(process.env.NX_DATA_FLOW_BASE_URL + '/reportData')
+      .then(function (response) {
+        console.log(response);
+      });
+  }, []);
 
   useEffect(() => {
     window.addEventListener('resize', setDimension);
@@ -74,6 +80,7 @@ function ViewDetails() {
     })),
     []
   );
+
   return (
     <Box>
       <Typography> View Details</Typography>
@@ -109,12 +116,17 @@ function ViewDetails() {
         </Stack>
 
         <Box className="sqlBox">
-          {/* <CodeMirror
+          <CodeMirror
             value={"SUBSTRING(`Column`, ' ', 2)"}
-            height="200px"
+            height="170px"
+            indentWithTab={true}
+            theme={'dark'}
             extensions={[sql()]}
-            onChange={(value, viewUpdate) => {}}
-          /> */}
+            onChange={(
+              __value: any,
+              _viewUpdate: any /* TODO document why this arrow function is empty */
+            ) => {}}
+          />
         </Box>
       </Box>
     </Box>
