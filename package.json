@@ -20,7 +20,7 @@
   "private": true,
   "dependencies": {
     "@babel/preset-react": "^7.16.7",
-    "@codemirror/lang-sql": "^0.19.4",
+    "@codemirror/lang-sql": "^0.20.0",
     "@emotion/react": "^11.5.0",
     "@emotion/styled": "^11.3.0",
     "@hookform/resolvers": "^2.8.3",

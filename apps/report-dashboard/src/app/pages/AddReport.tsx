@@ -10,6 +10,7 @@ import { styled, useTheme } from "@mui/system";
 import CloseIcon from "@mui/icons-material/Close";
 import MultipleSelectChip from "../components/MultipleSelectionChip";
 import React, { useCallback, useState } from "react";
+import axios from "axios";
 
 export interface AddReportType {
   width: string;
@@ -27,10 +28,10 @@ function AddReport(props: AddReportType) {
         marginTop: theme.spacing(1),
       },
       "& .MuiInputBase-input": {
-        fontFamily:'Roboto',
-        paddingLeft: '12px',
-        paddingTop:'10px',
-        paddingBottom:'10px',
+        fontFamily: "Roboto",
+        paddingLeft: "12px",
+        paddingTop: "10px",
+        paddingBottom: "10px",
         borderRadius: 4,
         position: "relative",
         backgroundColor: theme.palette.custom.inputComponentBg,
@@ -64,8 +65,8 @@ function AddReport(props: AddReportType) {
         // overflowY: 'hidden',
         // overflowX: 'hidden',
 
-        '& .Mui-error':{
-          border: '1px solid red',
+        "& .Mui-error": {
+          border: "1px solid red",
         },
 
         ".report_model_header": {
@@ -174,9 +175,9 @@ function AddReport(props: AddReportType) {
           alignItems: "flex-start",
           height: "90px",
           left: "16px",
-          '& .MuiInputBase-root':{
-            height:'41px'
-          }
+          "& .MuiInputBase-root": {
+            height: "41px",
+          },
         },
       };
     }),
@@ -223,22 +224,29 @@ function AddReport(props: AddReportType) {
     });
   };
 
-  const checkAllDataFilled =()=>{
-    if(isDataFilled && data.select_schema.length > 0){
+  const checkAllDataFilled = () => {
+    if (isDataFilled && data.select_schema.length > 0) {
       return true;
-    }else{
-      return false
+    } else {
+      return false;
     }
-  }
-  
+  };
+
   const handleSave = () => {
     if (checkAllDataFilled()) {
+      axios
+        .post(process.env.NX_DATA_FLOW_BASE_URL + "/addReport", data)
+        .then(function (response) {
+          console.log(response);
+        });
+
       props.setSnackBarArgs({
         open: true,
+        message: "Report Added Successfully",
       });
       props.onClose();
     } else {
-      setErrors(true)
+      setErrors(true);
     }
   };
 
@@ -267,7 +275,9 @@ function AddReport(props: AddReportType) {
           value={data.report_name}
           onChange={handleFormChange}
         />
-        {errors && data.report_name==""?<Typography sx={{color:'red'}}>Please Add Report Name</Typography>:null}
+        {errors && data.report_name == "" ? (
+          <Typography sx={{ color: "red" }}>Please Add Report Name</Typography>
+        ) : null}
         <Box className="report_divider"></Box>
 
         <InputLabel htmlFor="defination" className="report_input_labels">
@@ -285,7 +295,9 @@ function AddReport(props: AddReportType) {
           value={data.def}
           onChange={handleFormChange}
         />
-        {errors && data.def==""?<Typography sx={{color:'red'}}>Please Add Definition</Typography>:null}
+        {errors && data.def == "" ? (
+          <Typography sx={{ color: "red" }}>Please Add Definition</Typography>
+        ) : null}
         <Box className="report_divider"></Box>
 
         <Box className="report_input_frame">
@@ -296,7 +308,9 @@ function AddReport(props: AddReportType) {
             background={themes.palette.custom.inputComponentBg}
           />
         </Box>
-        {errors && data.select_schema.length==0?<Typography sx={{color:'red'}}>Please Select Schema</Typography>:null}
+        {errors && data.select_schema.length == 0 ? (
+          <Typography sx={{ color: "red" }}>Please Select Schema</Typography>
+        ) : null}
         <Box className="report_divider"></Box>
 
         <Box className="report_query_labels">
@@ -323,7 +337,9 @@ function AddReport(props: AddReportType) {
           value={data.sql}
           onChange={handleFormChange}
         />
-        {errors && data.sql==""?<Typography sx={{color:'red'}}>Please Add Sql Query</Typography>:null}
+        {errors && data.sql == "" ? (
+          <Typography sx={{ color: "red" }}>Please Add Sql Query</Typography>
+        ) : null}
         <Box className="report_divider"></Box>
       </Box>
       <Divider />

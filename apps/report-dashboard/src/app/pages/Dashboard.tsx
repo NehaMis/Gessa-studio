@@ -64,7 +64,7 @@ function Dashboard() {
     autoHideDuraton: 6000,
     type: 'success',
     anchorOrigin: { vertical: 'top', horizontal: 'right' },
-    message: 'The Report Added Successfully',
+    message: '',
     onCloseFunc: handleSnackbarClose,
     actions: [
       {
