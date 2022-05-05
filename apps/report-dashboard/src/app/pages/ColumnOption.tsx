@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { Box, Button, Divider, Typography } from '@mui/material';
 import React, { useCallback, useState } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
-import Transfer, { TransferProps } from '../components/Transfer/Transfer';
+import Transfer, {TransferProps} from '../components/TransferComponent/Transfer';
 import { useTheme } from '@mui/system';
 
 function ColumnOption(props: any) {
