@@ -38,7 +38,6 @@ mock
 mock
   .onPost(new RegExp(process.env.NX_DATA_FLOW_BASE_URL + '/addReport'))
   .reply((request) => {
-    console.log("Request =", request)
     let newData = JSON.parse(request.data);
     newData = {
       ...newData,

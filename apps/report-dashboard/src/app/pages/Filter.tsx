@@ -140,7 +140,7 @@ function Filter(props: FilterType) {
         '.error_notification':{
           fontFamily: "Roboto",
           fontSize:'12px',
-          color:'red',
+          color:theme.palette.custom.errorMsg,
           lineHeight:'1rem'
         },
 

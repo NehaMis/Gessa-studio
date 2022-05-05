@@ -24,10 +24,12 @@ function Dashboard() {
         height: '49px',
       },
       '.dashboard_report_heading': {
+        fontFamily:'Roboto',
         position: 'relative',
         fontWeight: '700',
         fontSize: '14px',
         fontHeight: '20px',
+        color:theme.palette.custom.sideBarText2,
       },
       '.dashboard_button_pannel': {
         display: 'flex',

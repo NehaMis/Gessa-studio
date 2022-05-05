@@ -39,6 +39,8 @@ const dark: IThemePalette = {
     sideBarText1:'#BDBDBD',
     sideBarText2:'#FFFFFF',
 
+    errorMsg:'#FF0000',
+
     inputComponentBg:'#2B2B2B',
 
     dashboardTableRowBg:'#121212'

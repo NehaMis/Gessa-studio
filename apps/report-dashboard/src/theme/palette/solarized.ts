@@ -33,7 +33,11 @@ const solarized: IThemePalette = {
     sideBarText1:'#BDBDBD',
     sideBarText2:'#FFFFFF',
 
+    errorMsg:'#FF0000',
+
     inputComponentBg:'#2E3F57',
+
+    dashboardTableRowBg:'#181818',
   },
 };
 

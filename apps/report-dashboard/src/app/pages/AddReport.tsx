@@ -185,7 +185,7 @@ function AddReport(props: AddReportType) {
         '.error_notification':{
           fontFamily: "Roboto",
           fontSize:'12px',
-          color:'red',
+          color:theme.palette.custom.errorMsg,
         }
       };
     }),
@@ -252,7 +252,7 @@ function AddReport(props: AddReportType) {
       axios
         .post(process.env.NX_DATA_FLOW_BASE_URL + "/addReport", data)
         .then(function (response) {
-          console.log(response);
+          // console.log(response);
         });
 
       props.setSnackBarArgs({
