@@ -10,6 +10,8 @@ import { styled, useTheme } from "@mui/system";
 import CloseIcon from "@mui/icons-material/Close";
 import MultipleSelectChip from "../components/MultipleSelectionChip";
 import React, { useCallback, useState } from "react";
+import CodeMirror from '@uiw/react-codemirror';
+import { sql } from '@codemirror/lang-sql';
 import axios from "axios";
 
 export interface AddReportType {
@@ -224,6 +226,13 @@ function AddReport(props: AddReportType) {
     });
   };
 
+  const handleSqlChange=(value:any)=>{
+    setData({
+      ...data,
+      sql: value,
+    });
+  }
+
   const checkAllDataFilled = () => {
     if (isDataFilled && data.select_schema.length > 0) {
       return true;
@@ -327,7 +336,7 @@ function AddReport(props: AddReportType) {
           </Box>
         </Box>
 
-        <AddReportBootstrapInput
+        {/* <AddReportBootstrapInput
           name="sql"
           placeholder="Add SQL Query"
           minRows={5}
@@ -339,7 +348,20 @@ function AddReport(props: AddReportType) {
         />
         {errors && data.sql == "" ? (
           <Typography sx={{ color: "red" }}>Please Add Sql Query</Typography>
-        ) : null}
+        ) : null} */}
+        <CodeMirror
+            value={data.sql}
+            height="134px"
+            width="525px"
+            // maxWidth={`calc(100% - 0px)`}
+            indentWithTab={true}
+            theme={'dark'}
+            extensions={[sql()]}
+            onChange={(
+              __value: any,
+              _viewUpdate: any
+            ) => { handleSqlChange(__value)}}
+          />
         <Box className="report_divider"></Box>
       </Box>
       <Divider />
