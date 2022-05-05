@@ -55,7 +55,7 @@ function SideMenu(props: SideMenuType) {
           />
         )}
         {props.menuComponent === 'filter' && (
-          <Filter width={props?.width} onClose={props.onClose} />
+          <Filter setSnackBarArgs={props.setSnackBarArgs} snackBarArgs={props.snackBarArgs} width={props?.width} onClose={props.onClose} />
         )}
       </Box>
     </StyledSideMenu>

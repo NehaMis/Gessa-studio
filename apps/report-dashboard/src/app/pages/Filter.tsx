@@ -22,6 +22,8 @@ import { DateRange } from '@mui/x-date-pickers-pro/DateRangePicker';
 
 export interface FilterType {
   width: string;
+  snackBarArgs: any;
+  setSnackBarArgs: (data: any) => void;
   onClose: () => void;
 }
 
@@ -180,6 +182,8 @@ function Filter(props: FilterType) {
     },
   });
 
+  const [errors, setErrors]= useState(false);
+
   const isDataFilled = () => {
     if (
       filterData.select_schema.length > 0 ||
@@ -216,7 +220,15 @@ function Filter(props: FilterType) {
   };
 
   const handleSave = () => {
-    console.log(filterData);
+    if (isDataFilled()) {
+      props.setSnackBarArgs({
+        open: true,
+      });
+      props.onClose();
+      // console.log(filterData);
+    } else {
+      setErrors(true)
+    }
   };
 
   useEffect(() => {
@@ -287,6 +299,7 @@ function Filter(props: FilterType) {
           value={filterData.report_name}
           onChange={handleFilterInputData}
         />
+        {errors && filterData.report_name==""?<Typography sx={{color:'red', lineHeight:'1rem'}}>Please Add Report Name</Typography>:null}
       </Box>
 
       <Box className="filter_input_frame">
@@ -296,6 +309,7 @@ function Filter(props: FilterType) {
           labelName={'Select Schema'}
           background={themes.palette.custom.inputComponentBg}
         />
+        {errors && filterData.select_schema.length==0?<Typography sx={{color:'red'}}>Please Select Schema</Typography>:null}
       </Box>
 
       <Box className="filter_input_frame">
@@ -305,6 +319,7 @@ function Filter(props: FilterType) {
           labelName={'Created By'}
           background={themes.palette.custom.inputComponentBg}
         />
+        {errors && filterData.created_by.length==0?<Typography sx={{color:'red'}}>Please Select Created By</Typography>:null}
       </Box>
 
       <Box className="filter_input_frame">
@@ -334,6 +349,7 @@ function Filter(props: FilterType) {
             />
           </Stack>
         </LocalizationProvider>
+        {errors && filterData.created_on.from==''?<Typography sx={{color:'red'}}>Please Select Date Range</Typography>:null}
       </Box>
 
       <Box className="filter_footer">
@@ -351,7 +367,7 @@ function Filter(props: FilterType) {
           variant="contained"
           color="info"
           onClick={() => handleSave()}
-          disabled={isDataFilled() ? false : true}
+          // disabled={isDataFilled() ? false : true}
         >
           Save
         </Button>
