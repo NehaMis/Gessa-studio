@@ -354,7 +354,7 @@ function Filter(props: FilterType) {
           Created On
         </InputLabel>
 
-        {/* <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
           <Stack spacing={0}>
             <DesktopDateRangePicker
               startText="From"
@@ -373,7 +373,7 @@ function Filter(props: FilterType) {
             />
           </Stack>
         </LocalizationProvider>
-        {errors && filterData.created_on.from==''?<Typography className="error_notification">Please Select Date Range</Typography>:null} */}
+        {errors && filterData.created_on.from==''?<Typography className="error_notification">Please Select Date Range</Typography>:null}
       </Box>
 
       <Box className="filter_footer">

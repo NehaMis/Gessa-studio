@@ -38,6 +38,7 @@ const solarized: IThemePalette = {
     inputComponentBg:'#2E3F57',
 
     dashboardTableRowBg:'#181818',
+    tablePaginationBg: '#1890FF',
   },
 };
 

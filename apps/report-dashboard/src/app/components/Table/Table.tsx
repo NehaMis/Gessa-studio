@@ -90,7 +90,7 @@ export default function BasicTable() {
     alignItems: "center",
 
     "& .css-j5ntxn-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected": {
-      backgroundColor: "#1890FF",
+      backgroundColor: theme.palette.custom.tablePaginationBg,
     },
   }));
 
@@ -98,7 +98,7 @@ export default function BasicTable() {
     <>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead style={{ backgroundColor: "#121212" }}>
+          <TableHead>
             <StyledTableRow>
               {columnHeader.map((cell) => {
                 return <StyledTableCell key={cell}>{cell}</StyledTableCell>;
@@ -109,7 +109,7 @@ export default function BasicTable() {
             {rows &&
               rows.map((row) => (
                 <StyledTableRow
-                  onClick={() => history("/details")}
+                  onClick={() => history("/details",/*{ state: row?.details }*/)}
                   key={row.name}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >

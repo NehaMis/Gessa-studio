@@ -43,7 +43,8 @@ const dark: IThemePalette = {
 
     inputComponentBg:'#2B2B2B',
 
-    dashboardTableRowBg:'#121212'
+    dashboardTableRowBg:'#121212',
+    tablePaginationBg: '#1890FF',
   },
 };
 

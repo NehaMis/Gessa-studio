@@ -256,6 +256,7 @@ function AddReport(props: AddReportType) {
         });
 
       props.setSnackBarArgs({
+        ...props.snackBarArgs,
         open: true,
         message: "Report Added Successfully",
       });
