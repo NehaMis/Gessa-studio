@@ -37,7 +37,7 @@ export default function BasicTable() {
   const rows =
     tableData &&
     tableData.map((row: any) => {
-      return createData(row?.details?.name, row.createdBy, row.cretaedOn);
+      return createData(row?.details?.name, row.createdBy, row.cretaedOn),row;
     });
 
   const history = useNavigate();
@@ -46,7 +46,7 @@ export default function BasicTable() {
       [`&.${tableCellClasses.head}`]: {
         fontStyle:'normal',
         fontFamily:'Roboto',
-        backgroundColor: theme.palette.custom.dashboardTableRowBg,
+        backgroundColor: theme.palette.custom.dashboardTableHeadBg,
         color: theme.palette.primary[900],
         fontWeight:700,
         fontSize:'12px'
@@ -68,10 +68,10 @@ export default function BasicTable() {
   });
 
   const StyledTableRow = styled(TableRow)(({ theme }) => ({
-    // "&:nth-of-type(odd)": {
-    //   backgroundColor: theme.palette.action.hover,
-    // },
     "&:nth-of-type(even)": {
+      backgroundColor: theme.palette.custom.dashboardTableHeadBg,
+    },
+    "&:nth-of-type(odd)": {
       backgroundColor: theme.palette.custom.dashboardTableRowBg,
     },
     // hide last border
@@ -109,7 +109,7 @@ export default function BasicTable() {
             {rows &&
               rows.map((row) => (
                 <StyledTableRow
-                  onClick={() => history("/details",/*{ state: row?.details }*/)}
+                  onClick={() => history("/details",{ state: row?.details })}
                   key={row.name}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >

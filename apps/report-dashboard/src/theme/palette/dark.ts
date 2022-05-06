@@ -39,12 +39,18 @@ const dark: IThemePalette = {
     sideBarText1:'#BDBDBD',
     sideBarText2:'#FFFFFF',
 
+    dropDownChip:'#57B4AA',
+
     errorMsg:'#FF0000',
+    successMsg:'#52C41A',
 
     inputComponentBg:'#2B2B2B',
 
-    dashboardTableRowBg:'#121212',
+    dashboardTableHeadBg:'#121212',
+    dashboardTableRowBg:'#242424',
+
     tablePaginationBg: '#1890FF',
+    btnDeleteColor:'#FFFFFF',
   },
 };
 

@@ -6,7 +6,7 @@ import themes, { ITheme, ThemeContextType } from '../theme';
 export const ThemeContext = React.createContext<ThemeContextType | null>(null);
 
 export const ThemeProvider: React.FC<React.ReactNode> = ({ children }) => {
-  const [theme, setTheme] = React.useState<Theme>(createTheme(themes.dark));
+  const [theme, setTheme] = React.useState<Theme>(createTheme(themes.light));
 
   const changeTheme = (theme: ITheme) => {
     setTheme(createTheme(theme));

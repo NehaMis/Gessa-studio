@@ -10,7 +10,7 @@ import {
   Pagination,
   Button,
 } from '@mui/material';
-import { styled } from '@mui/system';
+import { styled, useTheme } from '@mui/system';
 import CodeMirror from '@uiw/react-codemirror';
 import { sql } from '@codemirror/lang-sql';
 // import { format } from 'sql-formatter';
@@ -47,6 +47,8 @@ function ViewDetails(props: any) {
   const [testQuery, setTestQuery] = useState(false);
   const [tableData, setTableData] = useState([]);
   const [query, setQuery] = useState('');
+  const themes=useTheme();
+
   const [screenSize, getDimension] = useState({
     dynamicWidth: window.innerWidth,
     dynamicHeight: window.innerHeight,
@@ -102,7 +104,7 @@ function ViewDetails(props: any) {
     [`&.${tableCellClasses.head}`]: {
       fontStyle: 'normal',
       fontFamily: 'Roboto',
-      backgroundColor: theme.palette.custom.dashboardTableRowBg,
+      backgroundColor: theme.palette.custom.dashboardTableHeadBg,
       color: theme.palette.primary[900],
       fontWeight: 700,
       fontSize: '12px',
@@ -114,11 +116,14 @@ function ViewDetails(props: any) {
   }));
 
   const StyledTableRow = styled(TableRow)(({ theme }) => ({
-    '&:nth-of-type(odd)': {
-      backgroundColor: theme.palette.action.hover,
+    "&:nth-of-type(even)": {
+      backgroundColor: theme.palette.custom.dashboardTableHeadBg,
+    },
+    "&:nth-of-type(odd)": {
+      backgroundColor: theme.palette.custom.dashboardTableRowBg,
     },
     // hide last border
-    '&:last-child td, &:last-child th': {
+    "&:last-child td, &:last-child th": {
       border: 0,
     },
   }));
@@ -131,7 +136,7 @@ function ViewDetails(props: any) {
     alignItems: 'center',
 
     '& .css-j5ntxn-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected': {
-      backgroundColor: '#1890FF',
+      backgroundColor: theme.palette.custom.tablePaginationBg,
     },
   }));
 
@@ -160,7 +165,7 @@ function ViewDetails(props: any) {
         fontWeight: 400,
         fontSize: ' 14px',
         lineHeight: '20px',
-        color: '#BDBDBD',
+        color: theme.palette.custom.sideBarText1,
       },
       '.name': {
         fontFamily: 'Inter',
@@ -168,7 +173,7 @@ function ViewDetails(props: any) {
         fontWeight: 600,
         fontSize: ' 16px',
         lineHeight: '20px',
-        color: ' #FFFFFF',
+        color: theme.palette.custom.sideBarText2,
       },
       '.chip': {
         fontFamily: 'Roboto',
@@ -176,8 +181,8 @@ function ViewDetails(props: any) {
         fontWeight: 400,
         fontSize: ' 14px',
         lineHeight: '20px',
-        color: '#57B4AA',
-        borderColor: '#57B4AA',
+        color: theme.palette.custom.dropDownChip,
+        borderColor: theme.palette.custom.dropDownChip,
       },
       '.definition': {
         fontFamily: 'Roboto',
@@ -185,7 +190,7 @@ function ViewDetails(props: any) {
         fontWeight: 400,
         fontSize: ' 12px',
         lineHeight: '16px',
-        color: '#BDBDBD',
+        color: theme.palette.custom.sideBarText1,
       },
       '.description': {
         fontFamily: 'Roboto',
@@ -193,7 +198,7 @@ function ViewDetails(props: any) {
         fontWeight: 400,
         fontSize: ' 14px',
         lineHeight: '20px',
-        color: '#FFFFFF',
+        color: theme.palette.custom.sideBarText2,
       },
       '.definitionBox': {
         width: screenSize.dynamicWidth,
@@ -207,7 +212,7 @@ function ViewDetails(props: any) {
         fontWeight: 400,
         fontSize: ' 12px',
         lineHeight: '16px',
-        color: '#1890FF',
+        color: theme.palette.custom.tablePaginationBg,
         cursor: 'pointer',
       },
       '.sqlBox': {
@@ -224,7 +229,7 @@ function ViewDetails(props: any) {
         fontWeight: 400,
         fontSize: ' 12px',
         lineHeight: '16px',
-        color: '#BDBDBD',
+        color: theme.palette.custom.sideBarText1,
       },
       '.message': {
         fontFamily: 'Roboto',
@@ -232,11 +237,11 @@ function ViewDetails(props: any) {
         fontWeight: 400,
         fontSize: ' 12px',
         lineHeight: '16px',
-        color: '#52C41A',
+        color: theme.palette.custom.successMsg,
       },
 
       '.checkedIcon': {
-        color: '#52C41A',
+        color: theme.palette.custom.successMsg,
         width: '13.33px',
         height: '13.33px',
         padding: '1px',
@@ -254,7 +259,7 @@ function ViewDetails(props: any) {
         fontWeight: 700,
         fontSize: ' 22px',
         lineHeight: '32px',
-        color: '#FFFFFF',
+        color: theme.palette.custom.sideBarText2,
       },
       '.card': {
         width: screenSize.dynamicWidth - 20,
@@ -276,8 +281,8 @@ function ViewDetails(props: any) {
         fontWeight: 400,
         fontSize: ' 12px',
         lineHeight: '16px',
-        color: '#FFFFFF',
-        background: ' #1890FF',
+        color: theme.palette.custom.btnDeleteColor,
+        background: theme.palette.custom.tablePaginationBg,
         borderRadius: '4px',
       },
     })),
@@ -379,7 +384,7 @@ function ViewDetails(props: any) {
             value={"SUBSTRING(`Column`, ' ', 2)"}
             height="170px"
             indentWithTab={true}
-            theme={'dark'}
+            theme={themes.palette.mode}
             extensions={[sql()]}
             onChange={(
               __value: any,
@@ -460,7 +465,7 @@ function ViewDetails(props: any) {
           bottom: '0px',
           position: 'fixed',
           width: '99.9%',
-          background: 'black',
+          // background: 'black',
           justifyContent: 'flex-end',
           height: '48px',
           alignItems: 'center',

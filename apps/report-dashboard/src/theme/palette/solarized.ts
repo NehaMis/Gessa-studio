@@ -33,12 +33,18 @@ const solarized: IThemePalette = {
     sideBarText1:'#BDBDBD',
     sideBarText2:'#FFFFFF',
 
+    dropDownChip:'#57B4AA',
+
     errorMsg:'#FF0000',
+    successMsg:'#52C41A',
 
     inputComponentBg:'#2E3F57',
 
-    dashboardTableRowBg:'#181818',
+    dashboardTableHeadBg:'#1B2A3F',
+    dashboardTableRowBg:'#2E3F57',
+
     tablePaginationBg: '#1890FF',
+    btnDeleteColor:'#FFFFFF',
   },
 };
 

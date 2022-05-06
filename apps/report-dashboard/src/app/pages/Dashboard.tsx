@@ -1,54 +1,57 @@
-import { styled } from '@mui/system';
-import { IconButton, Icon, Box, Divider, Typography } from '@mui/material';
-import { Add } from '@mui/icons-material';
-import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
-import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined';
-import React, { useState } from 'react';
-import SideMenu from '../components/SideMenu';
-import Snackbar, { SnackbarProps } from '../components/Snackbar/snackbar';
-import ColumnOption from './ColumnOption';
-import Table from '../components/Table/Table';
+import { styled } from "@mui/system";
+import { IconButton, Icon, Box, Divider, Typography } from "@mui/material";
+import { Add } from "@mui/icons-material";
+import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
+import TuneOutlinedIcon from "@mui/icons-material/TuneOutlined";
+import React, { useState } from "react";
+import SideMenu from "../components/SideMenu";
+import Snackbar, { SnackbarProps } from "../components/Snackbar/snackbar";
+import ColumnOption from "./ColumnOption";
+import Table from "../components/Table/Table";
 
 function Dashboard() {
-
   const [isColumnOptionOpen, setIsColumnOptionOpen] = useState(false);
 
-  const StyledDashboard = styled('div')(({ theme }) => {
+  const StyledDashboard = styled("div")(({ theme }) => {
     return {
-      '.dashboard_model_header': {
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        padding: '0px 16px',
-        height: '49px',
+      ".dashboard_model_header": {
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+        padding: "0px 16px",
+        height: "49px",
       },
-      '.dashboard_report_heading': {
-        fontFamily:'Roboto',
-        position: 'relative',
-        fontWeight: '700',
-        fontSize: '14px',
-        fontHeight: '20px',
-        color:theme.palette.custom.sideBarText2,
+      ".dashboard_report_heading": {
+        fontFamily: "Roboto",
+        position: "relative",
+        fontWeight: "700",
+        fontSize: "14px",
+        fontHeight: "20px",
+        color: theme.palette.custom.sideBarText2,
       },
-      '.dashboard_button_pannel': {
-        display: 'flex',
-        flexDirection: 'row',
-        alignItem: 'flex-start',
-        padding: '0px',
+      ".dashboard_button_pannel": {
+        display: "flex",
+        flexDirection: "row",
+        alignItem: "flex-start",
+        padding: "0px",
       },
-      '.dashboard_buttons': {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: '36px',
-        height: '36px',
-        margin: '0px 10px',
-        padding: '16px',
+      ".dashboard_buttons": {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        width: "36px",
+        height: "36px",
+        margin: "0px 10px",
+        padding: "16px",
         background: theme.palette.custom.dashboardButtonBg,
-        borderRadius: '4px',
-        '&:hover': {
+        borderRadius: "4px",
+        "&:hover": {
           background: theme.palette.custom.dashboardButtonHover,
+        },
+        "& .MuiSvgIcon-root": {
+          color:
+            theme.palette.mode == "light" ? theme.palette.custom.form3 : null,
         },
       },
     };
@@ -64,42 +67,42 @@ function Dashboard() {
   const [snackBarArgs, setSnackBarArgs] = useState<SnackbarProps>({
     open: false,
     autoHideDuraton: 6000,
-    type: 'success',
-    anchorOrigin: { vertical: 'top', horizontal: 'right' },
-    message: '',
+    type: "success",
+    anchorOrigin: { vertical: "top", horizontal: "right" },
+    message: "",
     onCloseFunc: handleSnackbarClose,
     actions: [
       {
-        name: 'close_black_24dp',
+        name: "close_black_24dp",
         size: 25,
-        label: 'close',
-        style: 'regular',
+        label: "close",
+        style: "regular",
         handleClick: handleSnackbarClose,
       },
     ],
   });
 
-  const [width, setWidth] = useState('0');
-  const [component, setComponent] = useState('');
-  
+  const [width, setWidth] = useState("0");
+  const [component, setComponent] = useState("");
+
   //Table
-  const columnHeader = ['Name', 'Created By', 'Created On'];
+  const columnHeader = ["Name", "Created By", "Created On"];
 
   const handleShowAddReport = () => {
     if (!isColumnOptionOpen) {
-      setWidth('574px');
-      setComponent('report');
+      setWidth("574px");
+      setComponent("report");
     }
   };
 
   const handleHideAddReport = () => {
-    setWidth('0px');
+    setWidth("0px");
   };
 
   const handleShowFilter = () => {
     if (!isColumnOptionOpen) {
-      setWidth('370px');
-      setComponent('filter');
+      setWidth("370px");
+      setComponent("filter");
     }
   };
 

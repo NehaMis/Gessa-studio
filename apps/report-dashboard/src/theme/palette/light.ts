@@ -29,19 +29,25 @@ const dark: IThemePalette = {
     transformNode: '#BA55D3',
     storeNode: '#BA55D3',
     outputNode: '#33b64d',
-    dashboardButtonBg:'#e7e7e7',
-    dashboardButtonHover:'#cfcdcd',
+    dashboardButtonBg:'#2979ff',
+    dashboardButtonHover:'#44a3fb',
 
     sideBarBg:'#dbdbdb',
     sideBarText1:'#111827',
     sideBarText2:'#000',
 
+    dropDownChip:'#57B4AA',
+
     errorMsg:'#FF0000',
+    successMsg:'#52C41A',
 
     inputComponentBg:'#FCFCFB',
 
-    dashboardTableRowBg:'#878484',
+    dashboardTableHeadBg:'#F6F7F9',
+    dashboardTableRowBg:'#2979ff',
+
     tablePaginationBg: '#1890FF',
+    btnDeleteColor:'#FFFFFF',
   },
 };
 
