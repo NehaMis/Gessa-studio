@@ -3,7 +3,7 @@ import { IconButton, Icon, Box, Divider, Typography } from "@mui/material";
 import { Add } from "@mui/icons-material";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import TuneOutlinedIcon from "@mui/icons-material/TuneOutlined";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import SideMenu from "../components/SideMenu";
 import Snackbar, { SnackbarProps } from "../components/Snackbar/snackbar";
 import ColumnOption from "./ColumnOption";
@@ -11,51 +11,55 @@ import Table from "../components/Table/Table";
 
 function Dashboard() {
   const [isColumnOptionOpen, setIsColumnOptionOpen] = useState(false);
+  const [filters, setFilters] = useState({});
 
-  const StyledDashboard = styled("div")(({ theme }) => {
-    return {
-      ".dashboard_model_header": {
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-between",
-        padding: "0px 16px",
-        height: "49px",
-      },
-      ".dashboard_report_heading": {
-        fontFamily: "Roboto",
-        position: "relative",
-        fontWeight: "700",
-        fontSize: "14px",
-        fontHeight: "20px",
-        color: theme.palette.custom.sideBarText2,
-      },
-      ".dashboard_button_pannel": {
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "flex-start",
-        padding: "0px",
-      },
-      ".dashboard_buttons": {
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        width: "36px",
-        height: "36px",
-        margin: "0px 10px",
-        padding: "16px",
-        background: theme.palette.custom.dashboardButtonBg,
-        borderRadius: "4px",
-        "&:hover": {
-          background: theme.palette.custom.dashboardButtonHover,
+  const StyledDashboard = useCallback(
+    styled("div")(({ theme }) => {
+      return {
+        ".dashboard_model_header": {
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
+          padding: "0px 16px",
+          height: "49px",
         },
-        "& .MuiSvgIcon-root": {
-          color:
-            theme.palette.mode == "light" ? theme.palette.custom.form3 : null,
+        ".dashboard_report_heading": {
+          fontFamily: "Roboto",
+          position: "relative",
+          fontWeight: "700",
+          fontSize: "14px",
+          fontHeight: "20px",
+          color: theme.palette.custom.sideBarText2,
         },
-      },
-    };
-  });
+        ".dashboard_button_pannel": {
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "flex-start",
+          padding: "0px",
+        },
+        ".dashboard_buttons": {
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          width: "36px",
+          height: "36px",
+          margin: "0px 10px",
+          padding: "16px",
+          background: theme.palette.custom.dashboardButtonBg,
+          borderRadius: "4px",
+          "&:hover": {
+            background: theme.palette.custom.dashboardButtonHover,
+          },
+          "& .MuiSvgIcon-root": {
+            color:
+              theme.palette.mode == "light" ? theme.palette.custom.form3 : null,
+          },
+        },
+      };
+    }),
+    [filters]
+  );
 
   const handleSnackbarClose = () => {
     setSnackBarArgs({
@@ -88,8 +92,6 @@ function Dashboard() {
   //Table
   const columnHeader = ["Name", "Created By", "Created On"];
 
-  const [filters, setFilters]= useState({})
-
   const handleShowAddReport = () => {
     if (!isColumnOptionOpen) {
       setWidth("574px");
@@ -115,9 +117,9 @@ function Dashboard() {
     });
   };
 
-  const handleFilters=(filters:any)=>{
-    setFilters({...filters})
-  }
+  const handleFilters = (filters: any) => {
+    setFilters({ ...filters });
+  };
 
   const handleToggleColumnOption = () => {
     setIsColumnOptionOpen(!isColumnOptionOpen);
@@ -153,11 +155,10 @@ function Dashboard() {
             </Box>
           </Box>
         </Box>
-
-        <Divider />
         <Box>
           <Table filters={filters} />
         </Box>
+        <Divider />
       </StyledDashboard>
       <SideMenu
         menuComponent={component}
