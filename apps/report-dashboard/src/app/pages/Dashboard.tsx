@@ -33,7 +33,7 @@ function Dashboard() {
       ".dashboard_button_pannel": {
         display: "flex",
         flexDirection: "row",
-        alignItem: "flex-start",
+        alignItems: "flex-start",
         padding: "0px",
       },
       ".dashboard_buttons": {

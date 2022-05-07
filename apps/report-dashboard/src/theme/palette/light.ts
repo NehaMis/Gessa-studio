@@ -35,6 +35,7 @@ const dark: IThemePalette = {
     sideBarBg:'#dbdbdb',
     sideBarText1:'#111827',
     sideBarText2:'#000',
+    btnDisabled:'#ffffff1f',
 
     dropDownChip:'#57B4AA',
 

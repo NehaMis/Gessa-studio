@@ -47,7 +47,7 @@ function ViewDetails(props: any) {
   const [testQuery, setTestQuery] = useState(false);
   const [tableData, setTableData] = useState([]);
   const [query, setQuery] = useState('');
-  const themes=useTheme();
+  const themes = useTheme();
 
   const [screenSize, getDimension] = useState({
     dynamicWidth: window.innerWidth,
@@ -116,14 +116,14 @@ function ViewDetails(props: any) {
   }));
 
   const StyledTableRow = styled(TableRow)(({ theme }) => ({
-    "&:nth-of-type(even)": {
+    '&:nth-of-type(even)': {
       backgroundColor: theme.palette.custom.dashboardTableHeadBg,
     },
-    "&:nth-of-type(odd)": {
+    '&:nth-of-type(odd)': {
       backgroundColor: theme.palette.custom.dashboardTableRowBg,
     },
     // hide last border
-    "&:last-child td, &:last-child th": {
+    '&:last-child td, &:last-child th': {
       border: 0,
     },
   }));
@@ -158,6 +158,7 @@ function ViewDetails(props: any) {
         fontWeight: 600,
         fontSize: ' 16px',
         lineHeight: '24px',
+        color: theme.palette.custom.sideBarText2,
       },
       '.label': {
         fontFamily: 'Roboto',
@@ -364,7 +365,9 @@ function ViewDetails(props: any) {
       </Stack>
       <Box className="definitionBox">
         <Typography className="definition"> Definition</Typography>
-        <Typography className="description"></Typography>
+        <Typography className="description">
+          {location?.state?.description}
+        </Typography>
       </Box>
       <Box className="sqlBox">
         <Stack direction="row" spacing={1}>

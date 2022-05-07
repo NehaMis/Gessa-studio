@@ -2,6 +2,7 @@
 import mock from '../mock';
 import onSuccess from '../../utils/responseWrapper';
 import generateRandomString from '../../utils/randomString';
+import { format } from 'date-fns';
 
 // Interfaces
 
@@ -21,7 +22,7 @@ export interface IReportData {
   _id: string;
   name: string;
   createdBy: string;
-  cretaedOn: string;
+  createdOn: string;
   details: IReportDetails;
 }
 
@@ -59,12 +60,12 @@ const reportData = {
           _id: '61a8a781684de3c2649cdd5e',
           name: 'Report 1',
           createdBy: 'Jane Cooper',
-          cretaedOn: 'some date',
+          createdOn: new Date(),
           details: {
             _id: '61a8a781684de3c2649cdd5e',
             title: 'View Details',
             name: 'Report 1',
-            schema: ['schema1', 'schema2'],
+            schema: ['schema1', 'schema2', 'schema3'],
             description: 'string',
             query: 'string',
           },
@@ -73,7 +74,7 @@ const reportData = {
           _id: '61a8a781684de3c2649cdd5e',
           name: 'Report 2',
           createdBy: 'Robert Fox',
-          cretaedOn: 'some date',
+          createdOn: new Date(),
           details: {
             _id: '61a8a781684de3c2649cdd5e',
             title: 'View Details',
@@ -87,12 +88,12 @@ const reportData = {
           _id: '61a8a781684de3c2649cdd5e',
           name: 'Report 3',
           createdBy: 'Jhon Fox',
-          cretaedOn: 'some date',
+          createdOn: new Date(),
           details: {
             _id: '61a8a781684de3c2649cdd5e',
             title: 'View Details',
             name: 'Report 3',
-            schema: ['schema1', 'schema2'],
+            schema: ['schema1', 'schema2', 'schema3', 'schema4'],
             description: 'string',
             query: 'string',
           },

@@ -32,6 +32,7 @@ const solarized: IThemePalette = {
     sideBarBg:'#476185',
     sideBarText1:'#BDBDBD',
     sideBarText2:'#FFFFFF',
+    btnDisabled:'#ffffff1f',
 
     dropDownChip:'#57B4AA',
 
