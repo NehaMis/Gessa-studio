@@ -356,7 +356,7 @@ function ViewDetails(props: any) {
             <Stack direction="row" spacing={2}>
               {location?.state?.schema?.map?.((item: any) => {
                 return (
-                  <Chip className="chip" label={item} variant="outlined" />
+                  <Chip key={item} className="chip" label={item} variant="outlined" />
                 );
               })}
             </Stack>

@@ -1,35 +1,44 @@
-import React, { useCallback, useState, useEffect } from 'react';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell, { tableCellClasses } from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import Avatar from '@mui/material/Avatar';
-import Stack from '@mui/material/Stack';
-import { Box, Pagination, Typography } from '@mui/material';
-import { styled } from '@mui/system';
-import { useNavigate } from 'react-router-dom';
-import { format, parseISO } from 'date-fns';
-import axios from 'axios';
+import React, { useCallback, useState, useEffect } from "react";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import Avatar from "@mui/material/Avatar";
+import Stack from "@mui/material/Stack";
+import { Box, Pagination, Typography } from "@mui/material";
+import { styled } from "@mui/system";
+import { useNavigate } from "react-router-dom";
+import { format, parseISO } from "date-fns";
+import axios from "axios";
+import { keymap } from "@uiw/react-codemirror";
 // import './Table.css';
+
+export interface TableProps {
+  filters: any;
+}
 
 function createData(name: string, createdBy: any, createdOn: any) {
   return { name, createdBy, createdOn };
 }
 
-const columnHeader = ['Name', 'Created By', 'Created On'];
+const columnHeader = ["Name", "Created By", "Created On"];
 
-export default function BasicTable() {
+export default function BasicTable(props: TableProps) {
   const [tableData, setTableData] = useState([]);
   const [isGettingData, setIsGettingData] = useState(true);
 
   useEffect(() => {
     axios
-      .get(process.env.NX_DATA_FLOW_BASE_URL + '/reportData')
+      .get(process.env.NX_DATA_FLOW_BASE_URL + "/reportData")
       .then(function (response) {
-        setTableData(response.data.result.data[0].rowData);
+        if (Object.keys(props.filters).length !== 0) {
+          setTableData(response.data.result.data[0].rowData.filter((item:any)=>item.name ==props.filters.name));
+        }else{
+          setTableData(response.data.result.data[0].rowData)
+        }
       })
       .finally(() => {
         setIsGettingData(false);
@@ -50,25 +59,25 @@ export default function BasicTable() {
   const StyledTableCell = styled(TableCell)(({ theme }) => {
     return {
       [`&.${tableCellClasses.head}`]: {
-        fontStyle: 'normal',
-        fontFamily: 'Roboto',
+        fontStyle: "normal",
+        fontFamily: "Roboto",
         backgroundColor: theme.palette.custom.dashboardTableHeadBg,
         color: theme.palette.primary[900],
         fontWeight: 700,
-        fontSize: '12px',
+        fontSize: "12px",
       },
       [`&.${tableCellClasses.body}`]: {
-        fontFamily: 'Roboto',
+        fontFamily: "Roboto",
         fontWeight: 400,
         fontSize: 12,
-        cursor: 'pointer',
+        cursor: "pointer",
       },
 
-      '& .MuiTypography-root': {
-        fontFamily: 'Roboto',
+      "& .MuiTypography-root": {
+        fontFamily: "Roboto",
         fontWeight: 400,
         fontSize: 12,
-        cursor: 'pointer',
+        cursor: "pointer",
       },
     };
   });
@@ -77,25 +86,25 @@ export default function BasicTable() {
     "&:nth-of-type(even)": {
       backgroundColor: theme.palette.custom.dashboardTableHeadBg,
     },
-    '&:nth-of-type(odd)': {
+    "&:nth-of-type(odd)": {
       backgroundColor: theme.palette.custom.dashboardTableRowBg,
     },
     // hide last border
-    '&:last-child td, &:last-child th': {
+    "&:last-child td, &:last-child th": {
       border: 0,
     },
   }));
 
   const StyledPagination = styled(Box)(({ theme }) => ({
-    display: 'flex',
-    position: 'fixed',
-    bottom: '0px',
-    justifyContent: 'flex-end',
-    width: '100%',
-    height: '48px',
-    alignItems: 'center',
+    display: "flex",
+    position: "fixed",
+    bottom: "0px",
+    justifyContent: "flex-end",
+    width: "100%",
+    height: "48px",
+    alignItems: "center",
 
-    '& .css-j5ntxn-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected': {
+    "& .css-j5ntxn-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected": {
       backgroundColor: theme.palette.custom.tablePaginationBg,
     },
   }));
@@ -120,10 +129,10 @@ export default function BasicTable() {
                   rows.map((row) => (
                     <StyledTableRow
                       onClick={() =>
-                        history('/details', { state: row?.details })
+                        history("/details", { state: row?.details })
                       }
                       key={row.name}
-                      sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                     >
                       <StyledTableCell component="th" scope="row">
                         {row.name}
@@ -135,7 +144,7 @@ export default function BasicTable() {
                         </Stack>
                       </StyledTableCell>
                       <StyledTableCell>
-                        {format(parseISO(row.createdOn), 'MMM dd h:m a')}
+                        {format(parseISO(row.createdOn), "MMM dd h:m a")}
                       </StyledTableCell>
                     </StyledTableRow>
                   ))}

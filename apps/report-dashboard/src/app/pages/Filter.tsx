@@ -24,6 +24,7 @@ export interface FilterType {
   width: string;
   snackBarArgs: any;
   setSnackBarArgs: (data: any) => void;
+  setFilters:(filter:any)=>void;
   onClose: () => void;
 }
 
@@ -180,7 +181,7 @@ function Filter(props: FilterType) {
 
   interface filterDataType {
     search: string;
-    report_name: string;
+    name: string;
     select_schema: Array<string>;
     created_by: Array<string>;
     created_on: {
@@ -196,7 +197,7 @@ function Filter(props: FilterType) {
 
   const [filterData, setFilterData] = useState<filterDataType>({
     search: '',
-    report_name: '',
+    name: '',
     select_schema: [],
     created_by: [],
     created_on: {
@@ -211,7 +212,7 @@ function Filter(props: FilterType) {
     if (
       filterData.select_schema.length > 0 ||
       filterData.created_by.length > 0 ||
-      filterData.report_name != '' ||
+      filterData.name != '' ||
       filterData.created_on.from != '' ||
       filterData.created_on.to != ''
     ) {
@@ -245,8 +246,11 @@ function Filter(props: FilterType) {
   const handleSave = () => {
     if (isDataFilled()) {
       props.setSnackBarArgs({
+        ...props.snackBarArgs,
         open: true,
+        message:'Filter Applied Successfully'
       });
+      props.setFilters(filterData);
       props.onClose();
       // console.log(filterData);
     } else {
@@ -318,12 +322,12 @@ function Filter(props: FilterType) {
         <ReportBootInput
           placeholder='Report Name'
           sx={{width:328}}
-          name="report_name"
+          name="name"
           id="report-name"
-          value={filterData.report_name}
+          value={filterData.name}
           onChange={handleFilterInputData}
         />
-        {errors && filterData.report_name==""?<Typography className="error_notification">Please Add Report Name</Typography>:null}
+        {errors && filterData.name==""?<Typography className="error_notification">Please Add Report Name</Typography>:null}
       </Box>
 
       <Box className="filter_SelectAndDate_frame">
@@ -393,7 +397,7 @@ function Filter(props: FilterType) {
           onClick={() => handleSave()}
           // disabled={isDataFilled() ? false : true}
         >
-          Save
+          Apply
         </Button>
       </Box>
     </StyledFilterMenu>

@@ -9,6 +9,7 @@ export interface SideMenuType {
   width: string;
   snackBarArgs: any;
   setSnackBarArgs: (data:any) => void;
+  setFilters:(filter:any)=>void;
   onClose: () => void;
   menuComponent: string;
 }
@@ -55,7 +56,7 @@ function SideMenu(props: SideMenuType) {
           />
         )}
         {props.menuComponent === 'filter' && (
-          <Filter setSnackBarArgs={props.setSnackBarArgs} snackBarArgs={props.snackBarArgs} width={props?.width} onClose={props.onClose} />
+          <Filter setFilters={props.setFilters} setSnackBarArgs={props.setSnackBarArgs} snackBarArgs={props.snackBarArgs} width={props?.width} onClose={props.onClose} />
         )}
       </Box>
     </StyledSideMenu>

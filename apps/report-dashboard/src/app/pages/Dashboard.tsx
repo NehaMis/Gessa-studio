@@ -88,6 +88,8 @@ function Dashboard() {
   //Table
   const columnHeader = ["Name", "Created By", "Created On"];
 
+  const [filters, setFilters]= useState({})
+
   const handleShowAddReport = () => {
     if (!isColumnOptionOpen) {
       setWidth("574px");
@@ -112,6 +114,10 @@ function Dashboard() {
       ...data,
     });
   };
+
+  const handleFilters=(filters:any)=>{
+    setFilters({...filters})
+  }
 
   const handleToggleColumnOption = () => {
     setIsColumnOptionOpen(!isColumnOptionOpen);
@@ -150,7 +156,7 @@ function Dashboard() {
 
         <Divider />
         <Box>
-          <Table />
+          <Table filters={filters} />
         </Box>
       </StyledDashboard>
       <SideMenu
@@ -159,6 +165,7 @@ function Dashboard() {
         onClose={handleHideAddReport}
         snackBarArgs={snackBarArgs}
         setSnackBarArgs={setSnackBar}
+        setFilters={handleFilters}
       />
       {isColumnOptionOpen && (
         <ColumnOption onClose={handleToggleColumnOption} />
