@@ -168,13 +168,14 @@ function Transfer(props: TransferProps) {
   const leftGridDataHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLeftSearchValue(e.target.value);
     setLeftFiltered(
-      left.filter((items) => items?.value?.toString().includes(e.target.value))
+      left.filter((items) => items?.value?.toLowerCase().indexOf(e.target.value.toLowerCase())!== -1)
     );
+    console.log("Left Filtered =",leftFiltered, "Left = ", left)
   };
   const rightGridDataHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setRightSearchValue(e.target.value);
     setRightFiltered(
-      right.filter((items) => items?.value?.toString().includes(e.target.value))
+      right.filter((items) => items?.value?.toLowerCase().indexOf(e.target.value.toLowerCase())!== -1)
     );
   };
 
