@@ -462,7 +462,7 @@ function AddReport(props: AddReportType) {
   const handleSave = () => {
     if (checkAllDataFilled()) {
       axios
-        .post(process.env.NX_DATA_FLOW_BASE_URL + "/addReport", data)
+        .post(process.env.NX_DATA_FLOW_BASE_URL + "/reportData", data)
         .then(function (response) {
           // console.log(response);
         });

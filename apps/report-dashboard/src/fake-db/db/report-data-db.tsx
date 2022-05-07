@@ -111,3 +111,32 @@ mock
   .reply((request) => {
     return [200, onSuccess(reportData)];
   });
+
+   // CREATE
+mock
+.onPost(new RegExp(process.env.NX_DATA_FLOW_BASE_URL + '/reportData'))
+.reply((request) => {
+  let requestData= JSON.parse(request.data);
+
+  let newData = {
+    _id:generateRandomString(),
+    name:requestData.report_name,
+    createdBy: 'Jane Cooper',
+    createdOn: new Date(),
+    details: {
+      _id: generateRandomString(),
+      title: 'View Details',
+      name: requestData.report_name,
+      schema: [...requestData.select_schema],
+      description: requestData.def,
+      query: requestData.sql,
+    },
+    // ...newData,
+    // _id: generateRandomString(),
+  };
+  // reportData.data = [...reportData.data, rowData:[...newData]];
+  reportData.data[0].rowData.push(newData);
+  
+
+  return [200, onSuccess(reportData.data[0].rowData, 'Report created successfully')];
+});
