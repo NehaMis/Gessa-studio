@@ -53,6 +53,7 @@ function SideMenu(props: SideMenuType) {
             onClose={props.onClose}
             snackBarArgs={props.snackBarArgs}
             setSnackBarArgs={props.setSnackBarArgs}
+            setFilters={props.setFilters}
           />
         )}
         {props.menuComponent === 'filter' && (

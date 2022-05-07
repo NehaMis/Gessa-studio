@@ -32,6 +32,7 @@ export interface AddReportType {
   width: string;
   snackBarArgs: any;
   setSnackBarArgs: (data: any) => void;
+  setFilters:(filter:any)=>void;
   onClose: () => void;
 }
 
@@ -466,7 +467,8 @@ function AddReport(props: AddReportType) {
         .then(function (response) {
           // console.log(response);
         });
-
+      
+      props.setFilters({})
       props.setSnackBarArgs({
         ...props.snackBarArgs,
         open: true,
