@@ -32,6 +32,7 @@ const names = [
   'Bradley Wilkerson',
   'Virginia Andrews',
   'Kelly Snyder',
+  'Jane Cooper',
 ];
 
 function getStyles(name: string, personName: readonly string[], theme: Theme) {

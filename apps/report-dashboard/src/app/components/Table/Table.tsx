@@ -20,21 +20,27 @@ export interface TableProps {
   filters: any;
 }
 
-function createData(name: string, createdBy: any, createdOn: any,description:any, query:any) {
+function createData(
+  name: string,
+  createdBy: any,
+  createdOn: any,
+  description: any,
+  query: any
+) {
   return { name, createdBy, createdOn, description, query };
 }
 
 const columnHeader = ["Name", "Created By", "Created On"];
 
-interface HeaderProps{
-  label:string;
-  value:string;
+interface HeaderProps {
+  label: string;
+  value: string;
 }
 
 export default function BasicTable(props: TableProps) {
   const [tableData, setTableData] = useState([]);
   const [isGettingData, setIsGettingData] = useState(true);
-  const [tableHeaders, setTableHeaders]=useState<Array<HeaderProps>>([])
+  const [tableHeaders, setTableHeaders] = useState<Array<HeaderProps>>([]);
 
   useEffect(() => {
     axios
@@ -51,11 +57,36 @@ export default function BasicTable(props: TableProps) {
     axios
       .get(process.env.NX_DATA_FLOW_BASE_URL + "/reportData")
       .then(function (response) {
+        let tableData = response.data.result.data[0].rowData;
+        console.log("Filter =", props.filters);
         if (Object.keys(props.filters).length !== 0) {
-          setTableData(response.data.result.data[0].rowData.filter((item:any)=>item.name ==props.filters.name));
-        }else{
-          setTableData(response.data.result.data[0].rowData)
+          if (props.filters.name != "") {
+            tableData = tableData.filter(
+              (item: any) =>
+                item.name.toLowerCase() == props.filters.name.toLowerCase()
+            );
+          }
+          if (props.filters.select_schema.length > 0) {
+            tableData = tableData.filter(
+              (item: any) =>
+                item.details.schema.join() == props.filters.select_schema.join()
+            );
+          }
+          if (props.filters.created_by.length > 0) {
+            tableData = tableData.filter(
+              (item: any) => item.createdBy == props.filters.created_by.join()
+            );
+          }
+          if (props.filters.created_on.from != "") {
+            tableData = tableData.filter((item: any) => {
+              let date = new Date(item.createdOn);
+              let fromDate = new Date(props.filters.created_on.from);
+              let toDate = new Date(props.filters.created_on.to);
+              return date >= fromDate && date <= toDate;
+            });
+          }
         }
+        setTableData(tableData);
       })
       .finally(() => {
         setIsGettingData(false);
@@ -69,7 +100,16 @@ export default function BasicTable(props: TableProps) {
   const rows =
     tableData &&
     tableData.map((row: any) => {
-      return createData(row?.details?.name, row.createdBy, row.cretaedOn, row?.details.description, row?.details.query), row;
+      return (
+        createData(
+          row?.details?.name,
+          row.createdBy,
+          row.cretaedOn,
+          row?.details.description,
+          row?.details.query
+        ),
+        row
+      );
     });
 
   const history = useNavigate();
@@ -126,7 +166,7 @@ export default function BasicTable(props: TableProps) {
     },
   }));
 
-  console.log("Table Rows",rows, "Table Data ",tableData)  
+  console.log("Table Rows", rows, "Table Data ", tableData);
 
   return (
     <>
@@ -138,8 +178,12 @@ export default function BasicTable(props: TableProps) {
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
               <TableHead>
                 <StyledTableRow>
-                  {tableHeaders.map((cell:any) => {
-                    return <StyledTableCell key={cell}>{cell.value}</StyledTableCell>;
+                  {tableHeaders.map((cell: any) => {
+                    return (
+                      <StyledTableCell key={cell.label}>
+                        {cell.value}
+                      </StyledTableCell>
+                    );
                   })}
                 </StyledTableRow>
               </TableHead>
@@ -165,12 +209,16 @@ export default function BasicTable(props: TableProps) {
                       <StyledTableCell>
                         {format(parseISO(row.createdOn), "MMM dd h:m a")}
                       </StyledTableCell>
-                      {tableHeaders.length>3 && <StyledTableCell component="th" scope="row">
-                        {row.details[`${tableHeaders[3]?.label}`]}
-                      </StyledTableCell>}
-                      {tableHeaders.length>4 &&<StyledTableCell component="th" scope="row">
-                        {row.details[`${tableHeaders[3]?.label}`]}
-                      </StyledTableCell>}
+                      {tableHeaders.length > 3 && (
+                        <StyledTableCell component="th" scope="row">
+                          {row.details[`${tableHeaders[3]?.label}`]}
+                        </StyledTableCell>
+                      )}
+                      {tableHeaders.length > 4 && (
+                        <StyledTableCell component="th" scope="row">
+                          {row.details[`${tableHeaders[3]?.label}`]}
+                        </StyledTableCell>
+                      )}
                     </StyledTableRow>
                   ))}
               </TableBody>
