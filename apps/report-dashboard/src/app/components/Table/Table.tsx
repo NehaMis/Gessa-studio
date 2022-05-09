@@ -20,8 +20,8 @@ export interface TableProps {
   filters: any;
 }
 
-function createData(name: string, createdBy: any, createdOn: any) {
-  return { name, createdBy, createdOn };
+function createData(name: string, createdBy: any, createdOn: any,description:any, query:any) {
+  return { name, createdBy, createdOn, description, query };
 }
 
 const columnHeader = ["Name", "Created By", "Created On"];
@@ -69,7 +69,7 @@ export default function BasicTable(props: TableProps) {
   const rows =
     tableData &&
     tableData.map((row: any) => {
-      return createData(row?.details?.name, row.createdBy, row.cretaedOn), row;
+      return createData(row?.details?.name, row.createdBy, row.cretaedOn, row?.details.description, row?.details.query), row;
     });
 
   const history = useNavigate();
@@ -126,7 +126,7 @@ export default function BasicTable(props: TableProps) {
     },
   }));
 
-  console.log("Table Headers",tableHeaders)  
+  console.log("Table Rows",rows, "Table Data ",tableData)  
 
   return (
     <>
@@ -165,6 +165,12 @@ export default function BasicTable(props: TableProps) {
                       <StyledTableCell>
                         {format(parseISO(row.createdOn), "MMM dd h:m a")}
                       </StyledTableCell>
+                      {tableHeaders.length>3 && <StyledTableCell component="th" scope="row">
+                        {row.details[`${tableHeaders[3]?.label}`]}
+                      </StyledTableCell>}
+                      {tableHeaders.length>4 &&<StyledTableCell component="th" scope="row">
+                        {row.details[`${tableHeaders[3]?.label}`]}
+                      </StyledTableCell>}
                     </StyledTableRow>
                   ))}
               </TableBody>

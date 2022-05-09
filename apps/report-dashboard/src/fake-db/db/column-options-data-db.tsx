@@ -17,15 +17,13 @@ export interface TransferProps {
 
 let columnOptions = {
   leftList: [
-    { label: "displayerror", value: "Type" },
-    { label: "displayerror7", value: "Definition" },
-    { label: "displayerror8", value: "SQL Query" },
-    { label: "displayerror9", value: "Schema" },
+    { label: "description", value: "Definition" },
+    { label: "query", value: "SQL Query" },
   ],
   rightList: [
-    { label: "displayerror4", value: "Name" },
-    { label: "displayerror5", value: "Created By" },
-    { label: "displayerror6", value: "Created On" },
+    { label: "name", value: "Name" },
+    { label: "createdBy", value: "Created By" },
+    { label: "createdOn", value: "Created On" },
   ],
   leftListLabel: "Available Fields",
   rightListLabel: "Selected Fields",
