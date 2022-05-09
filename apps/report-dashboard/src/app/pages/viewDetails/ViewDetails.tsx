@@ -100,6 +100,10 @@ function ViewDetails(props: any) {
     };
   }, [screenSize]);
 
+  useEffect(()=>{
+    setQuery(location?.state?.query)
+  },[])
+
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
       fontStyle: 'normal',
@@ -384,7 +388,7 @@ function ViewDetails(props: any) {
 
         <Box className="sqlBox">
           <CodeMirror
-            value={"SUBSTRING(`Column`, ' ', 2)"}
+            value={query}
             height="170px"
             indentWithTab={true}
             theme={themes.palette.mode}
