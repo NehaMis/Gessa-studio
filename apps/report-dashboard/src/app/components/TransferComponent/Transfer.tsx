@@ -9,6 +9,7 @@ import { Paper, TextField, InputLabel, useTheme, Box } from '@mui/material';
 import './Transfer.css';
 import themes from '../../../theme';
 import { styled } from '@mui/system';
+import axios from 'axios';
 
 export interface TransferProps {
   leftList: Array<{
@@ -27,7 +28,10 @@ export interface TransferProps {
       value: string;
     }>[]
   ) => void;
-  onClose?: () => void;
+  snackBarArgs?: any;
+  setSnackBarArgs: (data: any) => void;
+  onClose: () => void;
+  setFilters:(filter:any)=>void;
 }
 
 function not(a: any[], b: any[]) {
@@ -179,6 +183,31 @@ function Transfer(props: TransferProps) {
     );
   };
 
+  const handleSave=()=>{
+    if(right.length>0){
+      axios
+        .post(process.env.NX_DATA_FLOW_BASE_URL + "/columnOption", {leftList:left,rightList:right})
+        .then(function (response) {
+          console.log(response);
+        });
+
+      props.setFilters({});
+      props.setSnackBarArgs({
+        ...props.snackBarArgs,
+        open: true,
+        message: "Column Options Added Successfully",
+      });
+      props.onClose();
+    }else{
+      props.setSnackBarArgs({
+        ...props.snackBarArgs,
+        open: true,
+        message: "Column Options Added Successfully",
+      });
+      props.onClose();
+    }
+  }
+
   return (
     <>
       <StyledBreadcrumb>
@@ -310,7 +339,7 @@ function Transfer(props: TransferProps) {
               className="btn_save"
               variant="contained"
               color="info"
-              // onClick={() => handleSave()}
+              onClick={() => handleSave()}
               // disabled={isDataFilled ? false : true}
             >
               Save

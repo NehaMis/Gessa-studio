@@ -26,9 +26,26 @@ function createData(name: string, createdBy: any, createdOn: any) {
 
 const columnHeader = ["Name", "Created By", "Created On"];
 
+interface HeaderProps{
+  label:string;
+  value:string;
+}
+
 export default function BasicTable(props: TableProps) {
   const [tableData, setTableData] = useState([]);
   const [isGettingData, setIsGettingData] = useState(true);
+  const [tableHeaders, setTableHeaders]=useState<Array<HeaderProps>>([])
+
+  useEffect(() => {
+    axios
+      .get(process.env.NX_DATA_FLOW_BASE_URL + "/tableHeaders")
+      .then(function (response) {
+        setTableHeaders([...response.data.result]);
+      })
+      .finally(() => {
+        setIsGettingData(false);
+      });
+  }, []);
 
   useEffect(() => {
     axios
@@ -109,6 +126,8 @@ export default function BasicTable(props: TableProps) {
     },
   }));
 
+  console.log("Table Headers",tableHeaders)  
+
   return (
     <>
       {isGettingData ? (
@@ -119,8 +138,8 @@ export default function BasicTable(props: TableProps) {
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
               <TableHead>
                 <StyledTableRow>
-                  {columnHeader.map((cell) => {
-                    return <StyledTableCell key={cell}>{cell}</StyledTableCell>;
+                  {tableHeaders.map((cell:any) => {
+                    return <StyledTableCell key={cell}>{cell.value}</StyledTableCell>;
                   })}
                 </StyledTableRow>
               </TableHead>

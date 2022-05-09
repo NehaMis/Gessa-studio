@@ -169,7 +169,12 @@ function Dashboard() {
         setFilters={handleFilters}
       />
       {isColumnOptionOpen && (
-        <ColumnOption onClose={handleToggleColumnOption} />
+        <ColumnOption
+          snackBarArgs={snackBarArgs}
+          setSnackBarArgs={setSnackBar}
+          onClose={handleToggleColumnOption}
+          setFilters={handleFilters}
+        />
       )}
       <Snackbar {...snackBarArgs} />
     </>
