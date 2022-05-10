@@ -137,6 +137,10 @@ function AddReport(props: AddReportType) {
             lineHeight: "32px",
             color: theme.palette.custom.sideBarText2,
           },
+
+          '& .MuiSvgIcon-root':{
+            cursor:'pointer',
+          }
         },
 
         ".report_input_panel": {
@@ -157,6 +161,7 @@ function AddReport(props: AddReportType) {
         ".report_close_button": {
           width: "24px",
           height: "24px",
+          cursor:'pointer',
         },
         ".report_input_labels": {
           fontFamily: "Roboto",
@@ -296,6 +301,8 @@ function AddReport(props: AddReportType) {
           padding: "16px",
           background: theme.palette.custom.dashboardButtonBg,
           borderRadius: "4px",
+          cursor:'pointer',
+
           "&:hover": {
             background: theme.palette.custom.dashboardButtonHover,
           },
@@ -322,6 +329,10 @@ function AddReport(props: AddReportType) {
           : theme.palette.custom.btnDisabled,
       color: theme.palette.custom.sideBarText2,
       right: "20px",
+
+      "&:hover": {
+        background: theme.palette.custom.dashboardButtonHover,
+      }
     },
   }));
 

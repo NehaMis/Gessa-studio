@@ -57,6 +57,10 @@ function ColumnOption(props: any) {
           lineHeight: "20px",
 
           width: "100%",
+
+          '& .MuiSvgIcon-root':{
+            cursor:'pointer',
+          }
         },
 
         ".columnOption__instruction": {

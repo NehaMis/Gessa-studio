@@ -80,6 +80,10 @@ function Filter(props: FilterType) {
             fontSize: '14px',
             lineHeight: '20px',
           },
+
+          '& .MuiSvgIcon-root':{
+            cursor:'pointer',
+          },
         },
         '.search_frame': {
           display: 'flex',

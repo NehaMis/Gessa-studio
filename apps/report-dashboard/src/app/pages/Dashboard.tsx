@@ -48,6 +48,7 @@ function Dashboard() {
           padding: "16px",
           background: theme.palette.custom.dashboardButtonBg,
           borderRadius: "4px",
+          cursor:'pointer',
           "&:hover": {
             background: theme.palette.custom.dashboardButtonHover,
           },
