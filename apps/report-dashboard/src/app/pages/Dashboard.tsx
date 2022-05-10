@@ -155,10 +155,10 @@ function Dashboard() {
             </Box>
           </Box>
         </Box>
+        <Divider />
         <Box>
           <Table filters={filters} />
         </Box>
-        <Divider />
       </StyledDashboard>
       <SideMenu
         menuComponent={component}

@@ -113,6 +113,19 @@ export default function BasicTable(props: TableProps) {
     });
 
   const history = useNavigate();
+
+  const StyledErrorMessage = styled(Typography)(({ theme }) => {
+    return {
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+      padding: "0px 16px",
+      fontFamily: "Roboto",
+      fontWeight: "400",
+      justifyContent:'center'
+    };
+  });
+
   const StyledTableCell = styled(TableCell)(({ theme }) => {
     return {
       [`&.${tableCellClasses.head}`]: {
@@ -165,14 +178,12 @@ export default function BasicTable(props: TableProps) {
       backgroundColor: theme.palette.custom.tablePaginationBg,
     },
   }));
-
   console.log("Table Rows", rows, "Table Data ", tableData);
-
   return (
     <>
       {isGettingData ? (
         <p className="loading"></p>
-      ) : (
+      ) : rows.length != 0 ? (
         <>
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -236,6 +247,8 @@ export default function BasicTable(props: TableProps) {
             </Box>
           </StyledPagination>
         </>
+      ) : (
+        <StyledErrorMessage>No Result Found</StyledErrorMessage>
       )}
     </>
   );
