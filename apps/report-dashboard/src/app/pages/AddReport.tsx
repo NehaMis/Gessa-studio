@@ -27,6 +27,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import CodeMirror from "@uiw/react-codemirror";
 import { sql } from "@codemirror/lang-sql";
 import axios from "axios";
+import TablePro from "../components/Table/TablePro";
 
 export interface AddReportType {
   width: string;
@@ -657,7 +658,8 @@ function AddReport(props: AddReportType) {
                   </Box>
                 </Box>
               </Box>
-              <TableContainer component={Paper}>
+              <TablePro data={rows}/>
+              {/* <TableContainer component={Paper}>
                 <Table aria-label="simple table">
                   <TableHead>
                     <StyledTableRow>
@@ -681,7 +683,7 @@ function AddReport(props: AddReportType) {
                     ))}
                   </TableBody>
                 </Table>
-              </TableContainer>
+              </TableContainer> */}
             </Box>
             <StyledPagination>
               <Box>

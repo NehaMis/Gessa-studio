@@ -58,7 +58,7 @@ export default function BasicTable(props: TableProps) {
       .get(process.env.NX_DATA_FLOW_BASE_URL + "/reportData")
       .then(function (response) {
         let tableData = response.data.result.data[0].rowData;
-        console.log("Filter =", props.filters);
+        // console.log("Filter =", props.filters);
         if (Object.keys(props.filters).length !== 0) {
           if (props.filters.name != "") {
             tableData = tableData.filter(
@@ -178,7 +178,7 @@ export default function BasicTable(props: TableProps) {
       backgroundColor: theme.palette.custom.tablePaginationBg,
     },
   }));
-  console.log("Table Rows", rows, "Table Data ", tableData);
+  // console.log("Table Rows", rows, "Table Data ", tableData);
   return (
     <>
       {isGettingData ? (
