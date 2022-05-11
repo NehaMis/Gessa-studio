@@ -115,7 +115,7 @@ function Filter(props: FilterType) {
           flexDirection: 'column',
           alignItems: 'flex-start',
           padding: '0px 16px',
-          height: '91px',
+          minHeight: '91px',
 
           '& .MuiInputBase-root':{
             height:'41px'
@@ -157,7 +157,6 @@ function Filter(props: FilterType) {
           height: '64px',
           bottom: '0px',
           gap: '10px',
-          position:'absolute',
           width:'100%',
 
           '.btn_cancel': {

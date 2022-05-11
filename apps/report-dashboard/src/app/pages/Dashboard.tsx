@@ -3,15 +3,30 @@ import { IconButton, Icon, Box, Divider, Typography } from "@mui/material";
 import { Add } from "@mui/icons-material";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import TuneOutlinedIcon from "@mui/icons-material/TuneOutlined";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import SideMenu from "../components/SideMenu";
 import Snackbar, { SnackbarProps } from "../components/Snackbar/snackbar";
 import ColumnOption from "./ColumnOption";
 import Table from "../components/Table/Table";
+import TablePro from "../components/Table/TablePro";
+import axios from "axios";
 
 function Dashboard() {
   const [isColumnOptionOpen, setIsColumnOptionOpen] = useState(false);
   const [filters, setFilters] = useState({});
+
+  // Table Pro Code
+
+  // const [tableData, setTableData] = useState([]);
+
+  // useEffect(() => {
+  //   axios
+  //     .get(process.env.NX_DATA_FLOW_BASE_URL + "/reportData")
+  //     .then(function (response) {
+  //       let tableData = response.data.result.data[0].rowData;
+  //       setTableData(tableData);
+  //     })
+  // }, [filters]);
 
   const StyledDashboard = useCallback(
     styled("div")(({ theme }) => {
@@ -159,6 +174,7 @@ function Dashboard() {
         <Divider />
         <Box>
           <Table filters={filters} />
+          {/* {tableData.length!=0 && <TablePro data={tableData}/>} */}
         </Box>
       </StyledDashboard>
       <SideMenu
