@@ -13,6 +13,7 @@ import {
   ThemeProvider,
   AuthProvider,
   MicroFrontendProvider,
+  ReduxProvider,
 } from '../context';
 import { HashRouter } from 'react-router-dom';
 import Dashboard from './pages/Dashboard';
@@ -28,6 +29,7 @@ export function App() {
         <AuthProvider>
           <MicroFrontendProvider>
             {/* <HashRouter> */}
+            <ReduxProvider>
             <StyledEngineProvider injectFirst>
               <CssBaseline />
               <BrowserRouter>
@@ -38,6 +40,7 @@ export function App() {
                 {/* <Dashboard /> */}
               </BrowserRouter>
             </StyledEngineProvider>
+            </ReduxProvider>
             {/* </HashRouter> */}
           </MicroFrontendProvider>
         </AuthProvider>
