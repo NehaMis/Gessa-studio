@@ -33,7 +33,7 @@ export interface AddReportType {
   width: string;
   snackBarArgs: any;
   setSnackBarArgs: (data: any) => void;
-  setFilters:(filter:any)=>void;
+  setFilters: (filter: any) => void;
   onClose: () => void;
 }
 
@@ -139,8 +139,8 @@ function AddReport(props: AddReportType) {
             color: theme.palette.custom.sideBarText2,
           },
 
-          '& .MuiSvgIcon-root':{
-            cursor:'pointer',
+          '& .MuiSvgIcon-root': {
+            cursor: 'pointer',
           }
         },
 
@@ -162,7 +162,7 @@ function AddReport(props: AddReportType) {
         ".report_close_button": {
           width: "24px",
           height: "24px",
-          cursor:'pointer',
+          cursor: 'pointer',
         },
         ".report_input_labels": {
           fontFamily: "Roboto",
@@ -289,7 +289,7 @@ function AddReport(props: AddReportType) {
           flexDirection: "row",
           alignItems: "flex-start",
           padding: "0px 16px 0px 0px",
-          height:'36px'
+          height: '36px'
         },
 
         ".sqlTableButtons": {
@@ -302,7 +302,7 @@ function AddReport(props: AddReportType) {
           padding: "16px",
           background: theme.palette.custom.dashboardButtonBg,
           borderRadius: "4px",
-          cursor:'pointer',
+          cursor: 'pointer',
 
           "&:hover": {
             background: theme.palette.custom.dashboardButtonHover,
@@ -479,7 +479,7 @@ function AddReport(props: AddReportType) {
         .then(function (response) {
           // console.log(response);
         });
-      
+
       props.setFilters({})
       props.setSnackBarArgs({
         ...props.snackBarArgs,
@@ -646,19 +646,19 @@ function AddReport(props: AddReportType) {
                 <Box className="sqlTable_button_pannel">
                   <Box
                     className="sqlTableButtons"
-                    // onClick={() => handleShowFilter()}
+                  // onClick={() => handleShowFilter()}
                   >
                     <FilterAltOutlinedIcon />
                   </Box>
                   <Box
                     className="sqlTableButtons"
-                    // onClick={() => handleToggleColumnOption()}
+                  // onClick={() => handleToggleColumnOption()}
                   >
                     <TuneOutlinedIcon />
                   </Box>
                 </Box>
               </Box>
-              <TablePro data={rows}/>
+              <TablePro data={rows} />
               {/* <TableContainer component={Paper}>
                 <Table aria-label="simple table">
                   <TableHead>
@@ -715,9 +715,9 @@ function AddReport(props: AddReportType) {
           className="btn_save"
           variant="contained"
           onClick={() => handleSave()}
-          // disabled={
-          //   isDataFilled || data.select_schema.length > 0 ? false : true
-          // }
+        // disabled={
+        //   isDataFilled || data.select_schema.length > 0 ? false : true
+        // }
         >
           Save
         </Button>
