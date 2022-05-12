@@ -10,23 +10,64 @@ import ColumnOption from "./ColumnOption";
 import Table from "../components/Table/Table";
 import TablePro from "../components/Table/TablePro";
 import axios from "axios";
+import { useNavigate } from "react-router";
 
 function Dashboard() {
   const [isColumnOptionOpen, setIsColumnOptionOpen] = useState(false);
-  const [filters, setFilters] = useState({});
+  const [filters, setFilters] = useState({
+    name: "",
+    select_schema: [],
+    created_by: [],
+    created_on: {
+      from: "",
+      to: "",
+    }
+  });
 
   // Table Pro Code
 
-  // const [tableData, setTableData] = useState([]);
+  const [tableData, setTableData] = useState([]);
+  const history = useNavigate();
 
-  // useEffect(() => {
-  //   axios
-  //     .get(process.env.NX_DATA_FLOW_BASE_URL + "/reportData")
-  //     .then(function (response) {
-  //       let tableData = response.data.result.data[0].rowData;
-  //       setTableData(tableData);
-  //     })
-  // }, [filters]);
+  const onClick=(data:any)=>{
+    history("/details", { state: data?.details })
+  }
+
+  useEffect(() => {
+    axios
+      .get(process.env.NX_DATA_FLOW_BASE_URL + "/reportData")
+      .then(function (response) {
+        let tableData = response.data.result.data[0].rowData;
+        if (Object.keys(filters).length !== 0) {
+          if (filters.name != "") {
+            tableData = tableData.filter(
+              (item: any) =>
+                item.name.toLowerCase() == filters.name.toLowerCase()
+            );
+          }
+          if (filters.select_schema.length > 0) {
+            tableData = tableData.filter(
+              (item: any) =>
+                item.details.schema.join() == filters.select_schema.join()
+            );
+          }
+          if (filters.created_by.length > 0) {
+            tableData = tableData.filter(
+              (item: any) => item.createdBy == filters.created_by.join()
+            );
+          }
+          if (filters.created_on.from != "") {
+            tableData = tableData.filter((item: any) => {
+              let date = new Date(item.createdOn);
+              let fromDate = new Date(filters.created_on.from);
+              let toDate = new Date(filters.created_on.to);
+              return date >= fromDate && date <= toDate;
+            });
+          }
+          setTableData(tableData);
+        }
+      })
+  }, [filters]);
 
   const StyledDashboard = useCallback(
     styled("div")(({ theme }) => {
@@ -63,7 +104,7 @@ function Dashboard() {
           padding: "16px",
           background: theme.palette.custom.dashboardButtonBg,
           borderRadius: "4px",
-          cursor:'pointer',
+          cursor: 'pointer',
           "&:hover": {
             background: theme.palette.custom.dashboardButtonHover,
           },
@@ -173,8 +214,8 @@ function Dashboard() {
         </Box>
         <Divider />
         <Box>
-          <Table filters={filters} />
-          {/* {tableData.length!=0 && <TablePro data={tableData}/>} */}
+          {/* <Table filters={filters} /> */}
+          {tableData.length != 0 && <TablePro data={tableData} onClicks={onClick}/>}
         </Box>
       </StyledDashboard>
       <SideMenu

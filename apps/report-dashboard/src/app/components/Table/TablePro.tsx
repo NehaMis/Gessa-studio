@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 export interface TableProps {
   filters?: any;
   data?: any;
+  onClicks?:(data:any)=>void;
 }
 
 
@@ -88,7 +89,7 @@ export default function TablePro(props: TableProps) {
   const tdData = () => {
     return props.data.length != 0 && props.data.map((row: any, index:any) => {
       return (
-        <StyledTableRow key={index}>
+        <StyledTableRow key={index} onClick={()=>props.onClicks?.(row)}>
           {
             column.filter(data=> data !="_id").map((v,index) => {
               return <StyledTableCell key={index}>{typeof row[v] !="object" ? row[v] : "NA"}</StyledTableCell>
@@ -99,7 +100,7 @@ export default function TablePro(props: TableProps) {
     })
   }
 
-  console.log("Table Columns =", props.data)
+  // console.log("Table Columns =", props.data)
 
   return (
     <>
