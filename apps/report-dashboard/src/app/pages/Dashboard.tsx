@@ -33,9 +33,7 @@ function Dashboard() {
     dispatch(getReportsApi("any"))
   },[])
 
-  const rootState = useSelector((state: any) => state);
-
-  console.log("Dashboard Root State =", rootState);
+  const rootState = useSelector((state: any) => state.reportDashboardSlice?.entities?.Report?.rowData);
   // Table Pro Code
 
   const [tableData, setTableData] = useState([]);
@@ -81,7 +79,7 @@ function Dashboard() {
     //   })
 
     if(rootState){
-      let tableData = rootState?.reportDashboardSlice?.entities?.Report?.rowData;
+      let tableData = rootState;
         if (Object.keys(filters).length !== 0) {
           if (filters.name != "") {
             tableData = tableData.filter(
@@ -109,12 +107,14 @@ function Dashboard() {
             });
           }
           setTableData(tableData);
+          console.log("Dashboard Root State useEffect =", rootState, "Table Data =", tableData);
         }
     }
   }, [filters,rootState]);
 
   const StyledDashboard = useCallback(
     styled("div")(({ theme }) => {
+      console.log("Dashboard Root State styledDashboard =", rootState, "Table Data =", tableData);
       return {
         ".dashboard_model_header": {
           display: "flex",
@@ -159,7 +159,7 @@ function Dashboard() {
         },
       };
     }),
-    [filters]
+    [filters,rootState, tableData]
   );
 
   const handleSnackbarClose = () => {
@@ -259,6 +259,7 @@ function Dashboard() {
         <Divider />
         <Box>
           {/* <Table filters={filters} /> */}
+          {console.log("Table Data =",tableData)}
           {tableData && <TablePro data={tableData} onClicks={onClick} />}
         </Box>
       </StyledDashboard>

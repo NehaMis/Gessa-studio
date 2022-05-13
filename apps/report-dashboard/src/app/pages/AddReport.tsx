@@ -28,6 +28,8 @@ import CodeMirror from "@uiw/react-codemirror";
 import { sql } from "@codemirror/lang-sql";
 import axios from "axios";
 import TablePro from "../components/Table/TablePro";
+import { getReportsApi, postReportApi } from "../../store/reportDashboardSlice";
+import { useDispatch } from "react-redux";
 
 export interface AddReportType {
   width: string;
@@ -53,6 +55,8 @@ function AddReport(props: AddReportType) {
   const [validate, setValidate] = useState(false);
   const [testQuery, setTestQuery] = useState(false);
   const [page, setPage] = React.useState(1);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     try {
@@ -474,13 +478,22 @@ function AddReport(props: AddReportType) {
 
   const handleSave = () => {
     if (checkAllDataFilled()) {
-      axios
-        .post(process.env.NX_DATA_FLOW_BASE_URL + "/reportData", data)
-        .then(function (response) {
-          // console.log(response);
-        });
-
-      props.setFilters({})
+      // axios
+      //   .post(process.env.NX_DATA_FLOW_BASE_URL + "/reportData", data)
+      //   .then(function (response) {
+      //     // console.log(response);
+      //   });
+      dispatch(postReportApi(data))
+      // dispatch(getReportsApi("any"))
+      props.setFilters({
+        name: "",
+        select_schema: [],
+        created_by: [],
+        created_on: {
+          from: "",
+          to: "",
+        }
+      })
       props.setSnackBarArgs({
         ...props.snackBarArgs,
         open: true,

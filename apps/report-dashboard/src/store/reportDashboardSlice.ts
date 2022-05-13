@@ -21,21 +21,28 @@ export const getReportsApi = createAsyncThunk(
     }
 )
 
-const reportAdapter=createEntityAdapter<IReport>({
-    selectId: ({title})=>title,
+export const postReportApi = createAsyncThunk('reportData',
+    async (reportData: any, { dispatch }) => {
+        await axios.post(process.env.NX_DATA_FLOW_BASE_URL + "/reportData", reportData)
+        dispatch(getReportsApi("any"))
+    }
+)
+
+const reportAdapter = createEntityAdapter<IReport>({
+    selectId: ({ title }) => title,
 })
 
-export const{
+export const {
     selectAll: selectAllReport,
-}=reportAdapter.getSelectors((state:any)=>state.reportDashboardSlice)
+} = reportAdapter.getSelectors((state: any) => state.reportDashboardSlice)
 
-const reportDashboardSlice=createSlice({
-    name:'report-data',
+const reportDashboardSlice = createSlice({
+    name: 'report-data',
     initialState: reportAdapter.getInitialState({}),
-    reducers:{
-        setReports:reportAdapter.setAll,
+    reducers: {
+        setReports: reportAdapter.setAll,
     },
 })
 
-export const {setReports}= reportDashboardSlice.actions;
+export const { setReports } = reportDashboardSlice.actions;
 export default reportDashboardSlice.reducer;
