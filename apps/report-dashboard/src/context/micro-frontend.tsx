@@ -114,9 +114,6 @@ const loadMicroFrontends = () => {
             });
           })
           .catch(({ message }: any) => {
-            console.warn(
-              `Microfrontend at ${remote.url} is unreachable, make sure the service is running`
-            );
             checkRemotesDone();
           });
       }

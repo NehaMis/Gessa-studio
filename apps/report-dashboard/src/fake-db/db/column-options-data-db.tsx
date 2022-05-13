@@ -64,7 +64,6 @@ mock
   .onPost(new RegExp(process.env.NX_DATA_FLOW_BASE_URL + "/columnOption"))
   .reply((request) => {
     let newData = JSON.parse(request.data);
-    console.log("new column Data =", newData)
     columnOptions.data[0]={...columnOptions.data, ...newData} ;
     return [200, onSuccess(columnOptions, "Columns Changed Successfully")];
   })

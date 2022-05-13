@@ -67,7 +67,6 @@ function ViewDetails(props: any) {
   const history = useNavigate();
 
   const location: any = useLocation();
-  console.log('location', location);
 
   /** to initialize test sql database */
   useEffect(() => {
@@ -79,7 +78,7 @@ function ViewDetails(props: any) {
         2 * 1024 * 1024
       );
     } catch (error) {
-      console.error('Error in initializing database', error);
+      // console.error('Error in initializing database', error);
     }
   }, []);
 
@@ -311,13 +310,10 @@ function ViewDetails(props: any) {
         `${query}`,
         [],
         (MSG: any) => {
-          console.log(2, MSG);
           alert('executed success!');
           setValidate(true);
         },
         (ERROR: any, test: any) => {
-          console.log(3, ERROR, test);
-
           if (test.message.includes('syntax')) {
             alert('Syntax error');
           } else if (test.message.includes('incomplete')) {

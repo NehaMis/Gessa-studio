@@ -177,7 +177,6 @@ function Transfer(props: TransferProps) {
     setLeftFiltered(
       left.filter((items) => items?.value?.toLowerCase().indexOf(e.target.value.toLowerCase())!== -1)
     );
-    console.log("Left Filtered =",leftFiltered, "Left = ", left)
   };
   const rightGridDataHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setRightSearchValue(e.target.value);

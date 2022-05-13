@@ -35,7 +35,6 @@ function ColumnOption(props: any) {
 
   useEffect(()=>{
     if(rootState){
-      console.log("in useEffect", rootState)
       setColumnOptions({...rootState[0]});
     }
   },[rootState])

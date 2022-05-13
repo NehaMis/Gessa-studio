@@ -15,7 +15,6 @@ export const getColumnApi = createAsyncThunk(
         const response: any = (
             await axios.get(process.env.NX_DATA_FLOW_BASE_URL + "/columnOption")
         );
-        console.log("In Column Slice =", response?.data?.result?.data)
         const data: any = response?.data?.result;
         dispatch(setColumns(data));
     }
@@ -27,7 +26,6 @@ export const postColumnHeaderApi=createAsyncThunk(
         const response:any=(
             await axios.post(process.env.NX_DATA_FLOW_BASE_URL + "/columnOption", columnData)
         )
-        console.log("Column Post Respose =", response)
     }
 )
 
