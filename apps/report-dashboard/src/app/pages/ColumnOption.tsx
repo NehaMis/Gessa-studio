@@ -7,9 +7,16 @@ import Transfer, {
 } from "../components/TransferComponent/Transfer";
 import { useTheme } from "@mui/system";
 import axios from "axios";
+import { getColumnApi } from '../../store/columnOptionSlice'
+import { useDispatch, useSelector } from 'react-redux';
 
 function ColumnOption(props: any) {
+
   const themes = useTheme();
+  const dispatch = useDispatch();
+
+  const rootState = useSelector((state: any) => state?.columnOptionSlice?.entities?.undefined);
+
   const [columnOptions, setColumnOptions] = useState({
     leftList: [],
     rightList: [],
@@ -18,12 +25,22 @@ function ColumnOption(props: any) {
   });
 
   useEffect(() => {
-    axios
-      .get(process.env.NX_DATA_FLOW_BASE_URL + "/columnOption")
-      .then(function (response) {
-        setColumnOptions(response.data.result);
-      });
+    dispatch(getColumnApi("any"))
+    // axios
+    //   .get(process.env.NX_DATA_FLOW_BASE_URL + "/columnOption")
+    //   .then(function (response) {
+    //     setColumnOptions(response.data.result);
+    //   });
   }, []);
+
+  useEffect(()=>{
+    if(rootState){
+      console.log("in useEffect", rootState)
+      setColumnOptions({...rootState[0]});
+    }
+  },[rootState])
+
+  // console.log("Column Option", columnOptions)
 
   const StyledColumnMenu = useCallback(
     styled("div")(({ theme }) => {

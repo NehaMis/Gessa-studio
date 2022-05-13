@@ -3,6 +3,9 @@ import onSuccess from "../../utils/responseWrapper";
 import generateRandomString from "../../utils/randomString";
 
 export interface TransferProps {
+  data:Array<TransferHeaders>
+}
+export interface TransferHeaders{
   leftList: Array<{
     label: string;
     value: string;
@@ -15,22 +18,26 @@ export interface TransferProps {
   rightListLabel: string;
 }
 
-let columnOptions = {
-  leftList: [
-    { label: "description", value: "Definition" },
-    { label: "query", value: "SQL Query" },
-  ],
-  rightList: [
-    { label: "name", value: "Name" },
-    { label: "createdBy", value: "Created By" },
-    { label: "createdOn", value: "Created On" },
-  ],
-  leftListLabel: "Available Fields",
-  rightListLabel: "Selected Fields",
+const columnOptions = {
+  data: [
+    {
+      leftList: [
+        { label: "description", value: "Definition" },
+        { label: "query", value: "SQL Query" },
+      ],
+      rightList: [
+        { label: "name", value: "Name" },
+        { label: "createdBy", value: "Created By" },
+        { label: "createdOn", value: "Created On" },
+      ],
+      leftListLabel: "Available Fields",
+      rightListLabel: "Selected Fields",
+    }
+  ]
 };
 
 let tableHeaders = [
-  ...columnOptions.rightList
+  ...columnOptions.data[0].rightList
 ];
 
 // API Endpoints
@@ -48,7 +55,7 @@ mock
 mock
   .onGet(new RegExp(process.env.NX_DATA_FLOW_BASE_URL + "/tableHeaders"))
   .reply((request) => {
-    tableHeaders=[...columnOptions.rightList]
+    tableHeaders = [...columnOptions.data[0].rightList]
     return [200, onSuccess(tableHeaders)];
   });
 
@@ -57,6 +64,8 @@ mock
   .onPost(new RegExp(process.env.NX_DATA_FLOW_BASE_URL + "/columnOption"))
   .reply((request) => {
     let newData = JSON.parse(request.data);
-    columnOptions = { ...columnOptions, ...newData };
+    console.log("new column Data =", newData)
+    columnOptions.data[0]={...columnOptions.data, ...newData} ;
     return [200, onSuccess(columnOptions, "Columns Changed Successfully")];
-  });
+  })
+  ;

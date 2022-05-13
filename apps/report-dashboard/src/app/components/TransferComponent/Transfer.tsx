@@ -10,6 +10,8 @@ import './Transfer.css';
 import themes from '../../../theme';
 import { styled } from '@mui/system';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { postColumnHeaderApi } from 'apps/report-dashboard/src/store/columnOptionSlice';
 
 export interface TransferProps {
   leftList: Array<{
@@ -53,6 +55,7 @@ function Transfer(props: TransferProps) {
   const leftChecked = intersection(checked, left);
   const rightChecked = intersection(checked, right);
   const dslTheme = useTheme();
+  const dispatch=useDispatch()
   const handleToggle = (value: any) => () => {
     const currentIndex = checked.indexOf(value);
     const newChecked = [...checked];
@@ -185,12 +188,12 @@ function Transfer(props: TransferProps) {
 
   const handleSave=()=>{
     if(right.length>0){
-      axios
-        .post(process.env.NX_DATA_FLOW_BASE_URL + "/columnOption", {leftList:left,rightList:right})
-        .then(function (response) {
-          console.log(response);
-        });
-
+      // axios
+      //   .post(process.env.NX_DATA_FLOW_BASE_URL + "/columnOption", {leftList:left,rightList:right})
+      //   .then(function (response) {
+      //     console.log(response);
+      //   });
+      dispatch(postColumnHeaderApi({leftList:left,rightList:right}))
       props.setFilters({});
       props.setSnackBarArgs({
         ...props.snackBarArgs,

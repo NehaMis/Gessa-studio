@@ -107,14 +107,14 @@ function Dashboard() {
             });
           }
           setTableData(tableData);
-          console.log("Dashboard Root State useEffect =", rootState, "Table Data =", tableData);
+          // console.log("Dashboard Root State useEffect =", rootState, "Table Data =", tableData);
         }
     }
   }, [filters,rootState]);
 
   const StyledDashboard = useCallback(
     styled("div")(({ theme }) => {
-      console.log("Dashboard Root State styledDashboard =", rootState, "Table Data =", tableData);
+      // console.log("Dashboard Root State styledDashboard =", rootState, "Table Data =", tableData);
       return {
         ".dashboard_model_header": {
           display: "flex",
@@ -259,7 +259,7 @@ function Dashboard() {
         <Divider />
         <Box>
           {/* <Table filters={filters} /> */}
-          {console.log("Table Data =",tableData)}
+          {/* {console.log("Table Data =",tableData)} */}
           {tableData && <TablePro data={tableData} onClicks={onClick} />}
         </Box>
       </StyledDashboard>
