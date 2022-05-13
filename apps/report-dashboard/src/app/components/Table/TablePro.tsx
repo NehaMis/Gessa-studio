@@ -81,7 +81,7 @@ export default function TablePro(props: TableProps) {
   const column = props.data.length != 0 ? Object.keys(props.data[0]) : [];
 
   const thData = () => {
-    return column.length != 0 && column.filter(data=> data !="_id").map((data, index) => {
+    return column.length != 0 && column.filter(data=> data !="_id" && data!="details").map((data, index) => {
       return <StyledTableCell key={index}>{capitalize(data)}</StyledTableCell>
     })
   }
@@ -91,7 +91,7 @@ export default function TablePro(props: TableProps) {
       return (
         <StyledTableRow key={index} onClick={()=>props.onClicks?.(row)}>
           {
-            column.filter(data=> data !="_id").map((v,index) => {
+            column.filter(data=> data !="_id" && data!="details").map((v,index) => {
               return <StyledTableCell key={index}>{typeof row[v] !="object" ? row[v] : "NA"}</StyledTableCell>
             })
           }
