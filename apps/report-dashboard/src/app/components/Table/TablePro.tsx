@@ -1,4 +1,4 @@
-import { Typography } from "@mui/material";
+import { Box, Pagination, Typography } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -14,13 +14,19 @@ import { useNavigate } from "react-router-dom";
 export interface TableProps {
   filters?: any;
   data?: any;
-  onClicks?:(data:any)=>void;
+  onClicks?: (data: any) => void;
+  showPagination?: boolean;
 }
 
 
 export default function TablePro(props: TableProps) {
 
   const history = useNavigate();
+  const [page, setPage] = React.useState(1);
+
+  const handlePageChange = (event?: any, value?: any) => {
+    setPage(value);
+  };
 
   const StyledErrorMessage = styled(Typography)(({ theme }) => {
     return {
@@ -33,6 +39,20 @@ export default function TablePro(props: TableProps) {
       justifyContent: 'center'
     };
   });
+
+  const StyledPagination = styled(Box)(({ theme }) => ({
+    display: "flex",
+    position: "fixed",
+    bottom: "0px",
+    justifyContent: "flex-end",
+    width: "100%",
+    height: "48px",
+    alignItems: "center",
+
+    "& .css-j5ntxn-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected": {
+      backgroundColor: theme.palette.custom.tablePaginationBg,
+    },
+  }));
 
   const StyledTableCell = styled(TableCell)(({ theme }) => {
     return {
@@ -73,7 +93,7 @@ export default function TablePro(props: TableProps) {
     },
   }));
 
-  const capitalize = (s:any) => {
+  const capitalize = (s: any) => {
     if (typeof s !== 'string') return ''
     return s.charAt(0).toUpperCase() + s.slice(1)
   }
@@ -81,18 +101,18 @@ export default function TablePro(props: TableProps) {
   const column = props.data.length != 0 ? Object.keys(props.data[0]) : [];
 
   const thData = () => {
-    return column.length != 0 && column.filter(data=> data !="_id" && data!="details").map((data, index) => {
+    return column.length != 0 && column.filter(data => data != "_id" && data != "details").map((data, index) => {
       return <StyledTableCell key={index}>{capitalize(data)}</StyledTableCell>
     })
   }
 
   const tdData = () => {
-    return props.data.length != 0 && props.data.map((row: any, index:any) => {
+    return props.data.length != 0 && props.data.map((row: any, index: any) => {
       return (
-        <StyledTableRow key={index} onClick={()=>props.onClicks?.(row)}>
+        <StyledTableRow key={index} onClick={() => props.onClicks?.({row,index})}>
           {
-            column.filter(data=> data !="_id" && data!="details").map((v,index) => {
-              return <StyledTableCell key={index}>{typeof row[v] !="object" ? row[v] : "NA"}</StyledTableCell>
+            column.filter(data => data != "_id" && data != "details").map((v, index) => {
+              return <StyledTableCell key={index}>{typeof row[v] != "object" ? row[v] : "NA"}</StyledTableCell>
             })
           }
         </StyledTableRow>
@@ -122,6 +142,17 @@ export default function TablePro(props: TableProps) {
       ) : (
         <StyledErrorMessage>No Result Found</StyledErrorMessage>
       )}
+      {props.showPagination && <StyledPagination>
+        <Box>
+          <Pagination
+            count={4}
+            page={page}
+            size="small"
+            shape="rounded"
+            onChange={handlePageChange}
+          />
+        </Box>
+      </StyledPagination>}
     </>
   );
 }

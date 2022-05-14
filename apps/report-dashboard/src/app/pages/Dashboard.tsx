@@ -11,11 +11,10 @@ import Table from "../components/Table/Table";
 import TablePro from "../components/Table/TablePro";
 import axios from "axios";
 import { useNavigate } from "react-router";
-import { getReportsApi } from '../../store/reportDashboardSlice'
-import { useDispatch, useSelector } from 'react-redux';
+import { getReportsApi } from "../../store/reportDashboardSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 function Dashboard() {
-
   const dispatch = useDispatch();
 
   const [isColumnOptionOpen, setIsColumnOptionOpen] = useState(false);
@@ -26,22 +25,24 @@ function Dashboard() {
     created_on: {
       from: "",
       to: "",
-    }
+    },
   });
 
   useEffect(() => {
-    dispatch(getReportsApi("any"))
-  },[])
+    dispatch(getReportsApi("any"));
+  }, []);
 
-  const rootState = useSelector((state: any) => state.reportDashboardSlice?.entities?.Report?.rowData);
+  const rootState = useSelector(
+    (state: any) => state.reportDashboardSlice?.entities?.Report?.rowData
+  );
   // Table Pro Code
 
   const [tableData, setTableData] = useState([]);
   const history = useNavigate();
 
   const onClick = (data: any) => {
-    history("/details", { state: data?.details })
-  }
+    history("/details", { state: data });
+  };
 
   useEffect(() => {
     // axios
@@ -78,39 +79,38 @@ function Dashboard() {
     //     }
     //   })
 
-    if(rootState){
+    if (rootState) {
       let tableData = rootState;
-        if (Object.keys(filters).length !== 0) {
-          if (filters.name != "") {
-            tableData = tableData.filter(
-              (item: any) =>
-                item.name.toLowerCase() == filters.name.toLowerCase()
-            );
-          }
-          if (filters.select_schema.length > 0) {
-            tableData = tableData.filter(
-              (item: any) =>
-                item.details.schema.join() == filters.select_schema.join()
-            );
-          }
-          if (filters.created_by.length > 0) {
-            tableData = tableData.filter(
-              (item: any) => item.createdBy == filters.created_by.join()
-            );
-          }
-          if (filters.created_on.from != "") {
-            tableData = tableData.filter((item: any) => {
-              let date = new Date(item.createdOn);
-              let fromDate = new Date(filters.created_on.from);
-              let toDate = new Date(filters.created_on.to);
-              return date >= fromDate && date <= toDate;
-            });
-          }
-          setTableData(tableData);
-          // console.log("Dashboard Root State useEffect =", rootState, "Table Data =", tableData);
+      if (Object.keys(filters).length !== 0) {
+        if (filters.name != "") {
+          tableData = tableData.filter(
+            (item: any) => item.name.toLowerCase() == filters.name.toLowerCase()
+          );
         }
+        if (filters.select_schema.length > 0) {
+          tableData = tableData.filter(
+            (item: any) =>
+              item.details.schema.join() == filters.select_schema.join()
+          );
+        }
+        if (filters.created_by.length > 0) {
+          tableData = tableData.filter(
+            (item: any) => item.createdBy == filters.created_by.join()
+          );
+        }
+        if (filters.created_on.from != "") {
+          tableData = tableData.filter((item: any) => {
+            let date = new Date(item.createdOn);
+            let fromDate = new Date(filters.created_on.from);
+            let toDate = new Date(filters.created_on.to);
+            return date >= fromDate && date <= toDate;
+          });
+        }
+        setTableData(tableData);
+        // console.log("Dashboard Root State useEffect =", rootState, "Table Data =", tableData);
+      }
     }
-  }, [filters,rootState]);
+  }, [filters, rootState]);
 
   const StyledDashboard = useCallback(
     styled("div")(({ theme }) => {
@@ -148,7 +148,7 @@ function Dashboard() {
           padding: "16px",
           background: theme.palette.custom.dashboardButtonBg,
           borderRadius: "4px",
-          cursor: 'pointer',
+          cursor: "pointer",
           "&:hover": {
             background: theme.palette.custom.dashboardButtonHover,
           },
@@ -159,7 +159,7 @@ function Dashboard() {
         },
       };
     }),
-    [filters,rootState, tableData]
+    [filters, rootState, tableData]
   );
 
   const handleSnackbarClose = () => {
@@ -260,7 +260,13 @@ function Dashboard() {
         <Box>
           {/* <Table filters={filters} /> */}
           {/* {console.log("Table Data =",tableData)} */}
-          {tableData && <TablePro data={tableData} onClicks={onClick} />}
+          {tableData && (
+            <TablePro
+              showPagination={true}
+              data={tableData}
+              onClicks={onClick}
+            />
+          )}
         </Box>
       </StyledDashboard>
       <SideMenu

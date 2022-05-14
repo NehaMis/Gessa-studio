@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect, useRef } from 'react';
+import React, { useCallback, useState, useEffect, useRef } from "react";
 import {
   IconButton,
   Icon,
@@ -9,24 +9,29 @@ import {
   Chip,
   Pagination,
   Button,
-} from '@mui/material';
-import { styled, useTheme } from '@mui/system';
-import CodeMirror from '@uiw/react-codemirror';
-import { sql } from '@codemirror/lang-sql';
+} from "@mui/material";
+import { styled, useTheme } from "@mui/system";
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
+import CodeMirror from "@uiw/react-codemirror";
+import { sql } from "@codemirror/lang-sql";
 // import { format } from 'sql-formatter';
-import { useForm } from 'react-hook-form';
-import axios from 'axios';
-import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
-import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
-import { useNavigate, useLocation } from 'react-router-dom';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell, { tableCellClasses } from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import Avatar from '@mui/material/Avatar';
+import { useForm } from "react-hook-form";
+import axios from "axios";
+import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
+import CheckCircleOutlinedIcon from "@mui/icons-material/CheckCircleOutlined";
+import { useNavigate, useLocation } from "react-router-dom";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import Avatar from "@mui/material/Avatar";
+import CheckIcon from "@mui/icons-material/Check";
+import CloseIcon from "@mui/icons-material/Close";
+import { useDispatch } from "react-redux";
+import { postUpdateQueryApi } from "../../../store/reportDashboardSlice";
 // import { Button } from '@gessa/ui';
 
 /** sqlite db object */
@@ -37,17 +42,21 @@ function createData(column1: string, column2: string) {
 }
 
 const rows = [
-  createData('10', '159'),
-  createData('20', '237'),
-  createData('30', '262'),
+  createData("10", "159"),
+  createData("20", "237"),
+  createData("30", "262"),
 ];
 
 function ViewDetails(props: any) {
   const [validate, setValidate] = useState(false);
   const [testQuery, setTestQuery] = useState(false);
   const [tableData, setTableData] = useState([]);
-  const [query, setQuery] = useState('');
+  const [oldQuery, setOldQuery] = useState("");
+  const [query, setQuery] = useState("");
+  const [queryChanged, setQueryChanged] = useState(false);
+  const [queryError, setQueryError] = useState("");
   const themes = useTheme();
+  const dispatch = useDispatch();
 
   const [screenSize, getDimension] = useState({
     dynamicWidth: window.innerWidth,
@@ -68,13 +77,15 @@ function ViewDetails(props: any) {
 
   const location: any = useLocation();
 
+  const { row, index }: any = location.state;
+
   /** to initialize test sql database */
   useEffect(() => {
     try {
       db = (window as any).openDatabase(
-        'testDB',
-        '1.0',
-        'Test DB',
+        "testDB",
+        "1.0",
+        "Test DB",
         2 * 1024 * 1024
       );
     } catch (error) {
@@ -92,202 +103,255 @@ function ViewDetails(props: any) {
   } = useForm();
 
   useEffect(() => {
-    window.addEventListener('resize', setDimension);
+    window.addEventListener("resize", setDimension);
 
     return () => {
-      window.removeEventListener('resize', setDimension);
+      window.removeEventListener("resize", setDimension);
     };
   }, [screenSize]);
 
-  useEffect(()=>{
-    setQuery(location?.state?.query)
-  },[])
+  useEffect(() => {
+    setQuery(row?.details?.query);
+    setOldQuery(row?.details?.query);
+  }, []);
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
-      fontStyle: 'normal',
-      fontFamily: 'Roboto',
+      fontStyle: "normal",
+      fontFamily: "Roboto",
       backgroundColor: theme.palette.custom.dashboardTableHeadBg,
       color: theme.palette.primary[900],
       fontWeight: 700,
-      fontSize: '12px',
+      fontSize: "12px",
     },
     [`&.${tableCellClasses.body}`]: {
       fontSize: 14,
-      cursor: 'pointer',
+      cursor: "pointer",
     },
   }));
 
   const StyledTableRow = styled(TableRow)(({ theme }) => ({
-    '&:nth-of-type(even)': {
+    "&:nth-of-type(even)": {
       backgroundColor: theme.palette.custom.dashboardTableHeadBg,
     },
-    '&:nth-of-type(odd)': {
+    "&:nth-of-type(odd)": {
       backgroundColor: theme.palette.custom.dashboardTableRowBg,
     },
     // hide last border
-    '&:last-child td, &:last-child th': {
+    "&:last-child td, &:last-child th": {
       border: 0,
     },
   }));
   const StyledPagination = styled(MuiBox)(({ theme }) => ({
-    display: 'flex',
-    bottom: '0px',
-    justifyContent: 'flex-end',
-    width: '98%',
-    height: '48px',
-    alignItems: 'center',
+    display: "flex",
+    bottom: "0px",
+    justifyContent: "flex-end",
+    width: "98%",
+    height: "48px",
+    alignItems: "center",
 
-    '& .css-j5ntxn-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected': {
+    "& .css-j5ntxn-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected": {
       backgroundColor: theme.palette.custom.tablePaginationBg,
     },
   }));
 
   const Box = useCallback(
     styled(MuiBox)(({ theme }) => ({
-      '.box': {
+      ".box": {
         width: screenSize.dynamicWidth / 2,
-        padding: '6px',
+        padding: "6px",
       },
-      '.viewDetails': {
+      ".viewDetails": {
         width: screenSize.dynamicWidth,
-        paddingTop: '10px',
-        paddingLeft: '6px',
-        paddingBottom: '10px',
+        paddingTop: "10px",
+        paddingLeft: "6px",
+        paddingBottom: "10px",
       },
-      '.title': {
-        fontFamily: 'Inter',
-        fontStyle: 'normal',
+      ".title": {
+        fontFamily: "Inter",
+        fontStyle: "normal",
         fontWeight: 600,
-        fontSize: ' 16px',
-        lineHeight: '24px',
+        fontSize: " 16px",
+        lineHeight: "24px",
         color: theme.palette.custom.sideBarText2,
       },
-      '.label': {
-        fontFamily: 'Roboto',
-        fontStyle: 'normal',
+      ".label": {
+        fontFamily: "Roboto",
+        fontStyle: "normal",
         fontWeight: 400,
-        fontSize: ' 14px',
-        lineHeight: '20px',
+        fontSize: " 14px",
+        lineHeight: "20px",
         color: theme.palette.custom.sideBarText1,
       },
-      '.name': {
-        fontFamily: 'Inter',
-        fontStyle: 'normal',
+      ".name": {
+        fontFamily: "Inter",
+        fontStyle: "normal",
         fontWeight: 600,
-        fontSize: ' 16px',
-        lineHeight: '20px',
+        fontSize: " 16px",
+        lineHeight: "20px",
         color: theme.palette.custom.sideBarText2,
       },
-      '.chip': {
-        fontFamily: 'Roboto',
-        fontStyle: 'normal',
+      ".chip": {
+        fontFamily: "Roboto",
+        fontStyle: "normal",
         fontWeight: 400,
-        fontSize: ' 14px',
-        lineHeight: '20px',
+        fontSize: " 14px",
+        lineHeight: "20px",
         color: theme.palette.custom.dropDownChip,
         borderColor: theme.palette.custom.dropDownChip,
       },
-      '.definition': {
-        fontFamily: 'Roboto',
-        fontStyle: 'normal',
+      ".definition": {
+        fontFamily: "Roboto",
+        fontStyle: "normal",
         fontWeight: 400,
-        fontSize: ' 12px',
-        lineHeight: '16px',
+        fontSize: " 12px",
+        lineHeight: "16px",
         color: theme.palette.custom.sideBarText1,
       },
-      '.description': {
-        fontFamily: 'Roboto',
-        fontStyle: 'normal',
+      ".description": {
+        fontFamily: "Roboto",
+        fontStyle: "normal",
         fontWeight: 400,
-        fontSize: ' 14px',
-        lineHeight: '20px',
+        fontSize: " 14px",
+        lineHeight: "20px",
         color: theme.palette.custom.sideBarText2,
       },
-      '.definitionBox': {
+      ".definitionBox": {
         width: screenSize.dynamicWidth,
         height: screenSize.dynamicHeight / 8,
-        paddingTop: '10px',
-        paddingLeft: '6px',
+        paddingTop: "10px",
+        paddingLeft: "6px",
       },
-      '.validate': {
-        fontFamily: 'Roboto',
-        fontStyle: 'normal',
+      ".validate": {
+        fontFamily: "Roboto",
+        fontStyle: "normal",
         fontWeight: 400,
-        fontSize: ' 12px',
-        lineHeight: '16px',
+        fontSize: " 12px",
+        lineHeight: "16px",
         color: theme.palette.custom.tablePaginationBg,
-        cursor: 'pointer',
+        cursor: "pointer",
       },
-      '.sqlBox': {
+      ".sqlBox": {
         width: screenSize.dynamicWidth - 20,
         height: screenSize.dynamicHeight / 3,
-        marginBottom: '10px',
+        marginBottom: "10px",
         // border: '1px solid green',
       },
-      '.sqlBoxLabel': {
+      ".sqlBoxLabel": {
         width: screenSize.dynamicWidth - 130,
-        padding: '6px',
-        fontFamily: 'Roboto',
-        fontStyle: 'normal',
+        padding: "6px",
+        fontFamily: "Roboto",
+        fontStyle: "normal",
         fontWeight: 400,
-        fontSize: ' 12px',
-        lineHeight: '16px',
+        fontSize: " 12px",
+        lineHeight: "16px",
         color: theme.palette.custom.sideBarText1,
       },
-      '.message': {
-        fontFamily: 'Roboto',
-        fontStyle: 'normal',
+      ".message": {
+        fontFamily: "Roboto",
+        fontStyle: "normal",
         fontWeight: 400,
-        fontSize: ' 12px',
-        lineHeight: '16px',
+        fontSize: " 12px",
+        lineHeight: "16px",
         color: theme.palette.custom.successMsg,
       },
 
-      '.checkedIcon': {
+      ".checkedIcon": {
         color: theme.palette.custom.successMsg,
-        width: '13.33px',
-        height: '13.33px',
-        padding: '1px',
+        width: "13.33px",
+        height: "13.33px",
+        padding: "1px",
       },
-      '.container': {
+
+      ".queryErrorMessage": {
+        fontFamily: "Roboto",
+        fontStyle: "normal",
+        fontWeight: 400,
+        fontSize: " 12px",
+        lineHeight: "16px",
+        color: theme.palette.custom.errorMsg,
+      },
+
+      ".sqlEditorBottomPannel": {
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+        height: "49px",
+      },
+
+      ".queryTextBoxSaveCancel_button_pannel": {
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "flex-start",
+        padding: "0px",
+      },
+
+      ".queryTextBoxSaveCancel_buttons": {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        width: "36px",
+        height: "36px",
+        margin: "0px 5px",
+        padding: "10px",
+        background: theme.palette.custom.dashboardButtonBg,
+        borderRadius: "4px",
+        cursor: "pointer",
+        "&:hover": {
+          background: theme.palette.custom.dashboardButtonHover,
+        },
+        "& .MuiSvgIcon-root": {
+          color:
+            theme.palette.mode == "light" ? theme.palette.custom.form3 : null,
+        },
+      },
+
+      ".wrongStatementIcon": {
+        color: theme.palette.custom.errorMsg,
+        width: "13.33px",
+        height: "13.33px",
+        padding: "1px",
+      },
+
+      ".container": {
         // width: screenSize.dynamicWidth - 20,
         height: screenSize.dynamicHeight / 2,
       },
-      '.table': {
+      ".table": {
         width: screenSize.dynamicWidth - 20,
       },
-      '.sqlTitle': {
-        fontFamily: 'Roboto',
-        fontStyle: 'normal',
+      ".sqlTitle": {
+        fontFamily: "Roboto",
+        fontStyle: "normal",
         fontWeight: 700,
-        fontSize: ' 22px',
-        lineHeight: '32px',
+        fontSize: " 22px",
+        lineHeight: "32px",
         color: theme.palette.custom.sideBarText2,
       },
-      '.card': {
+      ".card": {
         width: screenSize.dynamicWidth - 20,
       },
-      '.avatar': {
-        width: '20px',
-        height: '20px',
+      ".avatar": {
+        width: "20px",
+        height: "20px",
       },
-      '.createdByBox': {
+      ".createdByBox": {
         width: screenSize.dynamicWidth / 2,
-        padding: '4px',
+        padding: "4px",
       },
-      '.delete': {
-        marging: '10px',
-        width: '88px',
-        height: '36px',
-        fontFamily: 'Roboto',
-        fontStyle: 'normal',
+      ".delete": {
+        marging: "10px",
+        width: "88px",
+        height: "36px",
+        fontFamily: "Roboto",
+        fontStyle: "normal",
         fontWeight: 400,
-        fontSize: ' 12px',
-        lineHeight: '16px',
+        fontSize: " 12px",
+        lineHeight: "16px",
         color: theme.palette.custom.btnDeleteColor,
         background: theme.palette.custom.tablePaginationBg,
-        borderRadius: '4px',
+        borderRadius: "4px",
       },
     })),
     []
@@ -300,9 +364,18 @@ function ViewDetails(props: any) {
     // window.scrollBy(0, 2000);
   };
 
+  // const handleQuery = (queryText: any) => {
+  //   if (oldQuery !== queryText) {
+  //     setQueryChanged(true);
+  //   } else {
+  //     setQueryChanged(false);
+  //   }
+
+  // }
+
   const onValiteQuery = () => {
     db.transaction((tx: any) => {
-      tx.executeSql('SET NOEXEC ON');
+      tx.executeSql("SET NOEXEC ON");
     });
 
     db.transaction((tx: any) => {
@@ -310,14 +383,14 @@ function ViewDetails(props: any) {
         `${query}`,
         [],
         (MSG: any) => {
-          alert('executed success!');
+          // alert('executed success!');
           setValidate(true);
         },
         (ERROR: any, test: any) => {
-          if (test.message.includes('syntax')) {
-            alert('Syntax error');
-          } else if (test.message.includes('incomplete')) {
-            alert('Incomplete syntax');
+          if (test.message.includes("syntax")) {
+            setQueryError("Syntax error");
+          } else if (test.message.includes("incomplete")) {
+            setQueryError("Incomplete syntax");
           } else {
             setValidate(true);
           }
@@ -326,18 +399,27 @@ function ViewDetails(props: any) {
     });
   };
 
+  const handleSaveQuery = () => {
+    setOldQuery(query);
+    dispatch(postUpdateQueryApi({ index, query }));
+  };
+
+  const handleCancelQuery = () => {
+    setQuery(oldQuery);
+  };
+
   return (
     <Box
       sx={{
-        minHeight: '100vh',
-        paddingBottom: '80px',
+        minHeight: "100vh",
+        paddingBottom: "80px",
       }}
     >
       <Box className="viewDetails">
         <Stack direction="row" spacing={2}>
           <KeyboardBackspaceIcon
             cursor="pointer"
-            onClick={() => history('/')}
+            onClick={() => history("/")}
           />
           <Typography className="title"> View Details</Typography>
         </Stack>
@@ -347,16 +429,21 @@ function ViewDetails(props: any) {
         <Box className="box">
           <Stack direction="column" spacing={1}>
             <Typography className="label"> Report Name</Typography>
-            <Typography className="name">{location?.state?.name}</Typography>
+            <Typography className="name">{row?.details?.name}</Typography>
           </Stack>
         </Box>
         <Box className="box">
           <Stack direction="column" spacing={1}>
             <Typography className="label"> Schemas</Typography>
             <Stack direction="row" spacing={2}>
-              {location?.state?.schema?.map?.((item: any) => {
+              {row?.details?.schema?.map?.((item: any) => {
                 return (
-                  <Chip key={item} className="chip" label={item} variant="outlined" />
+                  <Chip
+                    key={item}
+                    className="chip"
+                    label={item}
+                    variant="outlined"
+                  />
                 );
               })}
             </Stack>
@@ -366,7 +453,7 @@ function ViewDetails(props: any) {
       <Box className="definitionBox">
         <Typography className="definition"> Definition</Typography>
         <Typography className="description">
-          {location?.state?.description}
+          {row?.details?.description}
         </Typography>
       </Box>
       <Box className="sqlBox">
@@ -394,14 +481,43 @@ function ViewDetails(props: any) {
               _viewUpdate: any /* TODO document why this arrow function is empty */
             ) => {
               setQuery(__value);
+              // handleQuery(__value);
             }}
           />
-          {validate && (
-            <Stack className="messageContainer" direction="row">
-              <CheckCircleOutlinedIcon className="checkedIcon" />
-              <Typography className="message">No Error Found</Typography>
-            </Stack>
-          )}
+          <Box className="sqlEditorBottomPannel">
+            <Box>
+              {validate && (
+                <Stack className="messageContainer" direction="row">
+                  <CheckCircleOutlinedIcon className="checkedIcon" />
+                  <Typography className="message">No Error Found</Typography>
+                </Stack>
+              )}
+              {!validate && queryError != "" && (
+                <Stack className="messageContainer" direction="row">
+                  <HighlightOffIcon className="wrongStatementIcon" />
+                  <Typography className="queryErrorMessage">
+                    {queryError}
+                  </Typography>
+                </Stack>
+              )}
+            </Box>
+            {oldQuery !== query && (
+              <Box className="queryTextBoxSaveCancel_button_pannel">
+                <Box
+                  className="queryTextBoxSaveCancel_buttons"
+                  onClick={() => handleSaveQuery()}
+                >
+                  <CheckIcon />
+                </Box>
+                <Box
+                  className="queryTextBoxSaveCancel_buttons"
+                  onClick={() => handleCancelQuery()}
+                >
+                  <CloseIcon />
+                </Box>
+              </Box>
+            )}
+          </Box>
         </Box>
       </Box>
       {testQuery && (
@@ -420,7 +536,7 @@ function ViewDetails(props: any) {
                   {rows.map((row) => (
                     <StyledTableRow
                       key={row.column1}
-                      sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                     >
                       <StyledTableCell component="th" scope="row">
                         {row.column1}
@@ -464,15 +580,15 @@ function ViewDetails(props: any) {
       <Box
         component="div"
         sx={{
-          display: 'flex',
-          bottom: '0px',
-          position: 'fixed',
-          width: '99.9%',
+          display: "flex",
+          bottom: "0px",
+          position: "fixed",
+          width: "99.9%",
           // background: 'black',
-          justifyContent: 'flex-end',
-          height: '48px',
-          alignItems: 'center',
-          borderTop: '1px solid #333333',
+          justifyContent: "flex-end",
+          height: "48px",
+          alignItems: "center",
+          borderTop: "1px solid #333333",
         }}
       >
         <Button className="delete" variant="contained">
