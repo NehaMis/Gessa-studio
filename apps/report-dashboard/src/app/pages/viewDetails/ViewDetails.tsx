@@ -47,6 +47,7 @@ function ViewDetails(props: any) {
   const [oldQuery, setOldQuery] = useState("");
   const [query, setQuery] = useState("");
   const [queryError, setQueryError] = useState("");
+  const [querySaveMsg, setQuerySaveMsg]=useState("");
   const themes = useTheme();
   const dispatch = useDispatch();
 
@@ -419,6 +420,12 @@ function ViewDetails(props: any) {
     if (validate && testQuery) {
       setOldQuery(query);
       dispatch(postUpdateQueryApi({ index, query }));
+      setQuerySaveMsg("Query Updated Successfully");
+      
+      setTimeout(() => {
+        setQuerySaveMsg("")
+      }, 4000);
+
     } else {
       setQueryError("Please Validate & Test Query First");
     }
@@ -518,18 +525,24 @@ function ViewDetails(props: any) {
           />
           <Box className="sqlEditorBottomPannel">
             <Box>
+            {queryError!="" && !testQuery && (
+                <Stack className="messageContainer" direction="row">
+                  <HighlightOffIcon className="wrongStatementIcon" />
+                  <Typography className="queryErrorMessage">
+                    {queryError}
+                  </Typography>
+                </Stack>
+              )}
               {validate && oldQuery !== query && (
                 <Stack className="messageContainer" direction="row">
                   <CheckCircleOutlinedIcon className="checkedIcon" />
                   <Typography className="message">No Error Found</Typography>
                 </Stack>
               )}
-              {!validate || !testQuery && queryError != "" &&  (
+              {querySaveMsg!="" && (
                 <Stack className="messageContainer" direction="row">
-                  <HighlightOffIcon className="wrongStatementIcon" />
-                  <Typography className="queryErrorMessage">
-                    {queryError}
-                  </Typography>
+                  <CheckCircleOutlinedIcon className="checkedIcon" />
+                  <Typography className="message">{querySaveMsg}</Typography>
                 </Stack>
               )}
             </Box>
