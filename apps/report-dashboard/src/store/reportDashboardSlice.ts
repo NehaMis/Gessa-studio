@@ -48,6 +48,17 @@ export const postUpdateQueryApi = createAsyncThunk(
   }
 );
 
+export const postDeleteReportApi = createAsyncThunk(
+  "deleteReport",
+  async (queryData: any, { dispatch }) => {
+    await axios.post(
+      process.env.NX_DATA_FLOW_BASE_URL + "/deleteReport",
+      queryData
+    );
+    dispatch(getReportsApi("any"));
+  }
+);
+
 const reportAdapter = createEntityAdapter<IReport>({
   selectId: ({ title }) => title,
 });

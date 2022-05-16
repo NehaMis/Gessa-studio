@@ -31,7 +31,7 @@ import Avatar from "@mui/material/Avatar";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
 import { useDispatch } from "react-redux";
-import { postUpdateQueryApi } from "../../../store/reportDashboardSlice";
+import { postUpdateQueryApi, postDeleteReportApi } from "../../../store/reportDashboardSlice";
 // import { Button } from '@gessa/ui';
 
 /** sqlite db object */
@@ -408,6 +408,11 @@ function ViewDetails(props: any) {
     setQuery(oldQuery);
   };
 
+  const handleDeleteReport=()=>{
+    dispatch(postDeleteReportApi(index))
+    history("/")
+  }
+
   return (
     <Box
       sx={{
@@ -591,7 +596,7 @@ function ViewDetails(props: any) {
           borderTop: "1px solid #333333",
         }}
       >
-        <Button className="delete" variant="contained">
+        <Button color="info" className="delete" variant="contained" onClick={()=>handleDeleteReport()}>
           Delete
         </Button>
       </Box>

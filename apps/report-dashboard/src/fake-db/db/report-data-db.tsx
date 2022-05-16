@@ -160,3 +160,14 @@ mock
       onSuccess(reportData.data[0].rowData, "Query Updated successfully"),
     ];
   });
+
+  mock
+  .onPost(new RegExp(process.env.NX_DATA_FLOW_BASE_URL + "/deleteReport"))
+  .reply((request) => {
+    let requestData = JSON.parse(request.data);
+    reportData.data[0].rowData.splice(requestData,1);
+    return [
+      200,
+      onSuccess(reportData.data[0].rowData, "Report Deleted successfully"),
+    ];
+  });
