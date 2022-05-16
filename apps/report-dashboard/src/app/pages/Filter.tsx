@@ -47,8 +47,6 @@ function Filter(props: FilterType) {
         fontWeight: '400',
         fontSize: '14px',
         lineHeight: '20px',
-        // height:'28px',
-        //   padding: '10px 12px',
       },
     })),
     []
@@ -129,7 +127,6 @@ function Filter(props: FilterType) {
           fontSize: '12px',
           lineHeight: '16px',
           color:theme.palette.custom.sideBarText1,
-          // marginTop: '15px',
         },
 
         '.report_input_labels': {
@@ -139,7 +136,6 @@ function Filter(props: FilterType) {
           fontSize: '12px',
           lineHeight: '16px',
           color:theme.palette.custom.sideBarText1,
-          // marginTop: '15px',
         },
 
         '.error_notification':{
@@ -171,9 +167,6 @@ function Filter(props: FilterType) {
             height: '36px',
             borderRadius: '4px',
             padding: '10px 24px',
-            // margin: '0px 16px',
-            // background: '#ffffff1f',
-            // color: '#FFFFFF',
             right: '20px',
           },
         },
@@ -255,7 +248,6 @@ function Filter(props: FilterType) {
       });
       props.setFilters(filterData);
       props.onClose();
-      // console.log(filterData);
     } else {
       setErrors(true)
     }
@@ -263,7 +255,6 @@ function Filter(props: FilterType) {
 
   useEffect(() => {
     if(dateValue[0]!==null && dateValue[1]!==null){
-      // console.log("In Use Effect", dateValue[0])
       setFilterData({
         ...filterData,
         created_on: {
@@ -398,7 +389,6 @@ function Filter(props: FilterType) {
           variant="contained"
           color="info"
           onClick={() => handleSave()}
-          // disabled={isDataFilled() ? false : true}
         >
           Apply
         </Button>

@@ -187,11 +187,6 @@ function Transfer(props: TransferProps) {
 
   const handleSave=()=>{
     if(right.length>0){
-      // axios
-      //   .post(process.env.NX_DATA_FLOW_BASE_URL + "/columnOption", {leftList:left,rightList:right})
-      //   .then(function (response) {
-      //     console.log(response);
-      //   });
       dispatch(postColumnHeaderApi({leftList:left,rightList:right}))
       props.setFilters({});
       props.setSnackBarArgs({
@@ -342,7 +337,6 @@ function Transfer(props: TransferProps) {
               variant="contained"
               color="info"
               onClick={() => handleSave()}
-              // disabled={isDataFilled ? false : true}
             >
               Save
             </Button>

@@ -1,15 +1,13 @@
 import { styled } from "@mui/system";
-import { IconButton, Icon, Box, Divider, Typography } from "@mui/material";
+import { Box, Divider, Typography } from "@mui/material";
 import { Add } from "@mui/icons-material";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import TuneOutlinedIcon from "@mui/icons-material/TuneOutlined";
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import SideMenu from "../components/SideMenu";
 import Snackbar, { SnackbarProps } from "../components/Snackbar/snackbar";
 import ColumnOption from "./ColumnOption";
-import Table from "../components/Table/Table";
 import TablePro from "../components/Table/TablePro";
-import axios from "axios";
 import { useNavigate } from "react-router";
 import { getReportsApi } from "../../store/reportDashboardSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -45,40 +43,6 @@ function Dashboard() {
   };
 
   useEffect(() => {
-    // axios
-    //   .get(process.env.NX_DATA_FLOW_BASE_URL + "/reportData")
-    //   .then(function (response) {
-    //     let tableData = response.data.result.data[0].rowData;
-    //     if (Object.keys(filters).length !== 0) {
-    //       if (filters.name != "") {
-    //         tableData = tableData.filter(
-    //           (item: any) =>
-    //             item.name.toLowerCase() == filters.name.toLowerCase()
-    //         );
-    //       }
-    //       if (filters.select_schema.length > 0) {
-    //         tableData = tableData.filter(
-    //           (item: any) =>
-    //             item.details.schema.join() == filters.select_schema.join()
-    //         );
-    //       }
-    //       if (filters.created_by.length > 0) {
-    //         tableData = tableData.filter(
-    //           (item: any) => item.createdBy == filters.created_by.join()
-    //         );
-    //       }
-    //       if (filters.created_on.from != "") {
-    //         tableData = tableData.filter((item: any) => {
-    //           let date = new Date(item.createdOn);
-    //           let fromDate = new Date(filters.created_on.from);
-    //           let toDate = new Date(filters.created_on.to);
-    //           return date >= fromDate && date <= toDate;
-    //         });
-    //       }
-    //       setTableData(tableData);
-    //     }
-    //   })
-
     if (rootState) {
       let tableData = rootState;
       if (Object.keys(filters).length !== 0) {
@@ -107,14 +71,12 @@ function Dashboard() {
           });
         }
         setTableData(tableData);
-        // console.log("Dashboard Root State useEffect =", rootState, "Table Data =", tableData);
       }
     }
   }, [filters, rootState]);
 
   const StyledDashboard = useCallback(
     styled("div")(({ theme }) => {
-      // console.log("Dashboard Root State styledDashboard =", rootState, "Table Data =", tableData);
       return {
         ".dashboard_model_header": {
           display: "flex",
@@ -190,9 +152,6 @@ function Dashboard() {
   const [width, setWidth] = useState("0");
   const [component, setComponent] = useState("");
 
-  //Table
-  const columnHeader = ["Name", "Created By", "Created On"];
-
   const handleShowAddReport = () => {
     if (!isColumnOptionOpen) {
       setWidth("574px");
@@ -258,8 +217,6 @@ function Dashboard() {
         </Box>
         <Divider />
         <Box>
-          {/* <Table filters={filters} /> */}
-          {/* {console.log("Table Data =",tableData)} */}
           {tableData && (
             <TablePro
               showPagination={true}

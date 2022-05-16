@@ -1,4 +1,4 @@
-import { display, styled } from '@mui/system';
+import { styled } from '@mui/system';
 import './icon-component.css';
 
 /* eslint-disable-next-line */
@@ -45,7 +45,6 @@ export function IconComponent(props: IconComponentProps) {
       <div
         className="icon-div"
         style={{
-          // margin: '10px',
           backgroundColor:
             props.style === 'boxed' ? props.color + '50' : 'transparent',
           height: props.size + 'px',

@@ -49,18 +49,4 @@ mock
     return [200, onSuccess(newData, 'Report created successfully')];
   });
 
-// UPDATE
-// mock
-//   .onPut(
-//     new RegExp(process.env.NX_DATA_FLOW_BASE_URL + '/data-flow/' + /[a-z0-9]*/)
-//   )
-//   .reply((request) => {
-//     let newData = JSON.parse(request.data);
-//     newData = {
-//       ...newData,
-//       updated_at: new Date().toISOString(),
-//     };
-
-//     return [200, onSuccess(newData, 'Chart updated successfully')];
-//   });
 

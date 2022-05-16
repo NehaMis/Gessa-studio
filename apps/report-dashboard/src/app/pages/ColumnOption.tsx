@@ -1,10 +1,8 @@
 import styled from "@emotion/styled";
 import { Box, Button, Divider, Typography } from "@mui/material";
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
-import Transfer, {
-  TransferProps,
-} from "../components/TransferComponent/Transfer";
+import Transfer from "../components/TransferComponent/Transfer";
 import { useTheme } from "@mui/system";
 import axios from "axios";
 import { getColumnApi } from '../../store/columnOptionSlice'
@@ -26,11 +24,6 @@ function ColumnOption(props: any) {
 
   useEffect(() => {
     dispatch(getColumnApi("any"))
-    // axios
-    //   .get(process.env.NX_DATA_FLOW_BASE_URL + "/columnOption")
-    //   .then(function (response) {
-    //     setColumnOptions(response.data.result);
-    //   });
   }, []);
 
   useEffect(()=>{
@@ -38,8 +31,6 @@ function ColumnOption(props: any) {
       setColumnOptions({...rootState[0]});
     }
   },[rootState])
-
-  // console.log("Column Option", columnOptions)
 
   const StyledColumnMenu = useCallback(
     styled("div")(({ theme }) => {

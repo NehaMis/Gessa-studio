@@ -67,7 +67,6 @@ function AddReport(props: AddReportType) {
         2 * 1024 * 1024
       );
     } catch (error) {
-      // console.error("Error in initializing database", error);
     }
   }, []);
 
@@ -94,7 +93,6 @@ function AddReport(props: AddReportType) {
         fontWeight: "400",
         fontSize: "14px",
         lineHeight: "20px",
-        //   padding: '10px 12px',
       },
       "& .MuiInputLabel-root": {
         fontStyle: "normal",
@@ -114,12 +112,8 @@ function AddReport(props: AddReportType) {
 
         display: "flex",
         flexDirection: "column",
-        // alignItem: 'flex-start',
-        // padding: '4px 0px 0px',
         width: `${props?.width}`,
         maxWidth: `calc(100% - 0px)`,
-        // overflowY: 'hidden',
-        // overflowX: 'hidden',
 
         "& .Mui-error": {
           border: "1px solid red",
@@ -154,8 +148,6 @@ function AddReport(props: AddReportType) {
           alignItems: "flex-start",
           padding: "0px 16px",
           margin: "16px 0px",
-          // overflowY: 'scroll',
-          // top: '68px',
         },
         ".report_button_pannel": {
           display: "flex",
@@ -175,7 +167,6 @@ function AddReport(props: AddReportType) {
           fontSize: "12px",
           lineHeight: "16px",
           color: theme.palette.custom.sideBarText1,
-          // marginTop: '15px',
         },
         ".report_validate_and_testQuery": {
           fontFamily: "Roboto",
@@ -184,7 +175,6 @@ function AddReport(props: AddReportType) {
           lineHeight: "16px",
           fontSize: "14px",
           cursor: "pointer",
-          // color: data.sql=="" ? theme.palette.custom.sideBarText2 : theme.palette.custom.tablePaginationBg,
         },
         ".report_divider": {
           margin: "16px",
@@ -404,18 +394,14 @@ function AddReport(props: AddReportType) {
         `${data.sql}`,
         [],
         (MSG: any) => {
-          // console.log(2, MSG);
           alert("executed success!");
           setValidate(true);
         },
         (ERROR: any, test: any) => {
-          // console.log(3, ERROR, test);
 
           if (test.message.includes("syntax")) {
-            // alert("Syntax error");
             setQueryError("Syntax error");
           } else if (test.message.includes("incomplete")) {
-            // alert("Incomplete syntax");
             setQueryError("Incomplete syntax");
           } else {
             setValidate(true);
@@ -478,13 +464,7 @@ function AddReport(props: AddReportType) {
 
   const handleSave = () => {
     if (checkAllDataFilled()) {
-      // axios
-      //   .post(process.env.NX_DATA_FLOW_BASE_URL + "/reportData", data)
-      //   .then(function (response) {
-      //     // console.log(response);
-      //   });
       dispatch(postReportApi(data))
-      // dispatch(getReportsApi("any"))
       props.setFilters({
         name: "",
         select_schema: [],
@@ -522,7 +502,6 @@ function AddReport(props: AddReportType) {
           Report Name
         </InputLabel>
         <AddReportBootstrapInput
-          // error={errors && data.report_name==""?true:false}
           placeholder="Enter Report Name"
           name="report_name"
           fullWidth={true}
@@ -543,7 +522,6 @@ function AddReport(props: AddReportType) {
 
         <AddReportBootstrapInput
           name="def"
-          // error={errors && data.def==""?true:false}
           placeholder="Enter Definition"
           minRows={4}
           multiline={true}
@@ -617,7 +595,6 @@ function AddReport(props: AddReportType) {
             value={data.sql}
             height="134px"
             width="525px"
-            // maxWidth={`calc(100% - 0px)`}
             indentWithTab={true}
             theme={themes.palette.mode}
             extensions={[sql()]}
@@ -672,31 +649,6 @@ function AddReport(props: AddReportType) {
                 </Box>
               </Box>
               <TablePro data={rows} />
-              {/* <TableContainer component={Paper}>
-                <Table aria-label="simple table">
-                  <TableHead>
-                    <StyledTableRow>
-                      <StyledTableCell>Column 1</StyledTableCell>
-                      <StyledTableCell> Column 2</StyledTableCell>
-                    </StyledTableRow>
-                  </TableHead>
-                  <TableBody>
-                    {rows.map((row) => (
-                      <StyledTableRow
-                        key={row.column1}
-                        sx={{
-                          "&:last-child td, &:last-child th": { border: 0 },
-                        }}
-                      >
-                        <StyledTableCell component="th" scope="row">
-                          {row.column1}
-                        </StyledTableCell>
-                        <StyledTableCell>{row.column2}</StyledTableCell>
-                      </StyledTableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer> */}
             </Box>
             <StyledPagination>
               <Box>
@@ -728,9 +680,6 @@ function AddReport(props: AddReportType) {
           className="btn_save"
           variant="contained"
           onClick={() => handleSave()}
-        // disabled={
-        //   isDataFilled || data.select_schema.length > 0 ? false : true
-        // }
         >
           Save
         </Button>

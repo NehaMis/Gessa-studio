@@ -34,6 +34,6 @@
 .actionIconsContainer {
   font-size: 13px;
   display: flex;
-  justify-content: start;
+  justify-content: flex-start;
   margin-left: 15px;
 }

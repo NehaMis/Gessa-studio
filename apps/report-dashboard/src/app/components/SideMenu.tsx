@@ -1,9 +1,7 @@
 import { Box, Typography } from '@mui/material';
 import { styled } from '@mui/system';
-import React from 'react';
 import AddReport from '../pages/AddReport';
 import Filter from '../pages/Filter';
-// import Filter from '../pages/Filter';
 
 export interface SideMenuType {
   width: string;
@@ -22,8 +20,6 @@ function SideMenu(props: SideMenuType) {
       display: 'flex',
       flexDirection: 'column',
       alignItem: 'flex-start',
-      //   padding: '4px 0px 0px',
-
       position: 'fixed',
       width: `${props?.width}`,
       maxWidth: `calc(100% - 20px)`,

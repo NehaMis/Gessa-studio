@@ -165,35 +165,3 @@ mock
   .reply((request) => {
     return [200, onSuccess(connectorDB)];
   });
-
-// CREATE
-// mock
-//   .onPost(new RegExp(process.env.NX_CONNECTOR_BASE_URL + '/connector'))
-//   .reply((request) => {
-//     let newData = JSON.parse(request.data);
-//     newData = {
-//       ...newData,
-//       _id: (Math.random() * 100).toString().split('.').join(''),
-//       created_at: new Date().toISOString(),
-//       updated_at: new Date().toISOString(),
-//     };
-//     connectorDB.data = [...connectorDB.data, newData];
-//     connectorDB.count = connectorDB.data.length;
-
-//     return [200, onSuccess(newData, 'Chart created successfully')];
-//   });
-
-// UPDATE
-// mock
-//   .onPut(
-//     new RegExp(process.env.NX_DATA_FLOW_BASE_URL + '/data-flow/' + /[a-z0-9]*/)
-//   )
-//   .reply((request) => {
-//     let newData = JSON.parse(request.data);
-//     newData = {
-//       ...newData,
-//       updated_at: new Date().toISOString(),
-//     };
-
-//     return [200, onSuccess(newData, 'Chart updated successfully')];
-//   });

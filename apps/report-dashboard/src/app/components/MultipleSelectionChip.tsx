@@ -79,7 +79,6 @@ export default function MultipleSelectChip(props:any) {
           renderValue={(selected) => (
             <Box sx={{display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
               {selected.map((value) => (
-                // <Chip key={value} label={value} />
                 <Chip
                   key={value}
                   label={value}
@@ -91,9 +90,7 @@ export default function MultipleSelectChip(props:any) {
                       onMouseDown={(event) => event.stopPropagation()}
                     />
                   }
-                  // className={classes.chip}
                   onDelete={(e) => handleDelete(e, value)}
-                  // onClick={() => console.log('clicked chip')}
                 />
               ))}
             </Box>

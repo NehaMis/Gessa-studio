@@ -2,10 +2,6 @@ import '../fake-db';
 import themes from '../theme';
 
 import { createTheme, CssBaseline } from '@mui/material';
-import { Router } from 'react-router';
-// import { RouteProvider } from '../context/routes';
-import history from '../utils/history';
-import { ChartBox, IconBar } from '@gessa/ui';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { StyledEngineProvider } from '@mui/material/styles';
 import {

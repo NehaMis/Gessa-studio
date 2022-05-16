@@ -13,8 +13,6 @@ import { styled } from "@mui/system";
 import { useNavigate } from "react-router-dom";
 import { format, parseISO } from "date-fns";
 import axios from "axios";
-import { keymap } from "@uiw/react-codemirror";
-// import './Table.css';
 
 export interface TableProps {
   filters: any;
@@ -58,7 +56,6 @@ export default function BasicTable(props: TableProps) {
       .get(process.env.NX_DATA_FLOW_BASE_URL + "/reportData")
       .then(function (response) {
         let tableData = response.data.result.data[0].rowData;
-        // console.log("Filter =", props.filters);
         if (Object.keys(props.filters).length !== 0) {
           if (props.filters.name != "") {
             tableData = tableData.filter(
@@ -178,7 +175,6 @@ export default function BasicTable(props: TableProps) {
       backgroundColor: theme.palette.custom.tablePaginationBg,
     },
   }));
-  // console.log("Table Rows", rows, "Table Data ", tableData);
   return (
     <>
       {isGettingData ? (

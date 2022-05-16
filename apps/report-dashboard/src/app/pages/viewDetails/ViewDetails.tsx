@@ -1,7 +1,5 @@
-import React, { useCallback, useState, useEffect, useRef } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import {
-  IconButton,
-  Icon,
   Box as MuiBox,
   Divider,
   Typography,
@@ -14,25 +12,21 @@ import { styled, useTheme } from "@mui/system";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import CodeMirror from "@uiw/react-codemirror";
 import { sql } from "@codemirror/lang-sql";
-// import { format } from 'sql-formatter';
-import { useForm } from "react-hook-form";
-import axios from "axios";
+import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
+import TuneOutlinedIcon from "@mui/icons-material/TuneOutlined";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import CheckCircleOutlinedIcon from "@mui/icons-material/CheckCircleOutlined";
 import { useNavigate, useLocation } from "react-router-dom";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell, { tableCellClasses } from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
 import Avatar from "@mui/material/Avatar";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
 import { useDispatch } from "react-redux";
-import { postUpdateQueryApi, postDeleteReportApi } from "../../../store/reportDashboardSlice";
-// import { Button } from '@gessa/ui';
+import {
+  postUpdateQueryApi,
+  postDeleteReportApi,
+} from "../../../store/reportDashboardSlice";
+import TablePro from "../../components/Table/TablePro";
+
 
 /** sqlite db object */
 let db: any;
@@ -50,10 +44,8 @@ const rows = [
 function ViewDetails(props: any) {
   const [validate, setValidate] = useState(false);
   const [testQuery, setTestQuery] = useState(false);
-  const [tableData, setTableData] = useState([]);
   const [oldQuery, setOldQuery] = useState("");
   const [query, setQuery] = useState("");
-  const [queryChanged, setQueryChanged] = useState(false);
   const [queryError, setQueryError] = useState("");
   const themes = useTheme();
   const dispatch = useDispatch();
@@ -89,18 +81,8 @@ function ViewDetails(props: any) {
         2 * 1024 * 1024
       );
     } catch (error) {
-      // console.error('Error in initializing database', error);
     }
   }, []);
-
-  const {
-    register,
-    handleSubmit,
-    control,
-    getValues,
-    setValue,
-    formState: { errors },
-  } = useForm();
 
   useEffect(() => {
     window.addEventListener("resize", setDimension);
@@ -115,33 +97,7 @@ function ViewDetails(props: any) {
     setOldQuery(row?.details?.query);
   }, []);
 
-  const StyledTableCell = styled(TableCell)(({ theme }) => ({
-    [`&.${tableCellClasses.head}`]: {
-      fontStyle: "normal",
-      fontFamily: "Roboto",
-      backgroundColor: theme.palette.custom.dashboardTableHeadBg,
-      color: theme.palette.primary[900],
-      fontWeight: 700,
-      fontSize: "12px",
-    },
-    [`&.${tableCellClasses.body}`]: {
-      fontSize: 14,
-      cursor: "pointer",
-    },
-  }));
-
-  const StyledTableRow = styled(TableRow)(({ theme }) => ({
-    "&:nth-of-type(even)": {
-      backgroundColor: theme.palette.custom.dashboardTableHeadBg,
-    },
-    "&:nth-of-type(odd)": {
-      backgroundColor: theme.palette.custom.dashboardTableRowBg,
-    },
-    // hide last border
-    "&:last-child td, &:last-child th": {
-      border: 0,
-    },
-  }));
+  
   const StyledPagination = styled(MuiBox)(({ theme }) => ({
     display: "flex",
     bottom: "0px",
@@ -231,11 +187,26 @@ function ViewDetails(props: any) {
         color: theme.palette.custom.tablePaginationBg,
         cursor: "pointer",
       },
+
+      ".report_query_labels": {
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "baseline",
+        justifyContent: "space-between",
+        position: "relative",
+        width: "100%",
+        ".report_validate_and_testQuery": {
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "baseline",
+          gap: "10px",
+        },
+      },
+
       ".sqlBox": {
         width: screenSize.dynamicWidth - 20,
         height: screenSize.dynamicHeight / 3,
         marginBottom: "10px",
-        // border: '1px solid green',
       },
       ".sqlBoxLabel": {
         width: screenSize.dynamicWidth - 130,
@@ -315,8 +286,9 @@ function ViewDetails(props: any) {
       },
 
       ".container": {
-        // width: screenSize.dynamicWidth - 20,
+        width: screenSize.dynamicWidth - 20,
         height: screenSize.dynamicHeight / 2,
+        marginTop: "50px",
       },
       ".table": {
         width: screenSize.dynamicWidth - 20,
@@ -329,8 +301,53 @@ function ViewDetails(props: any) {
         lineHeight: "32px",
         color: theme.palette.custom.sideBarText2,
       },
+      ".sqlTablePannel": {
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+        height: "40px",
+      },
+
+      ".sqlTable_button_pannel": {
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "flex-start",
+        height: "36px",
+      },
+
+      ".sqlTableTitle": {
+        fontFamily: "Roboto",
+        fontStyle: "normal",
+        fontWeight: 700,
+        fontSize: " 22px",
+        lineHeight: "32px",
+        color: theme.palette.custom.sideBarText2,
+      },
+
+      ".sqlTableButtons": {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        width: "36px",
+        height: "36px",
+        margin: "0px 10px",
+        background: theme.palette.custom.dashboardButtonBg,
+        borderRadius: "4px",
+        cursor: "pointer",
+
+        "&:hover": {
+          background: theme.palette.custom.dashboardButtonHover,
+        },
+        "& .MuiSvgIcon-root": {
+          color:
+            theme.palette.mode == "light" ? theme.palette.custom.form3 : null,
+        },
+      },
+
       ".card": {
         width: screenSize.dynamicWidth - 20,
+        height: "100px",
       },
       ".avatar": {
         width: "20px",
@@ -357,21 +374,21 @@ function ViewDetails(props: any) {
     []
   );
 
-  const deleteTableDetail = () => {};
-
   const handleTestQuery = () => {
-    setTestQuery(true);
-    // window.scrollBy(0, 2000);
+    if (validate) {
+      setTestQuery(true);
+    } else {
+      setQueryError("Please Validate Query First");
+    }
   };
 
-  // const handleQuery = (queryText: any) => {
-  //   if (oldQuery !== queryText) {
-  //     setQueryChanged(true);
-  //   } else {
-  //     setQueryChanged(false);
-  //   }
-
-  // }
+  const handleQuery = (queryText: any) => {
+    if (oldQuery !== queryText) {
+      setValidate(false);
+      setTestQuery(false);
+      setQueryError("");
+    } 
+  };
 
   const onValiteQuery = () => {
     db.transaction((tx: any) => {
@@ -383,7 +400,6 @@ function ViewDetails(props: any) {
         `${query}`,
         [],
         (MSG: any) => {
-          // alert('executed success!');
           setValidate(true);
         },
         (ERROR: any, test: any) => {
@@ -400,18 +416,22 @@ function ViewDetails(props: any) {
   };
 
   const handleSaveQuery = () => {
-    setOldQuery(query);
-    dispatch(postUpdateQueryApi({ index, query }));
+    if (validate && testQuery) {
+      setOldQuery(query);
+      dispatch(postUpdateQueryApi({ index, query }));
+    } else {
+      setQueryError("Please Validate & Test Query First");
+    }
   };
 
   const handleCancelQuery = () => {
     setQuery(oldQuery);
   };
 
-  const handleDeleteReport=()=>{
-    dispatch(postDeleteReportApi(index))
-    history("/")
-  }
+  const handleDeleteReport = () => {
+    dispatch(postDeleteReportApi(index));
+    history("/");
+  };
 
   return (
     <Box
@@ -462,17 +482,24 @@ function ViewDetails(props: any) {
         </Typography>
       </Box>
       <Box className="sqlBox">
-        <Stack direction="row" spacing={1}>
+        <Box className="report_query_labels">
           <Typography className="sqlBoxLabel"> SQL Query</Typography>
-          <Stack direction="row" spacing={1}>
-            <Typography className="validate" onClick={onValiteQuery}>
-              Validate
-            </Typography>
-            <Typography className="validate" onClick={() => handleTestQuery()}>
-              Test Query
-            </Typography>
-          </Stack>
-        </Stack>
+          <Box className="report_validate_and_testQuery">
+            {!validate && oldQuery !== query && (
+              <Typography className="validate" onClick={onValiteQuery}>
+                Validate
+              </Typography>
+            )}
+            {!testQuery && oldQuery !== query && (
+              <Typography
+                className="validate"
+                onClick={() => handleTestQuery()}
+              >
+                Test Query
+              </Typography>
+            )}
+          </Box>
+        </Box>
 
         <Box className="sqlBox">
           <CodeMirror
@@ -486,18 +513,18 @@ function ViewDetails(props: any) {
               _viewUpdate: any /* TODO document why this arrow function is empty */
             ) => {
               setQuery(__value);
-              // handleQuery(__value);
+              handleQuery(__value);
             }}
           />
           <Box className="sqlEditorBottomPannel">
             <Box>
-              {validate && (
+              {validate && oldQuery !== query && (
                 <Stack className="messageContainer" direction="row">
                   <CheckCircleOutlinedIcon className="checkedIcon" />
                   <Typography className="message">No Error Found</Typography>
                 </Stack>
               )}
-              {!validate && queryError != "" && (
+              {!validate || !testQuery && queryError != "" &&  (
                 <Stack className="messageContainer" direction="row">
                   <HighlightOffIcon className="wrongStatementIcon" />
                   <Typography className="queryErrorMessage">
@@ -525,62 +552,56 @@ function ViewDetails(props: any) {
           </Box>
         </Box>
       </Box>
-      {testQuery && (
-        <Box className="container">
-          <Box className="table">
-            <Typography className="title">SQL Query Table Name</Typography>
-            <TableContainer component={Paper}>
-              <Table aria-label="simple table">
-                <TableHead>
-                  <StyledTableRow>
-                    <StyledTableCell>Column 1</StyledTableCell>
-                    <StyledTableCell> Column 2</StyledTableCell>
-                  </StyledTableRow>
-                </TableHead>
-                <TableBody>
-                  {rows.map((row) => (
-                    <StyledTableRow
-                      key={row.column1}
-                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                    >
-                      <StyledTableCell component="th" scope="row">
-                        {row.column1}
-                      </StyledTableCell>
-                      <StyledTableCell>{row.column2}</StyledTableCell>
-                    </StyledTableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </Box>
-          <StyledPagination>
-            <Box>
-              <Pagination
-                count={4}
-                page={page}
-                size="small"
-                shape="rounded"
-                onChange={handlePageChange}
-              />
+      <Box className="container">
+        <Box className="table">
+          <Box className="sqlTablePannel">
+            <Typography className="sqlTableTitle">
+              SQL Query Table Name
+            </Typography>
+            <Box className="sqlTable_button_pannel">
+              <Box
+                className="sqlTableButtons"
+                // onClick={() => handleShowFilter()}
+              >
+                <FilterAltOutlinedIcon />
+              </Box>
+              <Box
+                className="sqlTableButtons"
+                // onClick={() => handleToggleColumnOption()}
+              >
+                <TuneOutlinedIcon />
+              </Box>
             </Box>
-          </StyledPagination>
-          <Box className="card">
-            <Stack direction="row" spacing={2}>
-              <Stack className="createdByBox" direction="column">
-                <Typography>Created By</Typography>
-                <Stack direction="row" spacing={1}>
-                  <Avatar className="avatar" alt="Sdasd" />
-                  <Typography>Dasda</Typography>
-                </Stack>
-              </Stack>
-              <Stack direction="column">
-                <Typography>Created On</Typography>
+          </Box>
+        </Box>
+        <TablePro data={rows} />
+        <StyledPagination>
+          <Box>
+            <Pagination
+              count={4}
+              page={page}
+              size="small"
+              shape="rounded"
+              onChange={handlePageChange}
+            />
+          </Box>
+        </StyledPagination>
+        <Box className="card">
+          <Stack direction="row" spacing={2}>
+            <Stack className="createdByBox" direction="column">
+              <Typography>Created By</Typography>
+              <Stack direction="row" spacing={1}>
+                <Avatar className="avatar" alt="Sdasd" />
                 <Typography>Dasda</Typography>
               </Stack>
             </Stack>
-          </Box>
+            <Stack direction="column">
+              <Typography>Created On</Typography>
+              <Typography>Dasda</Typography>
+            </Stack>
+          </Stack>
         </Box>
-      )}
+      </Box>
 
       <Box
         component="div"
@@ -589,14 +610,19 @@ function ViewDetails(props: any) {
           bottom: "0px",
           position: "fixed",
           width: "99.9%",
-          // background: 'black',
+          background: themes.palette.background.default,
           justifyContent: "flex-end",
           height: "48px",
           alignItems: "center",
           borderTop: "1px solid #333333",
         }}
       >
-        <Button color="info" className="delete" variant="contained" onClick={()=>handleDeleteReport()}>
+        <Button
+          color="info"
+          className="delete"
+          variant="contained"
+          onClick={() => handleDeleteReport()}
+        >
           Delete
         </Button>
       </Box>

@@ -1,6 +1,5 @@
 import { Box, Pagination } from "@mui/material";
 import { styled } from "@mui/system";
-import React from "react";
 
 export interface PaginationsProps{
   page:number;
@@ -11,12 +10,6 @@ export interface PaginationsProps{
 }
 
 function Paginations({page, handlePageChange, size="small", shape="rounded", count=4}:PaginationsProps) {
-
-  // const [page, setPage] = React.useState(1);
-
-  // const handlePageChange = (event?: any, value?: any) => {
-  //   setPage(value);
-  // };
 
   const StyledPagination = styled(Box)(({ theme }) => ({
     display: "flex",

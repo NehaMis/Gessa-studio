@@ -9,7 +9,6 @@ import TableRow from "@mui/material/TableRow";
 import { styled } from "@mui/system";
 import React from "react";
 import { useNavigate } from "react-router-dom";
-// import './Table.css';
 
 export interface TableProps {
   filters?: any;
@@ -49,7 +48,7 @@ export default function TablePro(props: TableProps) {
     height: "48px",
     alignItems: "center",
 
-    "& .css-j5ntxn-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected": {
+    "& .MuiPaginationItem-root.Mui-selected": {
       backgroundColor: theme.palette.custom.tablePaginationBg,
     },
   }));
@@ -119,8 +118,6 @@ export default function TablePro(props: TableProps) {
       )
     })
   }
-
-  // console.log("Table Columns =", props.data)
 
   return (
     <>
