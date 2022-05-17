@@ -16,11 +16,10 @@ import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import TuneOutlinedIcon from "@mui/icons-material/TuneOutlined";
 import React, { useCallback, useEffect, useState } from "react";
-import CodeMirror from "@uiw/react-codemirror";
-import { sql } from "@codemirror/lang-sql";
 import TablePro from "../components/Table/TablePro";
 import { postReportApi } from "../../store/reportDashboardSlice";
 import { useDispatch } from "react-redux";
+import SqlEditor from "../components/SqlEditor";
 
 export interface AddReportType {
   width: string;
@@ -330,7 +329,6 @@ function AddReport(props: AddReportType) {
     },
   }));
 
-     
   function createData(column1: string, column2: string) {
     return { column1, column2 };
   }
@@ -550,17 +548,7 @@ function AddReport(props: AddReportType) {
         </Box>
 
         <Box>
-          <CodeMirror
-            value={data.sql}
-            height="134px"
-            width="525px"
-            indentWithTab={true}
-            theme={themes.palette.mode}
-            extensions={[sql()]}
-            onChange={(__value: any, _viewUpdate: any) => {
-              handleSqlChange(__value);
-            }}
-          />
+          <SqlEditor value={data.sql} onChange={handleSqlChange} />
           {errors && data.sql == "" ? (
             <Typography className="error_notification">
               Please Enter Query

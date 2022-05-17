@@ -10,8 +10,6 @@ import {
 } from "@mui/material";
 import { styled, useTheme } from "@mui/system";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
-import CodeMirror from "@uiw/react-codemirror";
-import { sql } from "@codemirror/lang-sql";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import TuneOutlinedIcon from "@mui/icons-material/TuneOutlined";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
@@ -26,7 +24,7 @@ import {
   postDeleteReportApi,
 } from "../../../store/reportDashboardSlice";
 import TablePro from "../../components/Table/TablePro";
-
+import SqlEditor from "../../components/SqlEditor";
 
 /** sqlite db object */
 let db: any;
@@ -47,7 +45,7 @@ function ViewDetails(props: any) {
   const [oldQuery, setOldQuery] = useState("");
   const [query, setQuery] = useState("");
   const [queryError, setQueryError] = useState("");
-  const [querySaveMsg, setQuerySaveMsg]=useState("");
+  const [querySaveMsg, setQuerySaveMsg] = useState("");
   const themes = useTheme();
   const dispatch = useDispatch();
 
@@ -81,8 +79,7 @@ function ViewDetails(props: any) {
         "Test DB",
         2 * 1024 * 1024
       );
-    } catch (error) {
-    }
+    } catch (error) {}
   }, []);
 
   useEffect(() => {
@@ -98,7 +95,6 @@ function ViewDetails(props: any) {
     setOldQuery(row?.details?.query);
   }, []);
 
-  
   const StyledPagination = styled(MuiBox)(({ theme }) => ({
     display: "flex",
     bottom: "0px",
@@ -384,11 +380,13 @@ function ViewDetails(props: any) {
   };
 
   const handleQuery = (queryText: any) => {
+    setQuery(queryText);
+
     if (oldQuery !== queryText) {
       setValidate(false);
       setTestQuery(false);
       setQueryError("");
-    } 
+    }
   };
 
   const onValiteQuery = () => {
@@ -421,11 +419,10 @@ function ViewDetails(props: any) {
       setOldQuery(query);
       dispatch(postUpdateQueryApi({ index, query }));
       setQuerySaveMsg("Query Updated Successfully");
-      
-      setTimeout(() => {
-        setQuerySaveMsg("")
-      }, 4000);
 
+      setTimeout(() => {
+        setQuerySaveMsg("");
+      }, 4000);
     } else {
       setQueryError("Please Validate & Test Query First");
     }
@@ -509,23 +506,10 @@ function ViewDetails(props: any) {
         </Box>
 
         <Box className="sqlBox">
-          <CodeMirror
-            value={query}
-            height="170px"
-            indentWithTab={true}
-            theme={themes.palette.mode}
-            extensions={[sql()]}
-            onChange={(
-              __value: any,
-              _viewUpdate: any /* TODO document why this arrow function is empty */
-            ) => {
-              setQuery(__value);
-              handleQuery(__value);
-            }}
-          />
+          <SqlEditor value={query} onChange={handleQuery} />
           <Box className="sqlEditorBottomPannel">
             <Box>
-            {queryError!="" && !testQuery && (
+              {queryError != "" && !testQuery && (
                 <Stack className="messageContainer" direction="row">
                   <HighlightOffIcon className="wrongStatementIcon" />
                   <Typography className="queryErrorMessage">
@@ -539,7 +523,7 @@ function ViewDetails(props: any) {
                   <Typography className="message">No Error Found</Typography>
                 </Stack>
               )}
-              {querySaveMsg!="" && (
+              {querySaveMsg != "" && (
                 <Stack className="messageContainer" direction="row">
                   <CheckCircleOutlinedIcon className="checkedIcon" />
                   <Typography className="message">{querySaveMsg}</Typography>
