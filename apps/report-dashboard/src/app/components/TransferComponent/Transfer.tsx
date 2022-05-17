@@ -1,17 +1,15 @@
-import * as React from 'react';
-import Grid from '@mui/material/Grid';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
-import SearchIcon from '@mui/icons-material/Search';
-import Button from '@mui/material/Button';
-import { Paper, TextField, InputLabel, useTheme, Box } from '@mui/material';
-import './Transfer.css';
-import themes from '../../../theme';
-import { styled } from '@mui/system';
-import axios from 'axios';
-import { useDispatch } from 'react-redux';
-import { postColumnHeaderApi } from 'apps/report-dashboard/src/store/columnOptionSlice';
+import * as React from "react";
+import Grid from "@mui/material/Grid";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
+import SearchIcon from "@mui/icons-material/Search";
+import Button from "@mui/material/Button";
+import { Paper, TextField, InputLabel, useTheme, Box } from "@mui/material";
+import "./Transfer.css";
+import { styled } from "@mui/system";
+import { useAppDispatch } from "../../../context/redux";
+import { postColumnHeaderApi } from "apps/report-dashboard/src/store/columnOptionSlice";
 
 export interface TransferProps {
   leftList: Array<{
@@ -33,7 +31,7 @@ export interface TransferProps {
   snackBarArgs?: any;
   setSnackBarArgs: (data: any) => void;
   onClose: () => void;
-  setFilters:(filter:any)=>void;
+  setFilters: (filter: any) => void;
 }
 
 function not(a: any[], b: any[]) {
@@ -55,7 +53,7 @@ function Transfer(props: TransferProps) {
   const leftChecked = intersection(checked, left);
   const rightChecked = intersection(checked, right);
   const dslTheme = useTheme();
-  const dispatch=useDispatch()
+  const dispatch = useAppDispatch();
   const handleToggle = (value: any) => () => {
     const currentIndex = checked.indexOf(value);
     const newChecked = [...checked];
@@ -116,26 +114,26 @@ function Transfer(props: TransferProps) {
     setRightFiltered([]);
   };
   const clearSearchedData = () => {
-    setLeftSearchValue('');
-    setRightSearchValue('');
+    setLeftSearchValue("");
+    setRightSearchValue("");
   };
   const StyledBreadcrumb = React.useCallback(
-    styled('div')(({ theme }) => {
+    styled("div")(({ theme }) => {
       return {
-        '& .MuiInputBase-inputAdornedEnd': {
-          padding: '0px 14px ',
+        "& .MuiInputBase-inputAdornedEnd": {
+          padding: "0px 14px ",
         },
-        '.columnOption__mainButtonPannel': {
-          display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          marginTop:'10px',
+        ".columnOption__mainButtonPannel": {
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
+          marginTop: "10px",
 
-          '.columnOption__saveButtonGp': {
-            display: 'flex',
-            justifyContent: 'space-between',
-            gap: '20px',
+          ".columnOption__saveButtonGp": {
+            display: "flex",
+            justifyContent: "space-between",
+            gap: "20px",
           },
         },
       };
@@ -144,7 +142,7 @@ function Transfer(props: TransferProps) {
   );
   /*  */
   const customList = (items: any[], sideArray: Array<any>) => (
-    <Paper sx={{ width: 280, height: 350, overflow: 'auto' }}>
+    <Paper sx={{ width: 280, height: 350, overflow: "auto" }}>
       <List dense component="div" role="list">
         {items.map((value: any, index: any) => {
           return (
@@ -156,10 +154,10 @@ function Transfer(props: TransferProps) {
               sx={{
                 backgroundColor: sideArray.map((tempVar) => {
                   if (tempVar.value.includes(value.value))
-                    if (dslTheme.palette.mode === 'dark')
+                    if (dslTheme.palette.mode === "dark")
                       return dslTheme.palette.grey?.[600];
                     else return dslTheme.palette.grey?.[200];
-                  else return '';
+                  else return "";
                 }),
               }}
             >
@@ -175,27 +173,46 @@ function Transfer(props: TransferProps) {
   const leftGridDataHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLeftSearchValue(e.target.value);
     setLeftFiltered(
-      left.filter((items) => items?.value?.toLowerCase().indexOf(e.target.value.toLowerCase())!== -1)
+      left.filter(
+        (items) =>
+          items?.value?.toLowerCase().indexOf(e.target.value.toLowerCase()) !==
+          -1
+      )
     );
   };
   const rightGridDataHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setRightSearchValue(e.target.value);
     setRightFiltered(
-      right.filter((items) => items?.value?.toLowerCase().indexOf(e.target.value.toLowerCase())!== -1)
+      right.filter(
+        (items) =>
+          items?.value?.toLowerCase().indexOf(e.target.value.toLowerCase()) !==
+          -1
+      )
     );
   };
 
-  const handleSave=()=>{
-    if(right.length>0){
-      dispatch(postColumnHeaderApi({leftList:left,rightList:right}))
-      props.setFilters({});
-      props.setSnackBarArgs({
-        ...props.snackBarArgs,
-        open: true,
-        message: "Column Options Added Successfully",
-      });
-      props.onClose();
-    }else{
+  const handleSave = () => {
+    if (right.length > 0) {
+      dispatch(postColumnHeaderApi({ leftList: left, rightList: right }))
+        .unwrap()
+        .then(() => {
+          props.setFilters({});
+          props.setSnackBarArgs({
+            ...props.snackBarArgs,
+            open: true,
+            message: "Column Options Added Successfully",
+          });
+          props.onClose();
+        })
+        .catch((reason) => {
+          props.setSnackBarArgs({
+            ...props.snackBarArgs,
+            type: "error",
+            open: true,
+            message: reason.message,
+          });
+        });
+    } else {
       props.setSnackBarArgs({
         ...props.snackBarArgs,
         open: true,
@@ -203,7 +220,7 @@ function Transfer(props: TransferProps) {
       });
       props.onClose();
     }
-  }
+  };
 
   return (
     <>
@@ -218,12 +235,12 @@ function Transfer(props: TransferProps) {
               value={leftSearchValue}
               placeholder="Search"
               onChange={leftGridDataHandler}
-              sx={{ mb: 2.5, mt: '-5px' }}
+              sx={{ mb: 2.5, mt: "-5px" }}
               InputProps={{
                 endAdornment: (
                   <SearchIcon sx={{ color: dslTheme.palette.grey?.[500] }} />
                 ),
-                className: 'assign-height',
+                className: "assign-height",
               }}
             />
             <Grid
@@ -292,12 +309,12 @@ function Transfer(props: TransferProps) {
               placeholder="Search"
               value={rightSearchValue}
               onChange={rightGridDataHandler}
-              sx={{ mb: 2.5, mt: '-5px' }}
+              sx={{ mb: 2.5, mt: "-5px" }}
               InputProps={{
                 endAdornment: (
                   <SearchIcon sx={{ color: dslTheme.palette.grey?.[500] }} />
                 ),
-                className: 'assign-height',
+                className: "assign-height",
               }}
             />
             <Grid

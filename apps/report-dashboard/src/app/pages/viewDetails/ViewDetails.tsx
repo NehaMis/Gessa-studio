@@ -17,7 +17,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "../../../context/redux";
 import {
   postUpdateQueryApi,
   postDeleteReportApi,
@@ -47,7 +47,7 @@ function ViewDetails(props: any) {
   const [queryError, setQueryError] = useState("");
   const [querySaveMsg, setQuerySaveMsg] = useState("");
   const themes = useTheme();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const [screenSize, getDimension] = useState({
     dynamicWidth: window.innerWidth,
@@ -413,12 +413,17 @@ function ViewDetails(props: any) {
   const handleSaveQuery = () => {
     if (validate && testQuery) {
       setOldQuery(query);
-      dispatch(postUpdateQueryApi({ index, query }));
-      setQuerySaveMsg("Query Updated Successfully");
-
-      setTimeout(() => {
-        setQuerySaveMsg("");
-      }, 4000);
+      dispatch(postUpdateQueryApi({ index, query }))
+        .unwrap()
+        .then(() => {
+          setQuerySaveMsg("Query Updated Successfully");
+          setTimeout(() => {
+            setQuerySaveMsg("");
+          }, 4000);
+        })
+        .catch((reason) => {
+          setQuerySaveMsg(reason.message);
+        });
     } else {
       setQueryError("Please Validate & Test Query First");
     }

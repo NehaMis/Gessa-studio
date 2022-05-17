@@ -18,7 +18,7 @@ import TuneOutlinedIcon from "@mui/icons-material/TuneOutlined";
 import React, { useCallback, useEffect, useState } from "react";
 import TablePro from "../components/Table/TablePro";
 import { postReportApi } from "../../store/reportDashboardSlice";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "../../context/redux";
 import SqlEditor from "../components/SqlEditor";
 
 export interface AddReportType {
@@ -46,7 +46,7 @@ function AddReport(props: AddReportType) {
   const [testQuery, setTestQuery] = useState(false);
   const [page, setPage] = React.useState(1);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     try {
@@ -421,22 +421,34 @@ function AddReport(props: AddReportType) {
 
   const handleSave = () => {
     if (checkAllDataFilled()) {
-      dispatch(postReportApi(data));
-      props.setFilters({
-        name: "",
-        select_schema: [],
-        created_by: [],
-        created_on: {
-          from: "",
-          to: "",
-        },
-      });
-      props.setSnackBarArgs({
-        ...props.snackBarArgs,
-        open: true,
-        message: "Report Added Successfully",
-      });
-      props.onClose();
+      dispatch(postReportApi(data))
+        .unwrap()
+        .then((response) => {
+          props.setFilters({
+            name: "",
+            select_schema: [],
+            created_by: [],
+            created_on: {
+              from: "",
+              to: "",
+            },
+          });
+          props.setSnackBarArgs({
+            ...props.snackBarArgs,
+            open: true,
+            message: "Report Added Successfully",
+          });
+          props.onClose();
+        })
+        .catch((reason)=>{
+          props.setSnackBarArgs({
+            ...props.snackBarArgs,
+            open: true,
+            type:"error",
+            message: reason.message,
+          });
+        })
+      
     } else {
       setErrors(true);
     }
@@ -547,7 +559,7 @@ function AddReport(props: AddReportType) {
           </Box>
         </Box>
 
-        <Box>
+        <Box sx={{ width: "100%" }}>
           <SqlEditor value={data.sql} onChange={handleSqlChange} />
           {errors && data.sql == "" ? (
             <Typography className="error_notification">

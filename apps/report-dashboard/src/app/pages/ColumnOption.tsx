@@ -4,7 +4,6 @@ import { useCallback, useEffect, useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import Transfer from "../components/TransferComponent/Transfer";
 import { useTheme } from "@mui/system";
-import axios from "axios";
 import { getColumnApi } from '../../store/columnOptionSlice'
 import { useDispatch, useSelector } from 'react-redux';
 

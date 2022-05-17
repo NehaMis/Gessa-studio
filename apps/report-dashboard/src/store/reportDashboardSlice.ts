@@ -29,11 +29,16 @@ export const getReportsApi = createAsyncThunk(
 export const postReportApi = createAsyncThunk(
   "reportData",
   async (reportData: any, { dispatch }) => {
-    await axios.post(
-      process.env.NX_DATA_FLOW_BASE_URL + "/reportData",
+  const response =  await axios.post(
+      process.env.NX_DATA_FLOW_BASE_URL + "/reportDat",
       reportData
     );
-    dispatch(getReportsApi("any"));
+    if(response.status===200){
+      dispatch(getReportsApi("any"));
+      return "success"
+    }else{
+      return "Error"
+    }
   }
 );
 

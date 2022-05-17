@@ -10,11 +10,12 @@ import ColumnOption from "./ColumnOption";
 import TablePro from "../components/Table/TablePro";
 import { useNavigate } from "react-router";
 import { getReportsApi } from "../../store/reportDashboardSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
+import { useAppDispatch } from "../../context/redux";
 import Paginations from "../components/Pagination";
 
 function Dashboard() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const [isColumnOptionOpen, setIsColumnOptionOpen] = useState(false);
   const [page, setPage] = useState(1);
@@ -30,7 +31,17 @@ function Dashboard() {
   });
 
   useEffect(() => {
-    dispatch(getReportsApi("any"));
+    dispatch(getReportsApi("any"))
+      .unwrap()
+      .then()
+      .catch((reason) => {
+        setSnackBarArgs({
+          ...snackBarArgs,
+          open:true,
+          type:"error",
+          message:reason.message
+        })
+      });
   }, []);
 
   const rootState = useSelector(
