@@ -4,23 +4,22 @@ import { styled } from "@mui/system";
 export interface PaginationsProps{
   page:number;
   handlePageChange:(event?:any, value?:any)=>void;
-  size:"small" | "medium" | "large" | undefined;
-  shape:"circular" | "rounded" | undefined;
-  count:number;
+  size?:"small" | "medium" | "large" | undefined;
+  shape?:"circular" | "rounded" | undefined;
+  count?:number;
 }
 
 function Paginations({page, handlePageChange, size="small", shape="rounded", count=4}:PaginationsProps) {
 
   const StyledPagination = styled(Box)(({ theme }) => ({
-    display: "flex",
-    position: "fixed",
+     display: "flex",
     bottom: "0px",
     justifyContent: "flex-end",
-    width: "100%",
+    width: "98%",
     height: "48px",
     alignItems: "center",
 
-    "& .css-j5ntxn-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected": {
+    "& .MuiPaginationItem-root.Mui-selected": {
       backgroundColor: theme.palette.custom.tablePaginationBg,
     },
   }));

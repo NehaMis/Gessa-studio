@@ -9,6 +9,7 @@ import TableRow from "@mui/material/TableRow";
 import { styled } from "@mui/system";
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import Paginations from "../Pagination";
 
 export interface TableProps {
   filters?: any;
@@ -17,9 +18,7 @@ export interface TableProps {
   showPagination?: boolean;
 }
 
-
 export default function TablePro(props: TableProps) {
-
   const history = useNavigate();
   const [page, setPage] = React.useState(1);
 
@@ -35,16 +34,23 @@ export default function TablePro(props: TableProps) {
       padding: "0px 16px",
       fontFamily: "Roboto",
       fontWeight: "400",
-      justifyContent: 'center'
+      justifyContent: "center",
     };
   });
 
   const StyledPagination = styled(Box)(({ theme }) => ({
+    // display: "flex",
+    // position: "fixed",
+    // bottom: "0px",
+    // justifyContent: "flex-end",
+    // width: "100%",
+    // height: "48px",
+    // alignItems: "center",
+
     display: "flex",
-    position: "fixed",
     bottom: "0px",
     justifyContent: "flex-end",
-    width: "100%",
+    width: "98%",
     height: "48px",
     alignItems: "center",
 
@@ -93,63 +99,70 @@ export default function TablePro(props: TableProps) {
   }));
 
   const capitalize = (s: any) => {
-    if (typeof s !== 'string') return ''
-    return s.charAt(0).toUpperCase() + s.slice(1)
-  }
+    if (typeof s !== "string") return "";
+    return s.charAt(0).toUpperCase() + s.slice(1);
+  };
 
   const column = props.data.length != 0 ? Object.keys(props.data[0]) : [];
 
   const thData = () => {
-    return column.length != 0 && column.filter(data => data != "_id" && data != "details").map((data, index) => {
-      return <StyledTableCell key={index}>{capitalize(data)}</StyledTableCell>
-    })
-  }
+    return (
+      column.length != 0 &&
+      column
+        .filter((data) => data != "_id" && data != "details")
+        .map((data, index) => {
+          return (
+            <StyledTableCell key={index}>{capitalize(data)}</StyledTableCell>
+          );
+        })
+    );
+  };
 
   const tdData = () => {
-    return props.data.length != 0 && props.data.map((row: any, index: any) => {
-      return (
-        <StyledTableRow key={index} onClick={() => props.onClicks?.({row,index})}>
-          {
-            column.filter(data => data != "_id" && data != "details").map((v, index) => {
-              return <StyledTableCell key={index}>{typeof row[v] != "object" ? row[v] : "NA"}</StyledTableCell>
-            })
-          }
-        </StyledTableRow>
-      )
-    })
-  }
+    return (
+      props.data.length != 0 &&
+      props.data.map((row: any, index: any) => {
+        return (
+          <StyledTableRow
+            key={index}
+            onClick={() => props.onClicks?.({ row, index })}
+          >
+            {column
+              .filter((data) => data != "_id" && data != "details")
+              .map((v, index) => {
+                return (
+                  <StyledTableCell key={index}>
+                    {typeof row[v] != "object" ? row[v] : "NA"}
+                  </StyledTableCell>
+                );
+              })}
+          </StyledTableRow>
+        );
+      })
+    );
+  };
 
   return (
     <>
       {props.data.length != 0 ? (
         <>
           <TableContainer component={Paper}>
-            <Table sx={{ width: '100%' }} aria-label="simple table">
+            <Table sx={{ width: "100%" }} aria-label="simple table">
               <TableHead>
-                <StyledTableRow>
-                  {thData()}
-                </StyledTableRow>
+                <StyledTableRow>{thData()}</StyledTableRow>
               </TableHead>
-              <TableBody>
-                {tdData()}
-              </TableBody>
+              <TableBody>{tdData()}</TableBody>
             </Table>
           </TableContainer>
         </>
       ) : (
         <StyledErrorMessage>No Result Found</StyledErrorMessage>
       )}
-      {props.showPagination && <StyledPagination>
-        <Box>
-          <Pagination
-            count={4}
-            page={page}
-            size="small"
-            shape="rounded"
-            onChange={handlePageChange}
-          />
-        </Box>
-      </StyledPagination>}
+      {props.showPagination && (
+        <StyledPagination>
+          <Paginations page={page} handlePageChange={handlePageChange} />
+        </StyledPagination>
+      )}
     </>
   );
 }

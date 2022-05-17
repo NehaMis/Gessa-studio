@@ -6,16 +6,8 @@ import {
   InputLabel,
   Button,
   Stack,
-  TableContainer,
-  Table,
-  TableHead,
   Box as MuiBox,
-  TableBody,
-  Pagination,
 } from "@mui/material";
-import TableCell, { tableCellClasses } from "@mui/material/TableCell";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
 import { styled, useTheme } from "@mui/system";
 import CloseIcon from "@mui/icons-material/Close";
 import MultipleSelectChip from "../components/MultipleSelectionChip";
@@ -26,9 +18,8 @@ import TuneOutlinedIcon from "@mui/icons-material/TuneOutlined";
 import React, { useCallback, useEffect, useState } from "react";
 import CodeMirror from "@uiw/react-codemirror";
 import { sql } from "@codemirror/lang-sql";
-import axios from "axios";
 import TablePro from "../components/Table/TablePro";
-import { getReportsApi, postReportApi } from "../../store/reportDashboardSlice";
+import { postReportApi } from "../../store/reportDashboardSlice";
 import { useDispatch } from "react-redux";
 
 export interface AddReportType {
@@ -66,8 +57,7 @@ function AddReport(props: AddReportType) {
         "Test DB",
         2 * 1024 * 1024
       );
-    } catch (error) {
-    }
+    } catch (error) {}
   }, []);
 
   interface addReportDataTypes {
@@ -137,9 +127,9 @@ function AddReport(props: AddReportType) {
             color: theme.palette.custom.sideBarText2,
           },
 
-          '& .MuiSvgIcon-root': {
-            cursor: 'pointer',
-          }
+          "& .MuiSvgIcon-root": {
+            cursor: "pointer",
+          },
         },
 
         ".report_input_panel": {
@@ -158,7 +148,7 @@ function AddReport(props: AddReportType) {
         ".report_close_button": {
           width: "24px",
           height: "24px",
-          cursor: 'pointer',
+          cursor: "pointer",
         },
         ".report_input_labels": {
           fontFamily: "Roboto",
@@ -283,7 +273,7 @@ function AddReport(props: AddReportType) {
           flexDirection: "row",
           alignItems: "flex-start",
           padding: "0px 16px 0px 0px",
-          height: '36px'
+          height: "36px",
         },
 
         ".sqlTableButtons": {
@@ -296,7 +286,7 @@ function AddReport(props: AddReportType) {
           padding: "16px",
           background: theme.palette.custom.dashboardButtonBg,
           borderRadius: "4px",
-          cursor: 'pointer',
+          cursor: "pointer",
 
           "&:hover": {
             background: theme.palette.custom.dashboardButtonHover,
@@ -305,6 +295,15 @@ function AddReport(props: AddReportType) {
             color:
               theme.palette.mode == "light" ? theme.palette.custom.form3 : null,
           },
+        },
+
+        ".pagination": {
+          display: "flex",
+          bottom: "0px",
+          justifyContent: "flex-end",
+          width: "98%",
+          height: "48px",
+          alignItems: "center",
         },
       };
     }),
@@ -327,50 +326,11 @@ function AddReport(props: AddReportType) {
 
       "&:hover": {
         background: theme.palette.custom.dashboardButtonHover,
-      }
+      },
     },
   }));
 
-  const StyledTableCell = styled(TableCell)(({ theme }) => ({
-    [`&.${tableCellClasses.head}`]: {
-      fontStyle: "normal",
-      fontFamily: "Roboto",
-      backgroundColor: theme.palette.custom.dashboardTableHeadBg,
-      color: theme.palette.primary[900],
-      fontWeight: 700,
-      fontSize: "12px",
-    },
-    [`&.${tableCellClasses.body}`]: {
-      fontSize: 14,
-      cursor: "pointer",
-    },
-  }));
-
-  const StyledTableRow = styled(TableRow)(({ theme }) => ({
-    "&:nth-of-type(even)": {
-      backgroundColor: theme.palette.custom.dashboardTableHeadBg,
-    },
-    "&:nth-of-type(odd)": {
-      backgroundColor: theme.palette.custom.dashboardTableRowBg,
-    },
-    // hide last border
-    "&:last-child td, &:last-child th": {
-      border: 0,
-    },
-  }));
-  const StyledPagination = styled(MuiBox)(({ theme }) => ({
-    display: "flex",
-    bottom: "0px",
-    justifyContent: "flex-end",
-    width: "98%",
-    height: "48px",
-    alignItems: "center",
-
-    "& .css-j5ntxn-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected": {
-      backgroundColor: theme.palette.custom.tablePaginationBg,
-    },
-  }));
-
+     
   function createData(column1: string, column2: string) {
     return { column1, column2 };
   }
@@ -398,7 +358,6 @@ function AddReport(props: AddReportType) {
           setValidate(true);
         },
         (ERROR: any, test: any) => {
-
           if (test.message.includes("syntax")) {
             setQueryError("Syntax error");
           } else if (test.message.includes("incomplete")) {
@@ -464,7 +423,7 @@ function AddReport(props: AddReportType) {
 
   const handleSave = () => {
     if (checkAllDataFilled()) {
-      dispatch(postReportApi(data))
+      dispatch(postReportApi(data));
       props.setFilters({
         name: "",
         select_schema: [],
@@ -472,8 +431,8 @@ function AddReport(props: AddReportType) {
         created_on: {
           from: "",
           to: "",
-        }
-      })
+        },
+      });
       props.setSnackBarArgs({
         ...props.snackBarArgs,
         open: true,
@@ -636,31 +595,20 @@ function AddReport(props: AddReportType) {
                 <Box className="sqlTable_button_pannel">
                   <Box
                     className="sqlTableButtons"
-                  // onClick={() => handleShowFilter()}
+                    // onClick={() => handleShowFilter()}
                   >
                     <FilterAltOutlinedIcon />
                   </Box>
                   <Box
                     className="sqlTableButtons"
-                  // onClick={() => handleToggleColumnOption()}
+                    // onClick={() => handleToggleColumnOption()}
                   >
                     <TuneOutlinedIcon />
                   </Box>
                 </Box>
               </Box>
-              <TablePro data={rows} />
+              <TablePro showPagination={true} data={rows} />
             </Box>
-            <StyledPagination>
-              <Box>
-                <Pagination
-                  count={4}
-                  page={page}
-                  size="small"
-                  shape="rounded"
-                  onChange={handlePageChange}
-                />
-              </Box>
-            </StyledPagination>
           </Box>
         )}
 

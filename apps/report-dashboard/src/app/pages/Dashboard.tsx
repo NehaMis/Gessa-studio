@@ -11,11 +11,14 @@ import TablePro from "../components/Table/TablePro";
 import { useNavigate } from "react-router";
 import { getReportsApi } from "../../store/reportDashboardSlice";
 import { useDispatch, useSelector } from "react-redux";
+import Paginations from "../components/Pagination";
 
 function Dashboard() {
   const dispatch = useDispatch();
 
   const [isColumnOptionOpen, setIsColumnOptionOpen] = useState(false);
+  const [page, setPage] = useState(1);
+
   const [filters, setFilters] = useState({
     name: "",
     select_schema: [],
@@ -40,6 +43,10 @@ function Dashboard() {
 
   const onClick = (data: any) => {
     history("/details", { state: data });
+  };
+
+  const handlePageChange = (event?: any, value?: any) => {
+    setPage(value);
   };
 
   useEffect(() => {
@@ -118,6 +125,16 @@ function Dashboard() {
             color:
               theme.palette.mode == "light" ? theme.palette.custom.form3 : null,
           },
+        },
+
+        ".pagination": {
+          display: "flex",
+          position: "fixed",
+          bottom: "0px",
+          justifyContent: "flex-end",
+          width: "100%",
+          height: "48px",
+          alignItems: "center",
         },
       };
     }),
@@ -217,13 +234,10 @@ function Dashboard() {
         </Box>
         <Divider />
         <Box>
-          {tableData && (
-            <TablePro
-              showPagination={true}
-              data={tableData}
-              onClicks={onClick}
-            />
-          )}
+          {tableData && <TablePro data={tableData} onClicks={onClick} />}
+        </Box>
+        <Box className="pagination">
+          <Paginations page={page} handlePageChange={handlePageChange} />
         </Box>
       </StyledDashboard>
       <SideMenu
