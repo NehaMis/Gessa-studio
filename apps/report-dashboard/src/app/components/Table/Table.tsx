@@ -171,7 +171,7 @@ export default function BasicTable(props: TableProps) {
     height: "48px",
     alignItems: "center",
 
-    "& .css-j5ntxn-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected": {
+    "& .MuiPaginationItem-root.Mui-selected": {
       backgroundColor: theme.palette.custom.tablePaginationBg,
     },
   }));

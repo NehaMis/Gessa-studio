@@ -5,7 +5,6 @@ import {
   Typography,
   Stack,
   Chip,
-  Pagination,
   Button,
 } from "@mui/material";
 import { styled, useTheme } from "@mui/system";
@@ -25,6 +24,7 @@ import {
 } from "../../../store/reportDashboardSlice";
 import TablePro from "../../components/Table/TablePro";
 import SqlEditor from "../../components/SqlEditor";
+import Paginations from "../../components/Pagination";
 
 /** sqlite db object */
 let db: any;
@@ -94,19 +94,6 @@ function ViewDetails(props: any) {
     setQuery(row?.details?.query);
     setOldQuery(row?.details?.query);
   }, []);
-
-  const StyledPagination = styled(MuiBox)(({ theme }) => ({
-    display: "flex",
-    bottom: "0px",
-    justifyContent: "flex-end",
-    width: "98%",
-    height: "48px",
-    alignItems: "center",
-
-    "& .css-j5ntxn-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected": {
-      backgroundColor: theme.palette.custom.tablePaginationBg,
-    },
-  }));
 
   const Box = useCallback(
     styled(MuiBox)(({ theme }) => ({
@@ -367,6 +354,15 @@ function ViewDetails(props: any) {
         background: theme.palette.custom.tablePaginationBg,
         borderRadius: "4px",
       },
+
+      ".pagination": {
+        display: "flex",
+        bottom: "0px",
+        justifyContent: "flex-end",
+        width: "98%",
+        height: "48px",
+        alignItems: "center",
+      },
     })),
     []
   );
@@ -572,17 +568,9 @@ function ViewDetails(props: any) {
           </Box>
         </Box>
         <TablePro data={rows} />
-        <StyledPagination>
-          <Box>
-            <Pagination
-              count={4}
-              page={page}
-              size="small"
-              shape="rounded"
-              onChange={handlePageChange}
-            />
-          </Box>
-        </StyledPagination>
+        <Box className="pagination">
+          <Paginations page={page} handlePageChange={handlePageChange} />
+        </Box>
         <Box className="card">
           <Stack direction="row" spacing={2}>
             <Stack className="createdByBox" direction="column">
