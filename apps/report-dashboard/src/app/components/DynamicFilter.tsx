@@ -175,17 +175,6 @@ function DynamicFilter(props: FilterType) {
     []
   );
 
-  interface filterDataType {
-    search: string;
-    name: string;
-    select_schema: Array<string>;
-    created_by: Array<string>;
-    created_on: {
-      from: string | null | undefined;
-      to: string | null | undefined;
-    };
-  }
-
   const [dateValue, setDateValue] = React.useState<DateRange<Date>>([
     null,
     null,
@@ -329,20 +318,6 @@ function DynamicFilter(props: FilterType) {
 
   const [errors, setErrors] = useState(false);
 
-  // const isDataFilled = () => {
-  //   if (
-  //     filterData.select_schema.length > 0 ||
-  //     filterData.created_by.length > 0 ||
-  //     filterData.name != "" ||
-  //     filterData.created_on.from != "" ||
-  //     filterData.created_on.to != ""
-  //   ) {
-  //     return true;
-  //   } else {
-  //     return false;
-  //   }
-  // };
-
   const isDataFilled = Object.entries(filterData)
     .map(([key, value]) => {
       if (value != "") {
@@ -359,13 +334,6 @@ function DynamicFilter(props: FilterType) {
       [e.target.name]: e.target.value,
     });
   };
-
-  // const handleFilterSchemaData = (selectData: string) => {
-  //   setFilterData({
-  //     ...filterData,
-  //     select_schema: [...selectData],
-  //   });
-  // };
 
   const handleFilterCreatedByData = (selectData: string) => {
     setFilterData({
@@ -411,138 +379,6 @@ function DynamicFilter(props: FilterType) {
         </Box>
       </Box>
       <Divider />
-
-      {/* <Box className="search_frame">
-        <Box className="inner_search">
-          <Paper
-            component="form"
-            sx={{
-              p: '2px 4px',
-              display: 'flex',
-              alignItems: 'center',
-              height:41,
-              width: 328,
-            }}
-          >
-            <InputBase
-              sx={{ ml: 1, flex: 1, y: 25 }}
-              placeholder="Search"
-              name="search"
-              value={filterData.search}
-              onChange={handleFilterInputData}
-              inputProps={{ 'aria-label': 'search' }}
-            />
-            <IconButton sx={{ p: '10px' }} aria-label="search">
-              <SearchIcon />
-            </IconButton>
-          </Paper>
-        </Box>
-      </Box>
-      <Divider /> */}
-
-      {/* <Box className="filter_input_frame">
-        <InputLabel
-          htmlFor="filter-report-name"
-          className="filter_input_labels"
-        >
-          Report Name
-        </InputLabel>
-        <ReportBootInput
-          placeholder="Report Name"
-          sx={{ width: 328 }}
-          name="name"
-          id="report-name"
-          value={filterData.name}
-          onChange={handleFilterInputData}
-        />
-        {errors && filterData.name == "" ? (
-          <Typography className="error_notification">
-            Please Add Report Name
-          </Typography>
-        ) : null}
-      </Box>
-
-      <Box className="filter_SelectAndDate_frame">
-        <MultipleSelectChip
-          onChange={handleFilterSchemaData}
-          width={328}
-          labelName={"Select Schema"}
-          background={themes.palette.custom.inputComponentBg}
-        />
-        {errors && filterData.select_schema.length == 0 ? (
-          <Typography className="error_notification">
-            Please Select Schema
-          </Typography>
-        ) : null}
-      </Box>
-
-      <Box className="filter_SelectAndDate_frame">
-        <MultipleSelectChip
-          onChange={handleFilterCreatedByData}
-          width={328}
-          labelName={"Created By"}
-          background={themes.palette.custom.inputComponentBg}
-        />
-        {errors && filterData.created_by.length == 0 ? (
-          <Typography className="error_notification">
-            Please Select Created By
-          </Typography>
-        ) : null}
-      </Box>
-
-      <Box
-        className="filter_SelectAndDate_frame"
-        sx={{ justifyContent: "space-evenly" }}
-      >
-        <InputLabel
-          htmlFor="date-picker"
-          sx={{
-            color: themes.palette.custom.sideBarText2,
-            fontFamily: "Roboto",
-            fontSize: 14,
-            fontWeight: 600,
-            bottom: 10,
-          }}
-        >
-          Created On
-        </InputLabel>
-
-        <LocalizationProvider dateAdapter={AdapterDateFns}>
-          <Stack spacing={0}>
-            <DesktopDateRangePicker
-              startText="From"
-              endText="To"
-              value={dateValue}
-              onChange={(newValue: any) => {
-                setDateValue(newValue);
-              }}
-              renderInput={(startProps: any, endProps: any) => (
-                <React.Fragment>
-                  <TextField
-                    size="small"
-                    sx={{ background: themes.palette.custom.inputComponentBg }}
-                    {...startProps}
-                  />
-                  <Box sx={{ mx: 0.5 }}> </Box>
-                  <TextField
-                    size="small"
-                    sx={{
-                      right: 6,
-                      background: themes.palette.custom.inputComponentBg,
-                    }}
-                    {...endProps}
-                  />
-                </React.Fragment>
-              )}
-            />
-          </Stack>
-        </LocalizationProvider>
-        {errors && filterData.created_on.from == "" ? (
-          <Typography className="error_notification">
-            Please Select Date Range
-          </Typography>
-        ) : null}
-      </Box> */}
 
       {filterFields()}
 
