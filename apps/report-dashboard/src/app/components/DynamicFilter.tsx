@@ -196,11 +196,13 @@ function DynamicFilter(props: FilterType) {
   }
   const filterData2: { [key: string]: string } = {};
 
+  //TODO: Integrate with redux (later)
+   
   th = Array.from(document.getElementsByTagName("th"));
   console.log("Th =", th);
   
   if (th) {
-    th.map((item: ItemProps) => {
+    th.map((item:any) => {
       filterData2[item.innerText] = "";
     });
   }
@@ -241,19 +243,30 @@ function DynamicFilter(props: FilterType) {
  
   const [errors, setErrors] = useState(false);
 
-  const isDataFilled = () => {
-    if (
-      filterData.select_schema.length > 0 ||
-      filterData.created_by.length > 0 ||
-      filterData.name != "" ||
-      filterData.created_on.from != "" ||
-      filterData.created_on.to != ""
-    ) {
-      return true;
-    } else {
-      return false;
-    }
-  };
+  // const isDataFilled = () => {
+  //   if (
+  //     filterData.select_schema.length > 0 ||
+  //     filterData.created_by.length > 0 ||
+  //     filterData.name != "" ||
+  //     filterData.created_on.from != "" ||
+  //     filterData.created_on.to != ""
+  //   ) {
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  // };
+
+  const isDataFilled = Object.entries(filterData)
+    .map(([key, value]) => {
+      if (value != "") {
+        return true;
+      } else {
+        return false;
+      }
+    })
+    .some((x) => x === true);
+
 
   const handleFilterInputData = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFilterData({
@@ -262,28 +275,28 @@ function DynamicFilter(props: FilterType) {
     });
   };
 
-  const handleFilterSchemaData = (selectData: string) => {
-    setFilterData({
-      ...filterData,
-      select_schema: [...selectData],
-    });
-  };
+  // const handleFilterSchemaData = (selectData: string) => {
+  //   setFilterData({
+  //     ...filterData,
+  //     select_schema: [...selectData],
+  //   });
+  // };
 
-  const handleFilterCreatedByData = (selectData: string) => {
-    setFilterData({
-      ...filterData,
-      created_by: [...selectData],
-    });
-  };
+  // const handleFilterCreatedByData = (selectData: string) => {
+  //   setFilterData({
+  //     ...filterData,
+  //     created_by: [...selectData],
+  //   });
+  // };
 
   const handleSave = () => {
-    if (isDataFilled()) {
+    if (isDataFilled) {
       props.setSnackBarArgs({
         ...props.snackBarArgs,
         open: true,
         message: "Filter Applied Successfully",
       });
-      props.setFilters(filterData);
+      // props.setFilters(filterData);
       props.onClose();
     } else {
       setErrors(true);
