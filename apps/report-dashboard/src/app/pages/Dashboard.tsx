@@ -14,20 +14,24 @@ import { useSelector } from "react-redux";
 import { useAppDispatch } from "../../context/redux";
 import Paginations from "../components/Pagination";
 
+interface FilterProps{
+  [key:string]:string | any;
+}
+
 function Dashboard() {
   const dispatch = useAppDispatch();
 
   const [isColumnOptionOpen, setIsColumnOptionOpen] = useState(false);
   const [page, setPage] = useState(1);
 
-  const [filters, setFilters] = useState({
-    name: "",
-    select_schema: [],
-    created_by: [],
-    created_on: {
-      from: "",
-      to: "",
-    },
+  const [filters, setFilters] = useState<FilterProps>({
+    // name: "",
+    // select_schema: [],
+    // created_by: [],
+    // created_on: {
+    //   from: "",
+    //   to: "",
+    // },
   });
 
   useEffect(() => {
@@ -64,32 +68,32 @@ function Dashboard() {
     if (rootState) {
       let tableData = rootState;
       if (Object.keys(filters).length !== 0) {
-        if (filters.name != "") {
+        if (filters.Name != "") {
           tableData = tableData.filter(
-            (item: any) => item.name.toLowerCase() == filters.name.toLowerCase()
+            (item: any) => item.name.toLowerCase() == filters.Name.toLowerCase()
           );
         }
-        if (filters.select_schema.length > 0) {
+        if (filters.selectSchema !=='undefined' && filters.selectSchema.length > 0) {
           tableData = tableData.filter(
             (item: any) =>
-              item.details.schema.join() == filters.select_schema.join()
+              item.details.schema.join() == filters.selectSchema.join()
           );
         }
-        if (filters.created_by.length > 0) {
-          tableData = tableData.filter(
-            (item: any) => item.createdBy == filters.created_by.join()
-          );
-        }
-        if (filters.created_on.from != "") {
-          tableData = tableData.filter((item: any) => {
-            let date = new Date(item.createdOn);
-            let fromDate = new Date(filters.created_on.from);
-            let toDate = new Date(filters.created_on.to);
-            return date >= fromDate && date <= toDate;
-          });
-        }
-        setTableData(tableData);
+        // if (filters.createdBy.length > 0) {
+        //   tableData = tableData.filter(
+        //     (item: any) => item.createdBy == filters.createdBy.join()
+        //   );
+        // }
+        // if (filters.createdOn.from != "") {
+        //   tableData = tableData.filter((item: any) => {
+        //     let date = new Date(item.createdOn);
+        //     let fromDate = new Date(filters.createdOn.from);
+        //     let toDate = new Date(filters.createdOn.to);
+        //     return date >= fromDate && date <= toDate;
+        //   });
+        // }
       }
+      setTableData(tableData);
     }
   }, [filters, rootState]);
 

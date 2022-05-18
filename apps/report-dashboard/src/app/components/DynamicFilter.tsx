@@ -199,8 +199,6 @@ function DynamicFilter(props: FilterType) {
   //TODO: Integrate with redux (later)
    
   th = Array.from(document.getElementsByTagName("th"));
-  console.log("Th =", th);
-  
   if (th) {
     th.map((item:any) => {
       filterData2[item.innerText] = "";
@@ -296,7 +294,7 @@ function DynamicFilter(props: FilterType) {
         open: true,
         message: "Filter Applied Successfully",
       });
-      // props.setFilters(filterData);
+      props.setFilters(filterData);
       props.onClose();
     } else {
       setErrors(true);
