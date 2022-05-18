@@ -68,30 +68,39 @@ function Dashboard() {
     if (rootState) {
       let tableData = rootState;
       if (Object.keys(filters).length !== 0) {
-        if (filters.Name != "") {
-          tableData = tableData.filter(
-            (item: any) => item.name.toLowerCase() == filters.Name.toLowerCase()
-          );
+        if(filters.Name){
+          if (filters.Name != "") {
+            tableData = tableData.filter(
+              (item: any) => item.name.toLowerCase() == filters.Name.toLowerCase()
+            );
+          }
         }
-        if (filters.selectSchema !=='undefined' && filters.selectSchema.length > 0) {
-          tableData = tableData.filter(
-            (item: any) =>
-              item.details.schema.join() == filters.selectSchema.join()
-          );
+
+        if(filters.SelectSchema){
+          if (filters.SelectSchema !=='undefined' && filters.SelectSchema.length > 0) {
+            tableData = tableData.filter(
+              (item: any) =>
+                item.details.schema.join() == filters.SelectSchema.join()
+            );
+          }
         }
-        // if (filters.createdBy.length > 0) {
-        //   tableData = tableData.filter(
-        //     (item: any) => item.createdBy == filters.createdBy.join()
-        //   );
-        // }
-        // if (filters.createdOn.from != "") {
-        //   tableData = tableData.filter((item: any) => {
-        //     let date = new Date(item.createdOn);
-        //     let fromDate = new Date(filters.createdOn.from);
-        //     let toDate = new Date(filters.createdOn.to);
-        //     return date >= fromDate && date <= toDate;
-        //   });
-        // }
+        if(filters.CreatedBy){
+          if (filters.CreatedBy.length > 0) {
+            tableData = tableData.filter(
+              (item: any) => item.createdBy == filters.CreatedBy.join()
+            );
+          }
+        }
+        if(filters.CreatedOn){
+          if (filters.CreatedOn.from != "") {
+            tableData = tableData.filter((item: any) => {
+              let date = new Date(item.createdOn);
+              let fromDate = new Date(filters.CreatedOn.from);
+              let toDate = new Date(filters.CreatedOn.to);
+              return date >= fromDate && date <= toDate;
+            });
+          }
+        }
       }
       setTableData(tableData);
     }
