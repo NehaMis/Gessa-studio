@@ -2,6 +2,7 @@ import { Box, Typography } from '@mui/material';
 import { styled } from '@mui/system';
 import AddReport from '../pages/AddReport';
 import Filter from '../pages/Filter';
+import DynamicFilter from './DynamicFilter';
 
 export interface SideMenuType {
   width: string;
@@ -53,7 +54,8 @@ function SideMenu(props: SideMenuType) {
           />
         )}
         {props.menuComponent === 'filter' && (
-          <Filter setFilters={props.setFilters} setSnackBarArgs={props.setSnackBarArgs} snackBarArgs={props.snackBarArgs} width={props?.width} onClose={props.onClose} />
+          // <Filter setFilters={props.setFilters} setSnackBarArgs={props.setSnackBarArgs} snackBarArgs={props.snackBarArgs} width={props?.width} onClose={props.onClose} />
+          <DynamicFilter setFilters={props.setFilters} setSnackBarArgs={props.setSnackBarArgs} snackBarArgs={props.snackBarArgs} width={props?.width} onClose={props.onClose} />
         )}
       </Box>
     </StyledSideMenu>

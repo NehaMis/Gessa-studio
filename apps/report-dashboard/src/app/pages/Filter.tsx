@@ -278,7 +278,7 @@ function Filter(props: FilterType) {
       </Box>
       <Divider />
 
-      <Box className="search_frame">
+      {/* <Box className="search_frame">
         <Box className="inner_search">
           <Paper
             component="form"
@@ -304,7 +304,7 @@ function Filter(props: FilterType) {
           </Paper>
         </Box>
       </Box>
-      <Divider />
+      <Divider /> */}
 
       <Box className="filter_input_frame">
         <InputLabel
