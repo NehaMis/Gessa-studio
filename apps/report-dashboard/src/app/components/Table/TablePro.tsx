@@ -108,12 +108,6 @@ export default function TablePro(props: TableProps) {
 
   if (props.columnHeaders) {
     headings = props.columnHeaders[0].rightList.map((a: any) => a.value);
-    console.log(
-      "Column Headers =",
-      props.columnHeaders,
-      "Headings =",
-      headings
-    );
   } else {
     headings = [];
   }

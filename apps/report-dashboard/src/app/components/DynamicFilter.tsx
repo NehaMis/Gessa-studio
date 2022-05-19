@@ -14,10 +14,12 @@ import CloseIcon from "@mui/icons-material/Close";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DesktopDateRangePicker } from "@mui/x-date-pickers-pro/DesktopDateRangePicker";
+import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import React, { useCallback, useEffect, useState } from "react";
 import Stack from "@mui/material/Stack";
 import MultipleSelectChip from "../components/MultipleSelectionChip";
 import { DateRange } from "@mui/x-date-pickers-pro/DateRangePicker";
+import DateRangePicker from "./DateRangePicker";
 
 export interface FilterType {
   width: string;
@@ -180,6 +182,12 @@ function DynamicFilter(props: FilterType) {
     null,
   ]);
 
+  const [value, setValue] = React.useState<Date | null>(null);
+
+  const handleChange = (newValue: Date | null) => {
+    setValue(newValue);
+  };
+
   interface ItemProps {
     innerText: string;
   }
@@ -190,15 +198,14 @@ function DynamicFilter(props: FilterType) {
   th = Array.from(document.getElementsByTagName("th"));
   if (th) {
     th.map((item: any) => {
-      if(item.innerText=="CreatedBy"){
+      if (item.innerText == "CreatedBy") {
         filterData2[item.innerText] = [];
-      }
-      else if(item.innerText=="CreatedOn"){
+      } else if (item.innerText == "CreatedOn") {
         filterData2[item.innerText] = {
-          from:"",
-          to:""
+          from: "",
+          to: "",
         };
-      }else{
+      } else {
         filterData2[item.innerText] = "";
       }
     });
@@ -209,7 +216,7 @@ function DynamicFilter(props: FilterType) {
   const filterFields = () => {
     return (
       th &&
-      th.map((item: ItemProps, index:number) => {
+      th.map((item: ItemProps, index: number) => {
         if (item.innerText == "CreatedBy") {
           return (
             <Box className="filter_SelectAndDate_frame" key={index}>
@@ -226,8 +233,7 @@ function DynamicFilter(props: FilterType) {
               ) : null}
             </Box>
           );
-        }
-        else if (item.innerText == "CreatedOn") {
+        } else if (item.innerText == "CreatedOn") {
           return (
             <Box
               className="filter_SelectAndDate_frame"
@@ -249,7 +255,7 @@ function DynamicFilter(props: FilterType) {
 
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <Stack spacing={0}>
-                  <DesktopDateRangePicker
+                  {/* <DesktopDateRangePicker
                     startText="From"
                     endText="To"
                     value={dateValue}
@@ -276,8 +282,9 @@ function DynamicFilter(props: FilterType) {
                         />
                       </React.Fragment>
                     )}
-                  />
+                  /> */}
                 </Stack>
+                <DateRangePicker/>
               </LocalizationProvider>
               {errors && filterData.created_on.from == "" ? (
                 <Typography className="error_notification">
@@ -286,9 +293,7 @@ function DynamicFilter(props: FilterType) {
               ) : null}
             </Box>
           );
-        }
-
-       else {
+        } else {
           return (
             <Box className="filter_input_frame" key={index}>
               <InputLabel
