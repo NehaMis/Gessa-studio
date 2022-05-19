@@ -22,13 +22,12 @@ const columnOptions = {
   data: [
     {
       leftList: [
-        { label: "description", value: "Definition" },
-        { label: "query", value: "SQL Query" },
+        { label: "query", value: "schema" },
       ],
       rightList: [
-        { label: "name", value: "Name" },
-        { label: "createdBy", value: "Created By" },
-        { label: "createdOn", value: "Created On" },
+        { label: "name", value: "name" },
+        { label: "createdBy", value: "createdBy" },
+        { label: "createdOn", value: "createdOn" },
       ],
       leftListLabel: "Available Fields",
       rightListLabel: "Selected Fields",
@@ -64,7 +63,13 @@ mock
   .onPost(new RegExp(process.env.NX_DATA_FLOW_BASE_URL + "/columnOption"))
   .reply((request) => {
     let newData = JSON.parse(request.data);
-    columnOptions.data[0]={...columnOptions.data, ...newData} ;
+    let newObject={
+      leftList:newData.leftList,
+      rightList:newData.rightList,
+      leftListLabel: "Available Fields",
+      rightListLabel: "Selected Fields",
+    }
+    columnOptions.data[0]={...newObject} ;
     return [200, onSuccess(columnOptions, "Columns Changed Successfully")];
   })
   ;

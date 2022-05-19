@@ -16,6 +16,7 @@ export interface TableProps {
   data?: any;
   onClicks?: (data: any) => void;
   showPagination?: boolean;
+  columnHeaders?: any;
 }
 
 export default function TablePro(props: TableProps) {
@@ -103,7 +104,26 @@ export default function TablePro(props: TableProps) {
     return s.charAt(0).toUpperCase() + s.slice(1);
   };
 
-  const column = props.data.length != 0 ? Object.keys(props.data[0]) : [];
+  let headings: Array<string>;
+
+  if (props.columnHeaders) {
+    headings = props.columnHeaders[0].rightList.map((a: any) => a.value);
+    console.log(
+      "Column Headers =",
+      props.columnHeaders,
+      "Headings =",
+      headings
+    );
+  } else {
+    headings = [];
+  }
+
+  const column =
+    headings.length != 0
+      ? headings
+      : props.data.length != 0
+      ? Object.keys(props.data[0])
+      : [];
 
   const thData = () => {
     return (
@@ -132,7 +152,11 @@ export default function TablePro(props: TableProps) {
               .map((v, index) => {
                 return (
                   <StyledTableCell key={index}>
-                    {typeof row[v] != "object" ? row[v] : "NA"}
+                    {typeof row[v] != "object"
+                      ? row[v]
+                        ? row[v]
+                        : "NA"
+                      : "NA"}
                   </StyledTableCell>
                 );
               })}

@@ -2,15 +2,10 @@ import {
   createSlice,
   createEntityAdapter,
   createAsyncThunk,
-  createSelector,
-  EntityState,
 } from "@reduxjs/toolkit";
 
 import {
   IReport,
-  IReportData,
-  IReportDetails,
-  IReportIcon,
 } from "../fake-db/db/report-data-db";
 import axios from "axios";
 
@@ -30,7 +25,7 @@ export const postReportApi = createAsyncThunk(
   "reportData",
   async (reportData: any, { dispatch }) => {
   const response =  await axios.post(
-      process.env.NX_DATA_FLOW_BASE_URL + "/reportDat",
+      process.env.NX_DATA_FLOW_BASE_URL + "/reportData",
       reportData
     );
     if(response.status===200){

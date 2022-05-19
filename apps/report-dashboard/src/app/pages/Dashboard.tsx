@@ -13,6 +13,7 @@ import { getReportsApi } from "../../store/reportDashboardSlice";
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "../../context/redux";
 import Paginations from "../components/Pagination";
+import { getColumnApi } from "../../store/columnOptionSlice";
 
 interface FilterProps{
   [key:string]:string | any;
@@ -48,9 +49,25 @@ function Dashboard() {
       });
   }, []);
 
+  useEffect(()=>{
+    dispatch(getColumnApi("any"))
+      .unwrap()
+      .then()
+      .catch((reason) => {
+        setSnackBarArgs({
+          ...snackBarArgs,
+          open:true,
+          type:"error",
+          message:reason.message
+        })
+      });
+  },[isColumnOptionOpen])
+
   const rootState = useSelector(
     (state: any) => state.reportDashboardSlice?.entities?.Report?.rowData
   );
+
+  const tableHeaders=useSelector((state:any)=>state.columnOptionSlice?.entities?.undefined)
   // Table Pro Code
 
   const [tableData, setTableData] = useState([]);
@@ -258,7 +275,7 @@ function Dashboard() {
         </Box>
         <Divider />
         <Box>
-          {tableData && <TablePro data={tableData} onClicks={onClick} />}
+          {tableData && <TablePro columnHeaders={tableHeaders} data={tableData} onClicks={onClick} />}
         </Box>
         <Box className="pagination">
           <Paginations page={page} handlePageChange={handlePageChange} />

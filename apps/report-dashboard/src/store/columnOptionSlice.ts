@@ -26,6 +26,8 @@ export const postColumnHeaderApi=createAsyncThunk(
         const response:any=(
             await axios.post(process.env.NX_DATA_FLOW_BASE_URL + "/columnOption", columnData)
         )
+
+        dispatch(getColumnApi("any"))
     }
 )
 
