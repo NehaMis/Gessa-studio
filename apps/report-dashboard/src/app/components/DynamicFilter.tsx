@@ -20,6 +20,7 @@ import Stack from "@mui/material/Stack";
 import MultipleSelectChip from "../components/MultipleSelectionChip";
 import { DateRange } from "@mui/x-date-pickers-pro/DateRangePicker";
 import DateRangePicker from "./DateRangePicker";
+import { AnyRecord } from "dns";
 
 export interface FilterType {
   width: string;
@@ -182,10 +183,11 @@ function DynamicFilter(props: FilterType) {
     null,
   ]);
 
-  const [value, setValue] = React.useState<Date | null>(null);
-
-  const handleChange = (newValue: Date | null) => {
-    setValue(newValue);
+  const handleDateChange = (value: any) => {
+    setFilterData({
+      ...filterData,
+      CreatedOn: value,
+    });
   };
 
   interface ItemProps {
@@ -255,38 +257,12 @@ function DynamicFilter(props: FilterType) {
 
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <Stack spacing={0}>
-                  {/* <DesktopDateRangePicker
-                    startText="From"
-                    endText="To"
-                    value={dateValue}
-                    onChange={(newValue: any) => {
-                      setDateValue(newValue);
-                    }}
-                    renderInput={(startProps: any, endProps: any) => (
-                      <React.Fragment>
-                        <TextField
-                          size="small"
-                          sx={{
-                            background: themes.palette.custom.inputComponentBg,
-                          }}
-                          {...startProps}
-                        />
-                        <Box sx={{ mx: 0.5 }}> </Box>
-                        <TextField
-                          size="small"
-                          sx={{
-                            right: 6,
-                            background: themes.palette.custom.inputComponentBg,
-                          }}
-                          {...endProps}
-                        />
-                      </React.Fragment>
-                    )}
-                  /> */}
                 </Stack>
-                <DateRangePicker/>
+                <DateRangePicker onDateChange={handleDateChange} />
               </LocalizationProvider>
-              {errors && filterData.created_on.from == "" ? (
+              {errors &&
+              filterData.CreatedOn.from == "" &&
+              filterData.CreatedOn.to == "" ? (
                 <Typography className="error_notification">
                   Please Select Date Range
                 </Typography>
@@ -325,7 +301,7 @@ function DynamicFilter(props: FilterType) {
 
   const isDataFilled = Object.entries(filterData)
     .map(([key, value]) => {
-      if (value != "") {
+      if (typeof value != "object" && value != "") {
         return true;
       } else {
         return false;
@@ -348,7 +324,35 @@ function DynamicFilter(props: FilterType) {
   };
 
   const handleSave = () => {
-    if (isDataFilled) {
+    let isDatePresent: boolean;
+    let isSchemaPresent: boolean;
+
+    if (filterData.CreatedBy) {
+      if (filterData.CreatedBy.length != 0) {
+        isSchemaPresent = true;
+      } else {
+        isSchemaPresent = false;
+      }
+    } else {
+      isSchemaPresent = false;
+    }
+
+    if (filterData.CreatedOn) {
+      if (filterData.CreatedOn.from && filterData.CreatedOn.to) {
+        const frmDate = new Date(filterData.CreatedOn.from);
+        const toDate = new Date(filterData.CreatedOn.to);
+        if (frmDate <= toDate) {
+          isDatePresent = true;
+        }else{
+          isDatePresent = false;
+        }
+      } else {
+        isDatePresent = false;
+      }
+    } else {
+      isDatePresent = false;
+    }
+    if (isDataFilled || isDatePresent || isSchemaPresent) {
       props.setSnackBarArgs({
         ...props.snackBarArgs,
         open: true,

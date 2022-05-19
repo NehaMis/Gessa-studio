@@ -109,13 +109,15 @@ function Dashboard() {
           }
         }
         if(filters.CreatedOn){
-          if (filters.CreatedOn.from != "") {
-            tableData = tableData.filter((item: any) => {
-              let date = new Date(item.createdOn);
-              let fromDate = new Date(filters.CreatedOn.from);
-              let toDate = new Date(filters.CreatedOn.to);
-              return date >= fromDate && date <= toDate;
-            });
+          if(filters.CreatedOn.from && filters.CreatedOn.to){
+            if (filters.CreatedOn.from != "" && filters.CreatedOn.to != "") {
+              tableData = tableData.filter((item: any) => {
+                let date = new Date(item.createdOn);
+                let fromDate = new Date(filters.CreatedOn.from);
+                let toDate = new Date(filters.CreatedOn.to);
+                return date >= fromDate && date <= toDate;
+              });
+            }
           }
         }
       }
