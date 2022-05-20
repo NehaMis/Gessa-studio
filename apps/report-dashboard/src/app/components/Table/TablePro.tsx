@@ -1,4 +1,4 @@
-import { Box, Pagination, Typography } from "@mui/material";
+import { Avatar, Box, Pagination, Stack, Typography } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -126,7 +126,9 @@ export default function TablePro(props: TableProps) {
         .filter((data) => data != "_id" && data != "details")
         .map((data, index) => {
           return (
-            <StyledTableCell key={index}>{capitalize(data)}</StyledTableCell>
+            <StyledTableCell key={index}>
+              <Typography>{capitalize(data).replace(/([A-Z])/g, ' $1').trim()}</Typography>
+            </StyledTableCell>
           );
         })
     );
@@ -144,15 +146,35 @@ export default function TablePro(props: TableProps) {
             {column
               .filter((data) => data != "_id" && data != "details")
               .map((v, index) => {
-                return (
-                  <StyledTableCell key={index}>
-                    {typeof row[v] != "object"
-                      ? row[v]
-                        ? row[v]
-                        : "NA"
-                      : "NA"}
-                  </StyledTableCell>
-                );
+                if (v == "createdBy") {
+                  return (
+                    <StyledTableCell key={index}>
+                      <Stack direction="row" spacing={2}>
+                        <Avatar alt={row[v]} />
+                        <Typography>
+                          {" "}
+                          {typeof row[v] != "object"
+                            ? row[v]
+                              ? row[v]
+                              : "NA"
+                            : "NA"}
+                        </Typography>
+                      </Stack>
+                    </StyledTableCell>
+                  );
+                } else {
+                  return (
+                    <StyledTableCell key={index}>
+                      <Typography>
+                        {typeof row[v] != "object"
+                          ? row[v]
+                            ? row[v]
+                            : "NA"
+                          : "NA"}
+                      </Typography>
+                    </StyledTableCell>
+                  );
+                }
               })}
           </StyledTableRow>
         );

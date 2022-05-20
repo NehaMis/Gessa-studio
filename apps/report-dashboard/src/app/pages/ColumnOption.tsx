@@ -32,7 +32,7 @@ function ColumnOption(props: any) {
   },[rootState])
 
   const StyledColumnMenu = useCallback(
-    styled("div")(({ theme }) => {
+    styled("div")(({ theme }:any) => {
       return {
         position: "fixed",
         top: "50%",
@@ -55,17 +55,21 @@ function ColumnOption(props: any) {
           padding: "0px 16px",
           height: "48px",
           top: "4px",
-
-          fontFamily: "Inter",
-          fontStyle: "normal",
-          fontWeight: "600",
-          fontSize: "14px",
-          lineHeight: "20px",
+          borderBottom:`1px solid ${theme.palette.custom.sideBarText2}`,
 
           width: "100%",
 
           '& .MuiSvgIcon-root':{
             cursor:'pointer',
+          },
+
+          ".columnOptionHeader":{
+            fontFamily: "Inter",
+            fontStyle: "normal",
+            fontWeight: "600",
+            fontSize: "14px",
+            lineHeight: "20px",
+            color:theme.palette.custom.sideBarText2
           }
         },
 
@@ -85,15 +89,14 @@ function ColumnOption(props: any) {
   return (
     <StyledColumnMenu>
       <Box className="popup-inner">
-        <Typography className="popup-inner">Column Option</Typography>
+        <Typography className="columnOptionHeader">Column Option</Typography>
         <Box onClick={props.onClose}>
           <CloseIcon />
         </Box>
       </Box>
-      <Divider />
 
       <Box className="columnOption__instruction">
-        <Typography>
+        <Typography sx={{marginBottom:'20px'}}>
           Add or remove column. To change the column order, drag and drop a
           field.
         </Typography>

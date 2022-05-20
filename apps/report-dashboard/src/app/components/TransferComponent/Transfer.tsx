@@ -134,6 +134,10 @@ function Transfer(props: TransferProps) {
             display: "flex",
             justifyContent: "space-between",
             gap: "20px",
+            
+            ".btn_save": {
+              color: theme.palette.custom.sideBarText2,
+            },
           },
         },
       };
@@ -226,7 +230,7 @@ function Transfer(props: TransferProps) {
     <>
       <StyledBreadcrumb>
         <Grid container spacing={2} justifyContent="center" alignItems="center">
-          <div className="list-grid">
+          <Box className="list-grid">
             <InputLabel sx={{ pl: 2.1 }} shrink>
               {props.leftListLabel}
             </InputLabel>
@@ -251,7 +255,7 @@ function Transfer(props: TransferProps) {
                 ? customList(leftFiltered, leftChecked)
                 : customList(left, leftChecked)}
             </Grid>
-          </div>
+          </Box>
           <Grid item className="btns-grid">
             <Grid container direction="column" alignItems="center">
               <Button
@@ -300,7 +304,7 @@ function Transfer(props: TransferProps) {
               </Button>
             </Grid>
           </Grid>
-          <div className="list-grid">
+          <Box className="list-grid">
             <InputLabel sx={{ pl: 2.1 }} shrink>
               {props.rightListLabel}
             </InputLabel>
@@ -325,10 +329,10 @@ function Transfer(props: TransferProps) {
                 ? customList(rightFiltered, rightChecked)
                 : customList(right, rightChecked)}
             </Grid>
-          </div>
+          </Box>
         </Grid>
         <Box className="columnOption__mainButtonPannel">
-          <Box>
+          <Box sx={{marginLeft:'-16px'}}>
             <Button
               className="btn_cancel"
               variant="outlined"
@@ -341,7 +345,7 @@ function Transfer(props: TransferProps) {
 
           <Box className="columnOption__saveButtonGp">
             <Button
-              className="btn_cancel"
+              className="btn_restore"
               variant="outlined"
               color="info"
               onClick={handleRestoreDefault}

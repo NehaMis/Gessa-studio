@@ -587,6 +587,7 @@ function AddReport(props: AddReportType) {
 
         {testQuery && (
           <Box sx={{ width: "100%" }}>
+            <Divider sx={{marginBottom:'20px', width:'100%'}}/>
             <Box className="table">
               <Box className="sqlTablePannel">
                 <Typography className="sqlTableTitle">

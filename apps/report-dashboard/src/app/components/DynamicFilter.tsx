@@ -153,6 +153,7 @@ function DynamicFilter(props: FilterType) {
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "right",
+          position:'absolute',
           height: "64px",
           bottom: "0px",
           gap: "10px",
@@ -171,6 +172,7 @@ function DynamicFilter(props: FilterType) {
             borderRadius: "4px",
             padding: "10px 24px",
             right: "20px",
+            color: theme.palette.custom.sideBarText2,
           },
         },
       };
@@ -390,8 +392,8 @@ function DynamicFilter(props: FilterType) {
       <Divider />
 
       {filterFields()}
-
       <Box className="filter_footer">
+      <Divider sx={{position:'absolute',bottom:'50px', margin:'20px 0px', width:'100%'}}/>
         <Button
           className="btn_cancel"
           variant="outlined"
