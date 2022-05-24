@@ -27,6 +27,7 @@ export interface AddReportType {
   setSnackBarArgs: (data: any) => void;
   setFilters: (filter: any) => void;
   onClose: () => void;
+  onSave:(data:any)=>void;
 }
 
 let db: any;
@@ -432,33 +433,26 @@ function AddReport(props: AddReportType) {
 
   const handleSave = () => {
     if (checkAllDataFilled()) {
-      dispatch(postReportApi(data))
-        .unwrap()
-        .then((response) => {
-          props.setFilters({
-            name: "",
-            select_schema: [],
-            created_by: [],
-            created_on: {
-              from: "",
-              to: "",
-            },
-          });
-          props.setSnackBarArgs({
-            ...props.snackBarArgs,
-            open: true,
-            message: "Report Added Successfully",
-          });
-          props.onClose();
-        })
-        .catch((reason)=>{
-          props.setSnackBarArgs({
-            ...props.snackBarArgs,
-            open: true,
-            type:"error",
-            message: reason.message,
-          });
-        })
+      // dispatch(postReportApi(data))
+      //   .unwrap()
+      //   .then((response) => {
+      //     props.setFilters({});
+      //     props.setSnackBarArgs({
+      //       ...props.snackBarArgs,
+      //       open: true,
+      //       message: "Report Added Successfully",
+      //     });
+      //     props.onClose();
+      //   })
+      //   .catch((reason)=>{
+      //     props.setSnackBarArgs({
+      //       ...props.snackBarArgs,
+      //       open: true,
+      //       type:"error",
+      //       message: reason.message,
+      //     });
+      //   })
+      props.onSave(data);
       
     } else {
       setErrors(true);
