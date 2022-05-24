@@ -120,7 +120,18 @@ function DynamicFilter(props: FilterType) {
 
           "& .MuiInputBase-root": {
             height: "41px",
+            overflow:"auto",
+            alignItems:"flex-start",
           },
+          
+          "& .MuiOutlinedInput-notchedOutline":{
+            border:"none"
+          },
+
+          "& .MuiOutlinedInput-input":{
+            paddingTop:"5px",
+            paddingBottom:"5px",
+          }
         },
 
         ".filter_input_labels": {
@@ -221,13 +232,13 @@ function DynamicFilter(props: FilterType) {
     return (
       th &&
       th.map((item: ItemProps, index: number) => {
-        if (item.innerText == "CreatedBy") {
+        if (item.innerText == "Created By") {
           return (
             <Box className="filter_SelectAndDate_frame" key={index}>
               <MultipleSelectChip
                 onChange={handleFilterCreatedByData}
                 width={328}
-                labelName={"CreatedBy"}
+                labelName={"Created By"}
                 background={themes.palette.custom.inputComponentBg}
               />
               {errors && filterData[item.innerText].length == 0 ? (
@@ -237,7 +248,7 @@ function DynamicFilter(props: FilterType) {
               ) : null}
             </Box>
           );
-        } else if (item.innerText == "CreatedOn") {
+        } else if (item.innerText == "Created On") {
           return (
             <Box
               className="filter_SelectAndDate_frame"
