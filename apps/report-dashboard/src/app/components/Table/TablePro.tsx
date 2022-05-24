@@ -40,14 +40,6 @@ export default function TablePro(props: TableProps) {
   });
 
   const StyledPagination = styled(Box)(({ theme }) => ({
-    // display: "flex",
-    // position: "fixed",
-    // bottom: "0px",
-    // justifyContent: "flex-end",
-    // width: "100%",
-    // height: "48px",
-    // alignItems: "center",
-
     display: "flex",
     bottom: "0px",
     justifyContent: "flex-end",

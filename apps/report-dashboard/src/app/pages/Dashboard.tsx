@@ -25,15 +25,7 @@ function Dashboard() {
   const [isColumnOptionOpen, setIsColumnOptionOpen] = useState(false);
   const [page, setPage] = useState(1);
 
-  const [filters, setFilters] = useState<FilterProps>({
-    // name: "",
-    // select_schema: [],
-    // created_by: [],
-    // created_on: {
-    //   from: "",
-    //   to: "",
-    // },
-  });
+  const [filters, setFilters] = useState<FilterProps>({});
 
   useEffect(() => {
     dispatch(getReportsApi("any"))

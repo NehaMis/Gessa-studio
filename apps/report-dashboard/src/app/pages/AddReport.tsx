@@ -386,7 +386,6 @@ function AddReport(props: AddReportType) {
     } else {
       setQueryError("Please Validate Query First");
     }
-    // window.scrollBy(0, 2000);
   };
 
   const handleSelectSchemaData = (schemaData: string) => {
