@@ -204,11 +204,23 @@ function AddReport(props: AddReportType) {
           display: "flex",
           flexDirection: "column",
           alignItems: "flex-start",
-          height: "90px",
+          minHeight: "90px",
           left: "16px",
+
           "& .MuiInputBase-root": {
             height: "41px",
+            overflow:"auto",
+            alignItems:"flex-start",
           },
+
+          "& .MuiOutlinedInput-notchedOutline":{
+            border:"none"
+          },
+
+          "& .MuiOutlinedInput-input":{
+            paddingTop:"5px",
+            paddingBottom:"5px",
+          }
         },
 
         ".message": {
