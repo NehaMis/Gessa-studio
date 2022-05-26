@@ -111,7 +111,7 @@ function DynamicFilter(props: FilterType) {
           height: "106px",
         },
 
-        ".filter_SelectAndDate_frame": {
+        ".filter_Select": {
           display: "flex",
           flexDirection: "column",
           alignItems: "flex-start",
@@ -132,6 +132,18 @@ function DynamicFilter(props: FilterType) {
             paddingTop:"5px",
             paddingBottom:"5px",
           }
+        },
+
+        ".filter_Date": {
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "flex-start",
+          padding: "0px 16px",
+          minHeight: "91px",
+
+          "& .MuiInputBase-root": {
+            height: "41px",
+          },
         },
 
         ".filter_input_labels": {
@@ -234,7 +246,7 @@ function DynamicFilter(props: FilterType) {
       th.map((item: ItemProps, index: number) => {
         if (item.innerText == "Created By") {
           return (
-            <Box className="filter_SelectAndDate_frame" key={index}>
+            <Box className="filter_Select" key={index}>
               <MultipleSelectChip
                 onChange={handleFilterCreatedByData}
                 width={328}
@@ -251,7 +263,7 @@ function DynamicFilter(props: FilterType) {
         } else if (item.innerText == "Created On") {
           return (
             <Box
-              className="filter_SelectAndDate_frame"
+              className="filter_Date"
               sx={{ justifyContent: "space-evenly" }}
               key={index}
             >

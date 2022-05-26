@@ -79,6 +79,8 @@ export default function TablePro(props: TableProps) {
   });
 
   const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    height:'56px',
+     
     "&:nth-of-type(even)": {
       backgroundColor: theme.palette.custom.dashboardTableHeadBg,
     },

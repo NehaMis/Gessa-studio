@@ -17,7 +17,6 @@ import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import TuneOutlinedIcon from "@mui/icons-material/TuneOutlined";
 import React, { useCallback, useEffect, useState } from "react";
 import TablePro from "../components/Table/TablePro";
-import { postReportApi } from "../../store/reportDashboardSlice";
 import { useAppDispatch } from "../../context/redux";
 import SqlEditor from "../components/SqlEditor";
 
@@ -30,9 +29,29 @@ export interface AddReportType {
   onSave:(data:any)=>void;
 }
 
+interface addReportDataTypes {
+  report_name: string;
+  def: string;
+  select_schema: Array<string>;
+  sql: string;
+}
+
+
 let db: any;
 
 function AddReport(props: AddReportType) {
+
+  const [screenSize, getDimension] = useState({
+    dynamicWidth: 527,
+  });
+  const setDimension = () => {
+    let elem:any=document.querySelector(".MuiInputBase-root")
+
+    getDimension({
+      dynamicWidth: elem?.offsetWidth,
+    });
+  };
+
   const themes = useTheme();
   const [data, setData] = useState<addReportDataTypes>({
     report_name: "",
@@ -60,13 +79,15 @@ function AddReport(props: AddReportType) {
     } catch (error) {}
   }, []);
 
-  interface addReportDataTypes {
-    report_name: string;
-    def: string;
-    select_schema: Array<string>;
-    sql: string;
-  }
+  useEffect(() => {
+    window.addEventListener("resize", setDimension);
 
+    return () => {
+      window.removeEventListener("resize", setDimension);
+    };
+  }, [screenSize]);
+
+ 
   const AddReportBootstrapInput = useCallback(
     styled(InputBase)(({ theme }) => ({
       "label + &": {
@@ -433,25 +454,6 @@ function AddReport(props: AddReportType) {
 
   const handleSave = () => {
     if (checkAllDataFilled()) {
-      // dispatch(postReportApi(data))
-      //   .unwrap()
-      //   .then((response) => {
-      //     props.setFilters({});
-      //     props.setSnackBarArgs({
-      //       ...props.snackBarArgs,
-      //       open: true,
-      //       message: "Report Added Successfully",
-      //     });
-      //     props.onClose();
-      //   })
-      //   .catch((reason)=>{
-      //     props.setSnackBarArgs({
-      //       ...props.snackBarArgs,
-      //       open: true,
-      //       type:"error",
-      //       message: reason.message,
-      //     });
-      //   })
       props.onSave(data);
       
     } else {
@@ -512,9 +514,10 @@ function AddReport(props: AddReportType) {
         <Box className="report_divider"></Box>
 
         <Box className="report_input_frame">
+          {console.log("Dynamic Width =",screenSize.dynamicWidth)}
           <MultipleSelectChip
             onChange={handleSelectSchemaData}
-            width={527}
+            width={screenSize.dynamicWidth}
             labelName={"Select Schema"}
             background={themes.palette.custom.inputComponentBg}
           />
